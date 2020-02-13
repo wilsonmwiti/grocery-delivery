@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^forgot/$', views.forgot_password, name='forgot'),
     # url(r'^edit-profile/$', views.edit_profile, name='panel'),
     url(r'^login/$',
-        auth_views.LoginView.as_view(template_name='Website/accounts/login.html', authentication_form=UserLoginForm),
+        auth_views.LoginView.as_view(template_name='michpastries/accounts/login.html', authentication_form=UserLoginForm),
         name='login'),
     url(r'^register/$', views.signup, name='signup'),
     url(r'^logout/$', views.logout_view, name='logout'),

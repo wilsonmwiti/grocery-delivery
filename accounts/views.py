@@ -14,7 +14,7 @@ from web import settings
 from .tokens import account_activation_token
 
 
-@login_required(login_url='WS:login')
+@login_required(login_url='accounts:login')
 def panel(request):
     if not request.user.is_authenticated:
         return redirect('%s?next=%s' % ('WS:login', request.path))

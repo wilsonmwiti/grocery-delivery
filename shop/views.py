@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 
 # Create your views here.
@@ -7,28 +7,28 @@ def index(request):
 
 
 def wishlist(request):
-    return None
+    return render(request, 'michpastries/wishlist.html')
 
 
 def product(request):
-    return None
+    return render(request, 'michpastries/product-single.html')
 
 
 def cart(request):
-    return None
+    return render(request, 'michpastries/cart.html')
 
 
 def checkout(request):
-    return None
+    return render(request, 'michpastries/checkout.html')
 
 
 def about(request):
-    return None
+    return render(request, 'michpastries/about.html')
 
 
 def contact(request):
-    return None
+    return render(request, 'michpastries/contact.html')
 
 
 def login(request):
-    return None
+    return redirect('accounts:login')

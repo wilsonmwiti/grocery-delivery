@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Login to account{% endblock %}
+{% block title %}Request new password{% endblock %}
 {% block extracss %}
     <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
     <!--===============================================================================================-->
@@ -33,19 +33,15 @@
             <div class="limiter">
                 <div class="container-login100">
                     <div class="wrap-login100">
-{#                        <div class="login100-form-title"#}
-{#                             style="background-image: url('{% static 'images/bg-01.jpg' %}');">#}
-{#					<span class="login100-form-title-1">#}
-{#						Sign In#}
-{#					</span>#}
-{#                        </div>#}
+                        <div class="login100-form-title"
+                             style="background-image: url('{% static 'images/bg-01.jpg' %}');">
+					<span class="login100-form-title-1">
+Enter your registration email
+                    </span>
+                        </div>
 
-                        <form class="login100-form validate-form" method="post">
-                            {#					<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">#}
-                            {#						<span class="label-input100">Username</span>#}
-                            {#						<input class="input100" type="text" name="username" placeholder="Enter username">#}
-                            {#						<span class="focus-input100"></span>#}
-                            {#					</div>#}
+                        <form class="login100-form validate-form" method="post" action="{% url 'WS:forgot' %}">
+
                             {% csrf_token %}
                             <input type="hidden" name="next" value="{{ next }}"/>
                             {% for field in form %}
@@ -63,11 +59,11 @@
                                 {% endif %}
                                 </p>
                             {% endfor %}
-                            <button type="submit" class="btn btn-primary px-3 py-3">Log in</button>
-                            <a href="{% url 'WS:signup' %}">New to My Site? Sign up</a>
-                            <a href="{% url 'WS:forgot' %}">Forgot password?</a>
+                                    <button type="submit" class="btn-success">Request new password</button>
+
                         </form>
-                    </div></div></div></div>
+                    </div>
+                </div></div></div>
     </section>
 {% endblock %}
 {% block javascript-footer %}

@@ -63,11 +63,12 @@
                                 {% endif %}
                                 </p>
                             {% endfor %}
-                            <button type="submit" class="btn btn-primary px-3 py-3">Log in</button>
-                            <a href="{% url 'WS:signup' %}">New to My Site? Sign up</a>
-                            <a href="{% url 'WS:forgot' %}">Forgot password?</a>
+                            <button type="submit" class="btn btn-primary px-3 py-3">Register</button>
+                            <a href="{% url 'WS:login' %}">Already have an account?log in</a>
+{#                            <a href="{% url 'WS:forgot' %}">Forgot password?</a>#}
                         </form>
-                    </div></div></div></div>
+                    </div>
+                </div></div></div>
     </section>
 {% endblock %}
 {% block javascript-footer %}

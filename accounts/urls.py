@@ -5,7 +5,7 @@ from django.contrib.auth import views as auth_views
 from accounts.forms import UserLoginForm
 from . import views
 
-app_name = 'accounts'
+app_name = 'customer-accounts'
 urlpatterns = [
     url(r'^account_activation_sent/$', views.account_activation_sent, name='account_activation_sent'),
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^forgot/$', views.forgot_password, name='forgot'),
     # url(r'^edit-profile/$', views.edit_profile, name='panel'),
     url(r'^login/$',
-        auth_views.LoginView.as_view(template_name='michpastries/accounts/login.html', authentication_form=UserLoginForm),
+        auth_views.LoginView.as_view(template_name='michpastries/customer-accounts/login.html', authentication_form=UserLoginForm),
         name='login'),
     url(r'^register/$', views.signup, name='signup'),
     url(r'^logout/$', views.logout_view, name='logout'),

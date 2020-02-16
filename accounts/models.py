@@ -22,7 +22,7 @@ class UserManager(BaseUserManager):
         user_obj.save(using=self._db)
         return user_obj
 
-    #     create accounts for access to statistical panel
+    #     create customer-accounts for access to statistical panel
     def create_staffuser(self, email, password=None, is_staff=True, is_admin=False, is_active=True):
         user = self.create_user(email, password=password, is_staff=is_staff, is_admin=is_admin, is_active=is_active,
                                 is_company=False

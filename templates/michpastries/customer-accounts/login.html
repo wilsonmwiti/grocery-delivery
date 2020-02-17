@@ -42,9 +42,12 @@
                                 </p>
                             {% endfor %}
                             <button type="submit" class="btn btn-primary px-3 py-3">Log in</button>
-                            <a href="{% url 'accounts:signup' %}">New to My Site? Sign up</a>
-                            <a href="{% url 'accounts:forgot' %}">Forgot password?</a>
+                            <a href="{% url 'customer-accounts:signup' %}">New to My Site? Sign up</a>
+                            <a href="{% url 'customer-accounts:forgot' %}">Forgot password?</a>
                         </form>
-                    </div></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 {% endblock %}

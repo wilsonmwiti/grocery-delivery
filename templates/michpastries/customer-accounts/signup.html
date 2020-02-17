@@ -4,25 +4,19 @@
 {% block maincontent %}
 
         <div style="color: red">
-            {% if form.errors %}
-                <p class="warning">Your username or password didn't match with an existing one. Please try again.</p>
-            {% endif %}
+
             <div class="limiter">
                 <div class="container-login100">
                     <div class="wrap-login100">
-{#                        <div class="login100-form-title"#}
-{#                             style="background-image: url('{% static 'images/bg-01.jpg' %}');">#}
-{#					<span class="login100-form-title-1">#}
-{#						Sign In#}
-{#					</span>#}
-{#                        </div>#}
+                        {#                        <div class="login100-form-title"#}
+                        {#                             style="background-image: url('{% static 'images/bg-01.jpg' %}');">#}
+                        {#					<span class="login100-form-title-1">#}
+                        {#						Sign In#}
+                        {#					</span>#}
+                        {#                        </div>#}
 
-                        <form class="login100-form validate-form" method="post">
-                            {#					<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">#}
-                            {#						<span class="label-input100">Username</span>#}
-                            {#						<input class="input100" type="text" name="username" placeholder="Enter username">#}
-                            {#						<span class="focus-input100"></span>#}
-                            {#					</div>#}
+                        <form class="login100-form validate-form" method="post"
+                              action="{% url 'customer-accounts:signup' %}">
                             {% csrf_token %}
                             <input type="hidden" name="next" value="{{ next }}"/>
                             {% for field in form %}
@@ -40,9 +34,11 @@
                                 {% endif %}
                                 </p>
                             {% endfor %}
-                            <button type="submit" class="btn btn-primary px-3 py-3">Log in</button>
-                            <a href="{% url 'accounts:signup' %}">New to My Site? Sign up</a>
-                            <a href="{% url 'accounts:forgot' %}">Forgot password?</a>
+                            <button type="submit" class="btn btn-primary px-3 py-3">Register as a new member</button>
+                            <a href="{% url 'customer-accounts:login' %}">Already a member? Sign up</a>
                         </form>
-                    </div></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 {% endblock %}

@@ -10,15 +10,22 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from accounts.forms import SignUpForm, ForgotPasswordForm
 from accounts.models import User
-from web import settings
 from .tokens import account_activation_token
 
 
 @login_required(login_url='customer-accounts:login')
 def panel(request):
     # if not request.user.is_authenticated:
-    #     return redirect('%s?next=%s' % ('WS:login', request.path))
-    return render(request, 'michpastries/index.html')
+    #     return redirect('%s?next=%s' % ('customer-accounts:login', request.path))
+    user = User.objects.get(pk=request.user.pk)
+    if user.user_type == "customer":
+        return redirect('shop:index')
+    elif user.user_type == "staff":
+        return None
+    elif user.user_type == "admin":
+        # todo proceed from here next by creating views and gui's for site admin panel
+
+        return None
 
 
 def signup(request):
@@ -27,8 +34,6 @@ def signup(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.is_active = False
-            password = User.objects.make_random_password(length=8)
-            user.set_password(password)
             user.save()
 
             current_site = get_current_site(request)
@@ -38,7 +43,6 @@ def signup(request):
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
-                'password': password,
             })
             send_mail(
                 subject,
@@ -48,7 +52,7 @@ def signup(request):
                 fail_silently=False,
             )
 
-            return redirect('WS:account_activation_sent')
+            return redirect('customer-accounts:account_activation_sent')
     else:
         form = SignUpForm()
     return render(request, 'michpastries/customer-accounts/signup.html', {'form': form})
@@ -71,7 +75,7 @@ def activate(request, uidb64, token):
         user.email_confirmed = True
         user.save()
         login(request, user)
-        return redirect('WS:panel')
+        return redirect('customer-accounts:panel')
     else:
         return render(request, 'michpastries/customer-accounts/account_activation_invalid.html')
 
@@ -89,7 +93,7 @@ def resettoken(request, uidb64, token):
         user.email_confirmed = True
         user.save()
         login(request, user)
-        return redirect('WS:panel')
+        return redirect('customer-accounts:panel')
     else:
         return render(request, 'michpastries/customer-accounts/account_activation_invalid.html')
 
@@ -134,7 +138,7 @@ def forgot_password(request):
             except:
                 print("user does not exist")
                 messages.error(request, 'such an account does not exist')
-                return redirect("WS:forgot")
+                return redirect("customer-accounts:forgot")
 
 
         else:
@@ -161,7 +165,7 @@ def forgot_password(request):
 #     if user is not None and user.is_active and user.email_confirmed:
 #         user.save()
 #         print("redirect to db update stage")
-#         return redirect('WS:enter_new_password')
+#         return redirect('customer-accounts:enter_new_password')
 #     else:
 #         print('could not redirect to db update page')
 #         form = ForgotPasswordForm()
@@ -179,10 +183,10 @@ def forgot_password(request):
 #             user.password = password
 #             user.save()
 #             print("user password updated")
-#             return redirect('WS:login')
+#             return redirect('customer-accounts:login')
 #         else:
 #             print("invalid form during password reset final phase")
-#             return redirect('WS:enter_new_password')
+#             return redirect('customer-accounts:enter_new_password')
 #     else:
 #         print("not post...just loaded up the file")
 #         form = EnterNewPassword()

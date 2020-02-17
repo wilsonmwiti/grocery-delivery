@@ -46,6 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     user_status = models.CharField(max_length=20, null=False, default="active")
     timestamp = models.DateTimeField(auto_now_add=True)
     phone_number = models.CharField(unique=True, null=True, blank=True, max_length=20)
+    user_type = models.CharField(default="customer", max_length=20)
     email_confirmed = models.BooleanField(default=False)
     location=models.CharField(max_length=30)
     USERNAME_FIELD = 'email'  # make email username field

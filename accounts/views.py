@@ -3,6 +3,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
@@ -19,7 +20,11 @@ def panel(request):
     #     return redirect('%s?next=%s' % ('customer-accounts:login', request.path))
     user = User.objects.get(pk=request.user.pk)
     if user.user_type == "customer":
-        return redirect('shop:index')
+        if user.email_confirmed:
+            return redirect('shop:index')
+        else:
+            return HttpResponse("<p>Please verify your account using the link sent to your email address</p>")
+
     elif user.user_type == "staff":
         return None
     elif user.user_type == "admin":

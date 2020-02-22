@@ -140,3 +140,7 @@ EMAIL_HOST_USER = '098f479a67cad6'
 EMAIL_HOST_PASSWORD = 'e9e4a58d6297d4'
 EMAIL_PORT = '2525'
 AUTH_USER_MODEL = 'accounts.User'
+
+# image and file uploads
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

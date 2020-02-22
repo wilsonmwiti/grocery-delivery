@@ -6,7 +6,8 @@ from django.db import models
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, is_staff=False, is_admin=False, is_active=True, is_company=True):
+    def create_user(self, email, password=None, is_staff=False, is_admin=False, is_active=True, is_company=True,
+                    is_superuser=False, user_type='customer'):
         if not email:
             raise ValueError("user requires an email")
         if not password:
@@ -19,20 +20,22 @@ class UserManager(BaseUserManager):
         user_obj.is_staff = is_staff
         user_obj.is_active = is_active
         user_obj.is_admin = is_admin
+        user_obj.is_superuser = is_superuser
+        user_obj.user_type = user_type
         user_obj.save(using=self._db)
         return user_obj
 
     #     create customer-accounts for access to statistical panel
     def create_staffuser(self, email, password=None, is_staff=True, is_admin=False, is_active=True):
         user = self.create_user(email, password=password, is_staff=is_staff, is_admin=is_admin, is_active=is_active,
-                                is_company=False
+                                is_company=False, is_superuser=False, user_type='staff'
                                 )
         return user
 
     #     create admin account for site admins
     def create_superuser(self, email, password=None, is_staff=True, is_admin=True, is_active=True):
         user = self.create_user(email, password=password, is_staff=is_staff, is_admin=is_admin, is_active=is_active,
-                                is_company=False
+                                is_company=False, is_superuser=True, user_type='admin'
                                 )
         return user
 
@@ -48,7 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone_number = models.CharField(unique=True, null=True, blank=True, max_length=20)
     user_type = models.CharField(default="customer", max_length=20)
     email_confirmed = models.BooleanField(default=False)
-    location=models.CharField(max_length=30)
+    location = models.CharField(max_length=30)
     USERNAME_FIELD = 'email'  # make email username field
     objects = UserManager()
 

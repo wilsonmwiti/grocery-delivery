@@ -1,5 +1,6 @@
-from django.db import models
+from math import ceil
 
+from django.db import models
 # Create your models here.
 # model for categories
 from django.utils.safestring import mark_safe
@@ -19,6 +20,7 @@ class Categories(models.Model):
 class Inventory(models.Model):
     item_name = models.CharField(max_length=20)
     price_per_kg = models.CharField(max_length=20)
+    discounted_price_per_kg = models.CharField(max_length=20)
     egg_less = models.BooleanField(default=True)
     delivery = models.BooleanField(default=False)
     image = models.ImageField(upload_to='images/')
@@ -37,3 +39,7 @@ class Inventory(models.Model):
 
     image_tag.short_description = 'Image'
     image_tag.allow_tags = True
+
+    def save(self, *args, **kwargs):
+        self.discounted_price_per_kg = ceil(float(self.price_per_kg) - float(self.price_per_kg) / self.discount)
+        super(Inventory, self).save(*args, **kwargs)

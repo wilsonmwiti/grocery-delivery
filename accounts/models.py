@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+from enum import Enum
+
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
@@ -42,6 +44,30 @@ class UserManager(BaseUserManager):
 
 # Create your models here.
 class User(AbstractBaseUser, PermissionsMixin):
+    class UserAccount(Enum):
+        admin = ('admin', 'admin account')
+        customer = ('customer', 'customer account')
+        staff = ('staff', 'staff account')
+
+        @classmethod
+        def get_value(cls, member):
+            return cls[member].value[0]
+
+    class Location(Enum):
+        Juja = ('Juja', 'Juja and environs')
+        Witeithie = ('Witeithie', 'Witeithie')
+        Kroad = ('Kenyatta road', 'Kenyatta road')
+
+        @classmethod
+        def get_value(cls, member):
+            return cls[member].value[0]
+
+    # [...]
+    # status = models.CharField(
+    #     max_length=32,
+    #     choices=[x.value for x in STATUS],
+    #     default=STATUS.get_value('available'),
+    # )
     username = models.CharField(max_length=20)
     email = models.EmailField(max_length=255, unique=True)
     is_admin = models.BooleanField(default=False)
@@ -49,9 +75,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     user_status = models.CharField(max_length=20, null=False, default="active")
     timestamp = models.DateTimeField(auto_now_add=True)
     phone_number = models.CharField(unique=True, null=True, blank=True, max_length=20)
-    user_type = models.CharField(default="customer", max_length=20)
+    user_type = models.CharField(max_length=32,
+                                 choices=[x.value for x in UserAccount],
+                                 default=UserAccount.get_value('customer'))
     email_confirmed = models.BooleanField(default=False)
-    location = models.CharField(max_length=30)
+    location = models.CharField(max_length=32,
+                                choices=[x.value for x in Location],
+                                default=Location.get_value('Juja'))
     USERNAME_FIELD = 'email'  # make email username field
     objects = UserManager()
 

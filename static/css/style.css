@@ -8663,9 +8663,11 @@ h1, h2, h3, h4, h5,
     .product {
       margin-bottom: 30px; } }
   .product .img-prod {
-    position: relative;
-    display: block;
-    overflow: hidden; }
+      position: relative;
+      display: block;
+      overflow: hidden;
+      height: inherit;
+  }
     .product .img-prod .overlay {
       position: absolute;
       top: 0;

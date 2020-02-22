@@ -1,17 +1,23 @@
 from django.shortcuts import render, redirect
 
-
 # Create your views here.
+from inventory.models import Inventory
+
+
 def index(request):
-    return render(request, 'michpastries/index.html')
+    products = Inventory.objects.all().order_by('id')[:12]
+    new_products = Inventory.objects.all().order_by('-time_added')[:12]
+    return render(request, 'michpastries/index.html', {'products': products, 'new_products': new_products})
 
 
 def wishlist(request):
     return render(request, 'michpastries/wishlist.html')
 
 
-def product(request):
-    return render(request, 'michpastries/product-single.html')
+def product(request, pk):
+    print(pk)
+    product_details = Inventory.objects.get(pk=pk)
+    return render(request, 'michpastries/product-single.html', {'product': product_details})
 
 
 def cart(request):

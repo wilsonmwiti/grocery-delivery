@@ -144,3 +144,4 @@ AUTH_USER_MODEL = 'accounts.User'
 # image and file uploads
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+SIGNING_BACKEND = 'django_cryptography.core.signing.TimestampSigner'

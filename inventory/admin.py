@@ -8,7 +8,7 @@ from inventory.models import Categories, Inventory
 # Register your models to admin site, then you can add, edit, delete and search your models in Django admin site.
 
 class CategoriesAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'time_added',)
+    list_display = ('id', 'name', 'time_added', 'unit',)
     search_fields = ('name',)
 
 
@@ -23,8 +23,8 @@ class InventoryAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'item_name', 'price_per_kg', 'egg_less', 'delivery', 'image_tag', 'amount_remaining', 'category',
         'discount', 'discounted_price_per_kg',
-        'discounted',)
-    search_fields = ('item_name',)
+        'discounted', 'description',)
+    search_fields = ('item_name', 'description',)
     # fields = []
     readonly_fields = ['image_tag', 'discounted_price_per_kg', ]
 

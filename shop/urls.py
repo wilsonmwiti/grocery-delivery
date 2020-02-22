@@ -9,6 +9,7 @@ urlpatterns = [
     url('wishlist/', views.wishlist, name='wishlist'),
     url('product/(?P<pk>[0-9]+)/$', views.product, name='product-single'),
     url('cart/', views.cart, name='cart'),
+    url('add-to-cart/(?P<pk>[0-9]+)/$', views.add_to_cart, name='cart-add'),
     url('check-out/', views.checkout, name='checkout'),
     url('about-us/', views.about, name='about-us'),
     url('contact-us/', views.contact, name='contact-us'),

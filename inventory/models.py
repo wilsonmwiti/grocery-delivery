@@ -8,6 +8,7 @@ from django.utils.safestring import mark_safe
 
 class Categories(models.Model):
     name = models.CharField(max_length=20)
+    unit = models.CharField(max_length=20)
     time_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -25,6 +26,7 @@ class Inventory(models.Model):
     delivery = models.BooleanField(default=False)
     image = models.ImageField(upload_to='images/')
     amount_remaining = models.CharField(max_length=20)
+    description = models.TextField(max_length=200)
     time_added = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     discount = models.IntegerField(default=0)
@@ -41,5 +43,8 @@ class Inventory(models.Model):
     image_tag.allow_tags = True
 
     def save(self, *args, **kwargs):
-        self.discounted_price_per_kg = ceil(float(self.price_per_kg) - float(self.price_per_kg) / self.discount)
+        try:
+            self.discounted_price_per_kg = ceil(float(self.price_per_kg) - float(self.price_per_kg) / self.discount)
+        except ZeroDivisionError:
+            pass
         super(Inventory, self).save(*args, **kwargs)

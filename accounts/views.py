@@ -26,11 +26,7 @@ def panel(request):
             return HttpResponse("<p>Please verify your account using the link sent to your email address</p>")
 
     elif user.user_type == "staff":
-        return None
-    elif user.user_type == "admin":
-        # todo proceed from here next by creating views and gui's for site admin panel
-
-        return None
+        return HttpResponse("<p>Staff panel</p>")
 
 
 def signup(request):

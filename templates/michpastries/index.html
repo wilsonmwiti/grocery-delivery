@@ -156,17 +156,19 @@
                     {% if product.discounted %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="#" class="img-prod"><img class="img-fluid" src="{{ product.image.url }}"
-                                                                  alt="{{ product.item_name }}" style="height: 100%">
+                                <a href="{% url 'shop:product-single' product.pk %}" class="img-prod"><img
+                                        class="img-fluid" src="{{ product.image.url }}"
+                                        alt="{{ product.item_name }}" style="height: 100%">
                                     <span class="status">{{ product.discount }}%</span>
                                     <div class="overlay"></div>
                                 </a>
                                 <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="#">{{ product.item_name }}</a></h3>
+                                    <h3><a href="{% url 'shop:product-single' product.pk %}">{{ product.item_name }}</a>
+                                    </h3>
                                     <div class="d-flex">
                                         <div class="pricing">
-                                            <p class="price"><span class="mr-2 price-dc">ksh {{ product.price_per_kg }} @ kg</span><span
-                                                    class="price-sale">ksh {{ product.discounted_price_per_kg }} @ kg</span>
+                                            <p class="price"><span class="mr-2 price-dc">ksh {{ product.price_per_kg }} per {{ product.category.unit }}</span><span
+                                                    class="price-sale">ksh {{ product.discounted_price_per_kg }} per {{ product.category.unit }}</span>
                                             </p>
                                         </div>
                                     </div>
@@ -188,15 +190,19 @@
                     {% else %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="#" class="img-prod"><img class="img-fluid" src="{{ product.image.url }}"
-                                                                  alt="{{ product.item_name }}" style="height: 100%">
+                                <a href="{% url 'shop:product-single' product.pk %}" class="img-prod"><img
+                                        class="img-fluid" src="{{ product.image.url }}"
+                                        alt="{{ product.item_name }}" style="height: 100%">
                                     <div class="overlay"></div>
                                 </a>
                                 <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="#">{{ product.item_name }}</a></h3>
+                                    <h3><a href="{% url 'shop:product-single' product.pk %}">{{ product.item_name }}</a>
+                                    </h3>
                                     <div class="d-flex">
                                         <div class="pricing">
-                                            <p class="price"><span>ksh {{ product.price_per_kg }}</span></p>
+                                            <p class="price">
+                                                <span>ksh {{ product.price_per_kg }} per {{ product.category.unit }}</span>
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="bottom-area d-flex px-3">
@@ -241,17 +247,19 @@
                     {% if product.discounted %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="#" class="img-prod"><img class="img-fluid" src="{{ product.image.url }}"
-                                                                  alt="{{ product.item_name }}" style="height: 100%">
+                                <a href="{% url 'shop:product-single' product.pk %}" class="img-prod"><img
+                                        class="img-fluid" src="{{ product.image.url }}"
+                                        alt="{{ product.item_name }}" style="height: 100%">
                                     <span class="status">{{ product.discount }}%</span>
                                     <div class="overlay"></div>
                                 </a>
                                 <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="#">{{ product.item_name }}</a></h3>
+                                    <h3><a href="{% url 'shop:product-single' product.pk %}">{{ product.item_name }}</a>
+                                    </h3>
                                     <div class="d-flex">
                                         <div class="pricing">
-                                            <p class="price"><span class="mr-2 price-dc">ksh {{ product.price_per_kg }} @ kg</span><span
-                                                    class="price-sale">ksh {{ product.discounted_price_per_kg }} @ kg</span>
+                                            <p class="price"><span class="mr-2 price-dc">ksh {{ product.price_per_kg }} per {{ product.category.unit }}</span><span
+                                                    class="price-sale">ksh {{ product.discounted_price_per_kg }} per {{ product.category.unit }}</span>
                                             </p>
                                         </div>
                                     </div>
@@ -279,10 +287,13 @@
                                     <div class="overlay"></div>
                                 </a>
                                 <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="#">{{ product.item_name }}</a></h3>
+                                    <h3><a href="{% url 'shop:product-single' product.pk %}">{{ product.item_name }}</a>
+                                    </h3>
                                     <div class="d-flex">
                                         <div class="pricing">
-                                            <p class="price"><span>ksh {{ product.price_per_kg }}</span></p>
+                                            <p class="price">
+                                                <span>ksh {{ product.price_per_kg }} per {{ product.category.unit }}</span>
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="bottom-area d-flex px-3">

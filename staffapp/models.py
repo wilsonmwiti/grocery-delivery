@@ -4,10 +4,9 @@ from django.db import models
 
 
 class Payments(models.Model):
-    pass
-    # class Meta:
-    #     db_table = "payments"
-    #     verbose_name_plural = "payments"
+    class Meta:
+        db_table = "payments"
+        verbose_name_plural = "payments"
 
 
 class Sales(models.Model):

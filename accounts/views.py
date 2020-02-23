@@ -98,7 +98,7 @@ def resettoken(request, uidb64, token):
     else:
         return render(request, 'michpastries/customer-accounts/account_activation_invalid.html')
 
-
+@login_required(login_url='customer-accounts:login')
 def logout_view(request):
     logout(request)
     return redirect('site:home')
@@ -193,3 +193,5 @@ def forgot_password(request):
 #         form = EnterNewPassword()
 #
 #         return render(request, 'michpastries/customer-accounts/enter_new_password.html', {'form': form})
+def profile(request):
+    return redirect('customer-accounts:panel')

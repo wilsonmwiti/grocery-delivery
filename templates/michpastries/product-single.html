@@ -80,7 +80,7 @@
                             {#                                <p style="color: #000;">Total:<div id="totals"> </div></p>#}
                             {#                            </div>#}
                         </div>
-                        <p><a href="{% url 'shop:cart-add ' product.pk %}" class="btn btn-black py-3 px-5">Add to
+                        <p><a href="{% url 'shop:cartadd' product.pk %}" class="btn btn-black py-3 px-5">Add to
                             Cart</a></p>
                     {% elif product.category.name == 'cakes' %}
                         <div class="row mt-4">
@@ -128,7 +128,7 @@
                             {#                                <p style="color: #000;">600 kg available</p>#}
                             {#                            </div>#}
                         </div>
-                        <p><a href="{% url 'shop:cart-add' product.pk %}" class="btn btn-black py-3 px-5">Add to
+                        <p><a href="{% url 'shop:cartadd' product.pk %}" class="btn btn-black py-3 px-5">Add to
                             Cart</a></p>
                     {% elif product.category.name == 'others' %}
                         <div class="row mt-4">
@@ -158,7 +158,7 @@
                             {#                                <p style="color: #000;">Total:<div id="totals"> </div></p>#}
                             {#                            </div>#}
                         </div>
-                        <p><a href="{% url 'shop:cart-add ' product.pk %}" class="btn btn-black py-3 px-5">Add to
+                        <p><a href="{% url 'shop:cartadd ' product.pk %}" class="btn btn-black py-3 px-5">Add to
                             Cart</a></p>
 
                     {% else %}

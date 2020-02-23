@@ -1,6 +1,9 @@
-{% extends 'michpastries/base.html'%}
+{% extends 'michpastries/base.html' %}
 {% load static %}
 {% block title_extension %} Home {% endblock %}
+{% block cart %}
+    {{ cart_count }}
+{% endblock %}
 {% block maincontent %}
     <section id="home-section" class="hero">
         <div class="home-slider owl-carousel">
@@ -12,8 +15,11 @@
                         <div class="col-md-12 ftco-animate text-center">
                             <h1 class="mb-2">We create fresh cakes and cupcakes</h1>
                             <h2 class="subheading mb-4">We deliver products to your door step</h2>
-                            <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">log in to
-                                purchase</a></p>
+                            {% if user.is_authenticated %}
+                            {% else %}
+                                <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">log in to
+                                    purchase</a></p>
+                            {% endif %}
                         </div>
 
                     </div>
@@ -28,8 +34,11 @@
                         <div class="col-sm-12 ftco-animate text-center">
                             <h1 class="mb-2">We offer payments with installments</h1>
                             <h2 class="subheading mb-4">Pay 50% of the price before and pay 50% during pick-up</h2>
-                            <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">log in to
-                                purchase</a></p>
+                            {% if user.is_authenticated %}
+                            {% else %}
+                                <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">log in to
+                                    purchase</a></p>
+                            {% endif %}
                         </div>
 
                     </div>
@@ -59,7 +68,7 @@
                         </div>
                         <div class="media-body">
                             <h3 class="heading">Always Fresh</h3>
-                            <span>Product well packaged</span>
+                            <span>Products well packaged</span>
                         </div>
                     </div>
                 </div>

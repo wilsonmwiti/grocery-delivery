@@ -23,7 +23,7 @@ class InventoryAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'item_name', 'price_per_kg', 'egg_less', 'delivery', 'image_tag', 'amount_remaining', 'category',
         'discount', 'discounted_price_per_kg',
-        'discounted', 'description',)
+        'discounted', 'description', 'offer_of_the_day',)
     search_fields = ('item_name', 'description',)
     # fields = []
     readonly_fields = ['image_tag', 'discounted_price_per_kg', ]

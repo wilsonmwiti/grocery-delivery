@@ -17,6 +17,8 @@ class Categories(models.Model):
 
     def __str__(self):
         return self.name
+
+
 # model for inventory items
 class Inventory(models.Model):
     item_name = models.CharField(max_length=20)
@@ -31,6 +33,7 @@ class Inventory(models.Model):
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     discount = models.IntegerField(default=0)
     discounted = models.BooleanField(default=False)
+    offer_of_the_day = models.BooleanField(default=False)
 
     class Meta:
         db_table = "Inventory"

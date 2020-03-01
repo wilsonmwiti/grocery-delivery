@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
@@ -25,12 +24,25 @@ def product(request, pk):
     product_details = get_object_or_404(Inventory, pk=pk)
     return render(request, 'michpastries/product-single.html', {'product': product_details})
 
-
+# 198919
 @login_required(login_url='customer-accounts:login')
 def cart(request):
-    cart = get_object_or_404(Cart, user=request.user.pk)
+    cartobj = Cart.objects.get(user=request.user.pk)
+    if request.method == 'POST':
+        print("add to cart loaded")
+        if request.user.is_authenticated:
+            qty = 0
+            # todo proceed from here next time by creating a cart functionality
+            # product_details = get_object_or_404(Inventory, pk=pk)
+            cart = Cart.objects.get(user=request.user.pk, item=pk)
+            if cart:
+                cart.qty = cart.qty + qty
+                cart.save()
+            else:
+                cart = Cart.objects.create(user=request.user.pk, item=pk, qty=qty)
+    else:
 
-    return render(request, 'michpastries/cart.html', {'cart': cart})
+        return render(request, 'michpastries/cart.html', {'cart': cartobj})
 
 
 @login_required(login_url='customer-accounts:login')
@@ -52,17 +64,8 @@ def login(request):
 
 @login_required(login_url='customer-accounts:login')
 def add_to_cart(request, pk):
-    if request.user.is_authenticated:
-        qty = 0
-        # todo proceed from here next time by creating a cart functionality
-        # product_details = get_object_or_404(Inventory, pk=pk)
-        cart = Cart.objects.get(user=request.user.pk, item=pk)
-        if cart:
-            cart.qty = cart.qty + qty
-            cart.save()
-        else:
-            cart = Cart.objects.create(user=request.user.pk, item=pk, qty=qty)
-        next = request.POST.get('next', '/')
-        return HttpResponseRedirect(next)
-    else:
-        return redirect('customer-accounts:login')
+    # next = request.POST.get('next', '/')
+    # return HttpResponseRedirect(next)
+    #
+    # return redirect('customer-accounts:login')
+    pass

@@ -165,9 +165,10 @@
                     {% if product.discounted %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="{% url 'shop:product-single' product.pk %}" class="img-prod"><img
-                                        class="img-fluid" src="{{ product.image.url }}"
-                                        alt="{{ product.item_name }}" style="height: 100%">
+                                <a href="{% url 'shop:product-single' product.pk %}" class="img-prod">
+                                    <img
+                                        class="img-responsive" src="{{ product.image.url }}"
+                                        alt="{{ product.item_name }}" style="width: 255px;height: 190px;">
                                     <span class="status">{{ product.discount }}%</span>
                                     <div class="overlay"></div>
                                 </a>

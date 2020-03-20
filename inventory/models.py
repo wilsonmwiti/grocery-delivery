@@ -22,8 +22,8 @@ class Categories(models.Model):
 # model for inventory items
 class Inventory(models.Model):
     item_name = models.CharField(max_length=20)
-    price_per_kg = models.CharField(max_length=20)
-    discounted_price_per_kg = models.CharField(max_length=20)
+    price_per_unit = models.CharField(max_length=20)
+    discounted_price_per_unit = models.CharField(max_length=20)
     egg_less = models.BooleanField(default=True)
     delivery = models.BooleanField(default=False)
     image = models.ImageField(upload_to='images/')
@@ -47,7 +47,8 @@ class Inventory(models.Model):
 
     def save(self, *args, **kwargs):
         try:
-            self.discounted_price_per_kg = ceil(float(self.price_per_kg) - float(self.price_per_kg) / self.discount)
+            self.discounted_price_per_unit = ceil(
+                float(self.price_per_unit) - float(self.price_per_unit) / self.discount)
         except ZeroDivisionError:
             pass
         super(Inventory, self).save(*args, **kwargs)

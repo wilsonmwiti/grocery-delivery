@@ -8,11 +8,14 @@ from inventory.models import Inventory
 
 
 class PartiallyPaid(models.Model):
-    pass
-    # sales_id
-    # class Meta:
-    #     db_table='partial payments'
-    #     verbose_name_plural='PartialPayments'
+    time_added = models.DateTimeField(auto_now_add=True)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    current_paid_amount = models.IntegerField(default=0)
+    total_amount = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'partial_payments'
+        verbose_name_plural = 'PartialPayments'
 
 
 class Cart(models.Model):
@@ -28,13 +31,14 @@ class Cart(models.Model):
         db_table = 'Cart'
 
     def save(self, *args, **kwargs):
+        # fixme error in discount calculation
         try:
             if not self.item.discounted:
-                self.price = ceil(float(self.item.price_per_kg) * self.qty)
-                self.unit_price = self.item.price_per_kg
+                self.price = ceil(float(self.item.price_per_unit) * self.qty)
+                self.unit_price = self.item.price_per_unit
             else:
-                self.price = ceil(float(self.item.discounted_price_per_kg) * self.qty)
-                self.unit_price = self.item.discounted_price_per_kg
+                self.price = ceil(float(self.item.discounted_price_per_unit) * self.qty)
+                self.unit_price = self.item.discounted_price_per_unit
         except ZeroDivisionError:
             pass
         super(Cart, self).save(*args, **kwargs)

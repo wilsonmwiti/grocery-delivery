@@ -102,47 +102,48 @@
     <section class="ftco-section ftco-category ftco-no-pt">
         <div class="container">
             <div class="row">
-					<div class="col-md-8">
-						<div class="row">
-							<div class="col-md-6 order-md-last align-items-stretch d-flex">
-								<div class="category-wrap-2 ftco-animate img align-self-stretch d-flex" style="background-image: url({% static 'images/category.jpg' %});">
-                                    <div class="text text-center">
-                                        <h2>Mich pastries</h2>
-                                        <p>The cake-ier,the happier...</p>
-                                        <p><a href="" class="btn btn-primary">Shop now</a></p>
-                                    </div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-6 order-md-last align-items-stretch d-flex">
+                            <div class="category-wrap-2 ftco-animate img align-self-stretch d-flex"
+                                 style="background-image: url({% static 'images/category.jpeg' %});">
+                                <div class="text text-center">
+                                    <h2>Mich pastries</h2>
+                                    <p>The cake-ier,the happier...</p>
+                                    <p><a href="" class="btn btn-primary">Shop now</a></p>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
-                                     style="background-image: url({% static 'images/category-1.jpg' %});">
-                                    <div class="text px-3 py-1">
-                                        <h2 class="mb-0"><a href="{% url 'shop:category-products' 1 %}">Cakes</a></h2>
-                                    </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
+                                 style="background-image: url({% static 'images/cakes-image.jpg' %});">
+                                <div class="text px-3 py-1">
+                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 1 %}">Cakes</a></h2>
                                 </div>
-                                {#                                todo add categorical urls for the different categories#}
-                                <div class="category-wrap ftco-animate img d-flex align-items-end"
-                                     style="background-image: url({% static 'images/category-2.jpg' %});">
-                                    <div class="text px-3 py-1">
-                                        <h2 class="mb-0"><a href="{% url 'shop:category-products' 2 %}">Cupcakes</a>
-                                        </h2>
-                                    </div>
+                            </div>
+                            {#                                todo add categorical urls for the different categories#}
+                            <div class="category-wrap ftco-animate img d-flex align-items-end"
+                                 style="background-image: url({% static 'images/cup cakes-image.jpg' %});">
+                                <div class="text px-3 py-1">
+                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 2 %}">Cupcakes</a>
+                                    </h2>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
                 {#14244940657#}
                 {#					2812200200159#}
 
                 <div class="col-md-4">
                     <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
-                         style="background-image: url({% static 'images/category-3.jpg' %});">
+                         style="background-image: url({% static 'images/other-pastries-image.jpg' %});">
                         <div class="text px-3 py-1">
                             <h2 class="mb-0"><a href="{% url 'shop:category-products' 3 %}">Other pastries</a></h2>
                         </div>
                     </div>
                     <div class="category-wrap ftco-animate img d-flex align-items-end"
-                         style="background-image: url({% static 'images/category-4.jpg' %});">
+                         style="background-image: url({% static 'images/drinks-image.jpg' %});">
                         <div class="text px-3 py-1">
                             <h2 class="mb-0"><a href="{% url 'shop:category-products' 4 %}">Drinks</a></h2>
                         </div>

@@ -77,9 +77,9 @@ def add_to_cart(request, pk):
 
 
 def categories(request, pk):
-    # products = get_objects_or_404(Inventory, category=pk)
     products = Inventory.objects.filter(category=pk)
-    category_name = Categories.objects.filter(pk=pk)
+    cat = get_object_or_404(Categories, pk=pk)
+
     cart_items = Cart.objects.filter(user=request.user.pk).count()
     return render(request, 'michpastries/categories.html',
-                  {'products': products, 'cart_count': cart_items, 'category_name': category_name})
+                  {'products': products, 'cart_count': cart_items, 'category': cat, })

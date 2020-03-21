@@ -25,6 +25,7 @@ class Cart(models.Model):
     time_added = models.DateTimeField(auto_now_add=True)
     price = models.IntegerField(default=0)
     unit_price = models.IntegerField(default=0)
+    size = models.CharField(null=True, default=None, max_length=20)
 
     class Meta:
         verbose_name_plural = 'Carts'

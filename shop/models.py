@@ -1,5 +1,3 @@
-from math import ceil
-
 from django.db import models
 
 # Create your models here.
@@ -35,11 +33,34 @@ class Cart(models.Model):
         # fixme error in discount calculation
         try:
             if not self.item.discounted:
-                self.price = ceil(float(self.item.price_per_unit) * self.qty)
-                self.unit_price = self.item.price_per_unit
+                self.price = float(self.item.price_per_unit) * float(self.qty)
+                self.unit_price = float(self.item.price_per_unit)
             else:
-                self.price = ceil(float(self.item.discounted_price_per_unit) * self.qty)
-                self.unit_price = self.item.discounted_price_per_unit
+                self.price = float(self.item.discounted_price_per_unit) * float(self.qty)
+                self.unit_price = float(self.item.discounted_price_per_unit)
         except ZeroDivisionError:
             pass
         super(Cart, self).save(*args, **kwargs)
+
+
+class WishList(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    item = models.ForeignKey(Inventory, on_delete=models.CASCADE)
+    time_added = models.DateTimeField(auto_now_add=True)
+    price = models.IntegerField(default=0)
+    unit_price = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = "wishlist"
+        verbose_name_plural = 'Wish Lists'
+
+    def save(self, *args, **kwargs):
+        # fixme error in discount calculation
+        try:
+            if not self.item.discounted:
+                self.unit_price = float(self.item.price_per_unit)
+            else:
+                self.unit_price = float(self.item.discounted_price_per_unit)
+        except ZeroDivisionError:
+            pass
+        super(WishList, self).save(*args, **kwargs)

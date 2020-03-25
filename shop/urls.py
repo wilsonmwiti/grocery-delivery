@@ -7,10 +7,17 @@ app_name = 'shop'
 urlpatterns = [
     path('', views.index, name='index'),
     url('wishlist/', views.wishlist, name='wishlist'),
+    url('remove-from-wishes/(?P<pk>[0-9]+)/$', views.delete_wish, name='delete-wish'),
+    url('add-to-wishes/(?P<pk>[0-9]+)/$', views.add_wish, name='add-wish'),
     url('product/(?P<pk>[0-9]+)/$', views.product, name='product-single'),
     url('category/(?P<pk>[0-9]+)/$', views.categories, name='category-products'),
     url('cart/', views.cart, name='cart'),
-    url('add-to-cart/(?P<pk>[0-9]+)/$', views.add_to_cart, name='cartadd'),
+    # url('add-to-order/(?P<pk>[0-9]+)/$', views.add_to_cart, name='orderadd'),
+    url('cuppyadd/(?P<pk>[0-9]+)/$', views.cuppy_add, name='cuppyorderinclude'),
+    # for anything that does not require size as input suc as cup cakes
+    url('add/(?P<pk>[0-9]+)/$', views.single_add, name='single-product-add'),
+    # for anything that does not require size as input suc as cup cakes
+    url('remove-from-order/(?P<pk>[0-9]+)/$', views.remove_from_cart, name='remove'),
     url('check-out/', views.checkout, name='checkout'),
     url('about-us/', views.about, name='about-us'),
     url('contact-us/', views.contact, name='contact-us'),

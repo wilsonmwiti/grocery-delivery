@@ -31,21 +31,22 @@
                 <div class="col-lg-6 product-details pl-md-5 ftco-animate">
                     <h3>{{ product.item_name }}</h3>
                     <div class="rating d-flex">
-                        {#							<p class="text-left mr-4">#}
-                        {#								<a href="#" class="mr-2">5.0</a>#}
-                        {#								<a href="#"><span class="ion-ios-star-outline"></span></a>#}
-                        {#								<a href="#"><span class="ion-ios-star-outline"></span></a>#}
-                        {#								<a href="#"><span class="ion-ios-star-outline"></span></a>#}
-                        {#								<a href="#"><span class="ion-ios-star-outline"></span></a>#}
-                        {#								<a href="#"><span class="ion-ios-star-outline"></span></a>#}
-                        {#							</p>#}
-                        {#                        todo add ratings later#}
-                        {#							<p class="text-left mr-4">#}
-                        {#								<a href="#" class="mr-2" style="color: #000;">100 <span style="color: #bbb;">Rating</span></a>#}
-                        {#							</p>#}
-                        {#							<p class="text-left">#}
-                        {#								<a href="#" class="mr-2" style="color: #000;">500 <span style="color: #bbb;">Sold</span></a>#}
-                        {#							</p>#}
+                        <p class="text-left mr-4">
+                            <a href="#" class="mr-2">5.0</a>
+                            <a href="#"><span class="ion-ios-star-outline"></span></a>
+                            <a href="#"><span class="ion-ios-star-outline"></span></a>
+                            <a href="#"><span class="ion-ios-star-outline"></span></a>
+                            <a href="#"><span class="ion-ios-star-outline"></span></a>
+                            <a href="#"><span class="ion-ios-star-outline"></span></a>
+                        </p>
+                        {#                                                todo add ratings later#}
+                        <p class="text-left mr-4">
+                            <a href="#" class="mr-2" style="color: #000;">100 <span
+                                    style="color: #bbb;">Rating</span></a>
+                        </p>
+                        <p class="text-left">
+                            <a href="#" class="mr-2" style="color: #000;">500 <span style="color: #bbb;">Sold</span></a>
+                        </p>
                     </div>
 
                     <p class="price"><span>{{ product.price_per_unit }} per {{ product.category.unit }}</span></p>
@@ -53,9 +54,10 @@
                         {{ product.description }}
                     </p>
                     {% if product.category.name == 'cup cakes' %}
-                        <div class="row mt-4">
+                        <form action="{% url 'shop:cuppyorderinclude' product.pk %}" method="post">
+                            {% csrf_token %}
+                            <div class="row mt-4">
 
-                            <form>
                                 <input type="hidden" name="next" value="{{ request.path }}">
                                 <div class="w-100"></div>
                                 <div class="input-group col-md-8 d-flex mb-3">
@@ -65,8 +67,7 @@
 	                   <i class="ion-ios-remove"></i>
 	                	</button>
 	            		</span>
-                                    <input type="text" id="quantity" name="quantity" class="form-control input-number"
-                                           value="4" min="4" step="1">
+                                    {{ form.qty }}
                                     <span class="input-group-btn ml-2">
 	                	<button type="button" class="quantity-right-plus btn" data-type="plus" onclick="changeAdd()"
                                 data-field="">
@@ -74,66 +75,57 @@
 	                 </button>
 	             	</span>
                                 </div>
-                            </form>
-                            <div class="w-100"></div>
-                            {#                            <div class="col-md-12">#}
-                            {#                                <p style="color: #000;">Total:<div id="totals"> </div></p>#}
-                            {#                            </div>#}
-                        </div>
-                        <p><a href="{% url 'shop:cartadd' product.pk %}" class="btn btn-black py-3 px-5">Add to
-                            Cart</a></p>
+                                <div class="w-100"></div>
+                                {#                            <div class="col-md-12">#}
+                                {#                                <p style="color: #000;">Total:<div id="totals"> </div></p>#}
+                                {#                            </div>#}
+                            </div>
+                            <p>
+                                <button type="submit" class="btn btn-dark"
+                                        style="background-color: black;border-radius: 2px;color: black">SEND
+                                </button>
+                            </p>
+                        </form>
                     {% elif product.category.name == 'cakes' %}
-                        <div class="row mt-4">
+                        <form action="{% url 'shop:cuppyorderinclude' product.pk %}" method="post">
+                            {% csrf_token %}
+                            <div class="row mt-4">
 
-                            <div class="input-group col-md-8 d-flex mb-3">
-                                <label for="quantity" class="mr-2">Amount</label>
-                                <span class="input-group-btn mr-2">
-	                	<button type="button" class="quantity-left-minus btn" onclick="changeSubtract()"
-                                data-type="minus" data-field="">
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                                <div class="w-100"></div>
+                                <div class="input-group col-md-8 d-flex mb-3">
+	             	    <span class="input-group-btn mr-2">
+	                	<button type="button" class="quantity-left-minus btn" data-type="minus"
+                                onclick="changeSubtract()" data-field="">
 	                   <i class="ion-ios-remove"></i>
 	                	</button>
 	            		</span>
-                                <input type="text" id="quantity" name="quantity" class="form-control input-number"
-                                       value="1" min="1" max="100">
-                                <span class="input-group-btn ml-2">
-	                	<button type="button" class="quantity-right-plus btn" onclick="changeAdd()" data-type="plus"
+                                    {{ form.qty }}
+                                    <span class="input-group-btn ml-2">
+	                	<button type="button" class="quantity-right-plus btn" data-type="plus" onclick="changeAdd()"
                                 data-field="">
 	                     <i class="ion-ios-add"></i>
 	                 </button>
-
 	             	</span>
+                                </div>
+                                <div class="w-100"></div>
+                                {#                            <div class="col-md-12">#}
+                                {#                                <p style="color: #000;">Total:<div id="totals"> </div></p>#}
+                                {#                            </div>#}
                             </div>
-
-
-                            <div class="w-100"></div>
-                            <div class="input-group col-md-8 d-flex mb-3">
-                                <label for="size" class="mr-4">Size</label>
-                                <span class="input-group-btn mr-2">
-	                	<button type="button" class="quantity-left-minus btn" onclick="changeSizeSubtract()"
-                                data-type="minus" data-field="">
-	                   <i class="ion-ios-remove"></i>
-	                	</button>
-	            		</span>
-                                <input type="text" id="size" name="size" class="form-control input-number"
-                                       value="1" min="1" step="0.5" max="100">
-                                <span class="input-group-btn ml-2">
-	                	<button type="button" class="quantity-right-plus btn" onclick="changeSizeAdd()" data-type="plus"
-                                data-field="">
-	                     <i class="ion-ios-add"></i>
-	                 </button>
-
-	             	</span>
-                            </div>
-                            {#                            <div class="col-md-12">#}
-                            {#                                <p style="color: #000;">600 kg available</p>#}
-                            {#                            </div>#}
-                        </div>
-                        <p><a href="{% url 'shop:cartadd' product.pk %}" class="btn btn-black py-3 px-5">Add to
-                            Cart</a></p>
+                            <p>
+                                <button type="submit" class="btn btn-dark"
+                                        style="background-color: black;border-radius: 2px;color: black">SEND
+                                </button>
+                            </p>
+                        </form>
                     {% elif product.category.name == 'others' %}
-                        <div class="row mt-4">
+                        <form method="post" action="{% url 'shop:cuppyorderinclude' product.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
 
-                            <form>
+                            <div class="row mt-4">
+
                                 <input type="hidden" name="next" value="{{ request.path }}">
                                 <div class="w-100"></div>
                                 <div class="input-group col-md-8 d-flex mb-3">
@@ -143,8 +135,7 @@
 	                   <i class="ion-ios-remove"></i>
 	                	</button>
 	            		</span>
-                                    <input type="text" id="quantity" name="quantity" class="form-control input-number"
-                                           value="1" min="1" step="1">
+                                    {{ form.qty }}
                                     <span class="input-group-btn ml-2">
 	                	<button type="button" class="quantity-right-plus btn" data-type="plus" onclick="changeAdd()"
                                 data-field="">
@@ -152,19 +143,23 @@
 	                 </button>
 	             	</span>
                                 </div>
-                            </form>
-                            <div class="w-100"></div>
-                            {#                            <div class="col-md-12">#}
-                            {#                                <p style="color: #000;">Total:<div id="totals"> </div></p>#}
-                            {#                            </div>#}
-                        </div>
-                        <p><a href="{% url 'shop:cartadd' product.pk %}" class="btn btn-black py-3 px-5">Add to
-                            Cart</a></p>
+                                <div class="w-100"></div>
+                                {#                            <div class="col-md-12">#}
+                                {#                                <p style="color: #000;">Total:<div id="totals"> </div></p>#}
+                                {#                            </div>#}
+                            </div>
+                            <p>
+                                <button type="submit" class="btn btn-dark"
+                                        style="background-color: black;border-radius: 2px;color: black">SEND
+                                </button>
+                            </p>
 
+                        </form>
                     {% elif product.category.name == 'drinks' %}
-                        <div class="row mt-4">
+                        <form action="{% url 'shop:cuppyorderinclude' product.pk %}" method="post">
+                            {% csrf_token %}
+                            <div class="row mt-4">
 
-                            <form>
                                 <input type="hidden" name="next" value="{{ request.path }}">
                                 <div class="w-100"></div>
                                 <div class="input-group col-md-8 d-flex mb-3">
@@ -174,8 +169,7 @@
 	                   <i class="ion-ios-remove"></i>
 	                	</button>
 	            		</span>
-                                    <input type="text" id="quantity" name="quantity" class="form-control input-number"
-                                           value="4" min="4" step="1">
+                                    {{ form.qty }}
                                     <span class="input-group-btn ml-2">
 	                	<button type="button" class="quantity-right-plus btn" data-type="plus" onclick="changeAdd()"
                                 data-field="">
@@ -183,14 +177,17 @@
 	                 </button>
 	             	</span>
                                 </div>
-                            </form>
                             <div class="w-100"></div>
                             {#                            <div class="col-md-12">#}
                             {#                                <p style="color: #000;">Total:<div id="totals"> </div></p>#}
                             {#                            </div>#}
-                        </div>
-                        <p><a href="{% url 'shop:cartadd' product.pk %}" class="btn btn-black py-3 px-5">Add to
-                            Cart</a></p>
+                            </div>
+                            <p>
+                                <button type="submit" class="btn btn-dark"
+                                        style="background-color: black;border-radius: 2px;color: black">SEND
+                                </button>
+                            </p>
+                        </form>
                     {% endif %}
                 </div>
             </div>
@@ -199,30 +196,39 @@
     <script>
         function changeAdd() {
             var x = Number(document.getElementById("quantity").value);
-            console.log(x + 1);
-            document.getElementById("quantity").value = x + 1;
+            if (x <= 100) {
+                console.log(x + 1);
+                document.getElementById("quantity").value = x + 1;
+            }
 
         }
 
         function changeSubtract() {
             var x = Number(document.getElementById("quantity").value);
-            console.log(x - 1);
-            document.getElementById("quantity").value = x - 1;
+            if (x > 1) {
+                console.log(x - 1);
+                document.getElementById("quantity").value = x - 1;
+            }
+
 
         }
 
 
         function changeSizeAdd() {
             var x = Number(document.getElementById("size").value);
-            console.log(x + 0.5);
-            document.getElementById("size").value = x + 0.5;
+            if (x <= 20) {
+                console.log(x + 0.5);
+                document.getElementById("size").value = x + 0.5;
+            }
 
         }
 
         function changeSizeSubtract() {
             var x = Number(document.getElementById("size").value);
-            console.log(x - 0.5);
-            document.getElementById("size").value = x - 0.5;
+            if (x > 0.5) {
+                console.log(x - 0.5);
+                document.getElementById("size").value = x - 0.5;
+            }
 
         }
     </script>

@@ -9281,7 +9281,8 @@ textarea.form-control {
     margin-bottom: 10px;
     font-family: "Lora", Georgia, serif;
     font-style: italic;
-    color: #82ae46; }
+    color: #000000;
+  }
   .heading-section h2 {
     position: relative;
     font-size: 40px;

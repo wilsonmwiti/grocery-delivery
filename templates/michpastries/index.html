@@ -188,7 +188,7 @@
                                     </div>
                                     <div class="bottom-area d-flex px-3">
                                         <div class="m-auto d-flex">
-                                            <a href="{% url 'shop:single-product-add' product.pk %}"
+                                            <a href="{% url 'shop:product-single' product.pk %}"
                                                class="buy-now d-flex justify-content-center align-items-center mx-1">
                                                 <span><i class="ion-ios-cart"></i></span>
                                             </a>
@@ -222,7 +222,7 @@
                                     </div>
                                     <div class="bottom-area d-flex px-3">
                                         <div class="m-auto d-flex">
-                                            <a href="{% url 'shop:single-product-add' product.pk %}"
+                                            <a href="{% url 'shop:product-single' product.pk %}"
                                                class="buy-now d-flex justify-content-center align-items-center mx-1">
                                                 <span><i class="ion-ios-cart"></i></span>
                                             </a>
@@ -259,9 +259,10 @@
                     {% if product.discounted %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="{% url 'shop:product-single' product.pk %}" class="img-prod"><img
-                                        class="img-fluid" src="{{ product.image.url }}"
-                                        alt="{{ product.item_name }}" style="height: 100%">
+                                <a href="{% url 'shop:product-single' product.pk %}" class="img-prod">
+                                    <img
+                                            class="img-responsive" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="width: 255px;height: 190px;">
                                     <span class="status">{{ product.discount }}%</span>
                                     <div class="overlay"></div>
                                 </a>
@@ -278,11 +279,12 @@
                                     </div>
                                     <div class="bottom-area d-flex px-3">
                                         <div class="m-auto d-flex">
-                                            <a href="#"
+                                            <a href="{% url 'shop:product-single' product.pk %}"
                                                class="buy-now d-flex justify-content-center align-items-center mx-1">
                                                 <span><i class="ion-ios-cart"></i></span>
                                             </a>
-                                            <a href="#" class="heart d-flex justify-content-center align-items-center ">
+                                            <a href="{% url 'shop:add-wish' product.pk %}"
+                                               class="heart d-flex justify-content-center align-items-center ">
                                                 <span><i class="ion-ios-heart"></i></span>
                                             </a>
                                         </div>
@@ -311,15 +313,12 @@
                                     </div>
                                     <div class="bottom-area d-flex px-3">
                                         <div class="m-auto d-flex">
-                                            {#                                    <a href="#"#}
-                                            {#                                       class="add-to-cart d-flex justify-content-center align-items-center text-center">#}
-                                            {#                                        <span><i class="ion-ios-menu"></i></span>#}
-                                            {#                                    </a>#}
-                                            <a href="#"
+                                            <a href="{% url 'shop:product-single' product.pk %}"
                                                class="buy-now d-flex justify-content-center align-items-center mx-1">
                                                 <span><i class="ion-ios-cart"></i></span>
                                             </a>
-                                            <a href="#" class="heart d-flex justify-content-center align-items-center ">
+                                            <a href="{% url 'shop:add-wish' product.pk %}"
+                                               class="heart d-flex justify-content-center align-items-center ">
                                                 <span><i class="ion-ios-heart"></i></span>
                                             </a>
                                         </div>

@@ -14,10 +14,10 @@
                 </div>
             </div>
         </div>
+
         <div class="container">
             <div class="row">
-
-            {% for product in products %}
+                {% for product in products %}
                     {% if product.discounted %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
@@ -33,18 +33,20 @@
                                     </h3>
                                     <div class="d-flex">
                                         <div class="pricing">
-                                            <p class="price"><span class="mr-2 price-dc">ksh {{ product.price_per_kg }} per {{ product.category.unit }}</span><span
-                                                    class="price-sale">ksh {{ product.discounted_price_per_kg }} per {{ product.category.unit }}</span>
+                                            <p class="price"><span
+                                                    class="mr-2 price-dc">ksh {{ product.price_per_unit }} per {{ product.category.unit }}</span><span
+                                                    class="price-sale">ksh {{ product.discounted_price_per_unit }} per {{ product.category.unit }}</span>
                                             </p>
                                         </div>
                                     </div>
                                     <div class="bottom-area d-flex px-3">
                                         <div class="m-auto d-flex">
-                                            <a href="#"
+                                            <a href="{% url 'shop:product-single' product.pk %}"
                                                class="buy-now d-flex justify-content-center align-items-center mx-1">
                                                 <span><i class="ion-ios-cart"></i></span>
                                             </a>
-                                            <a href="#" class="heart d-flex justify-content-center align-items-center ">
+                                            <a href="{% url 'shop:add-wish' product.pk %}"
+                                               class="heart d-flex justify-content-center align-items-center ">
                                                 <span><i class="ion-ios-heart"></i></span>
                                             </a>
                                         </div>
@@ -67,21 +69,18 @@
                                     <div class="d-flex">
                                         <div class="pricing">
                                             <p class="price">
-                                                <span>ksh {{ product.price_per_kg }} per {{ product.category.unit }}</span>
+                                                <span>ksh {{ product.price_per_unit }} per {{ product.category.unit }}</span>
                                             </p>
                                         </div>
                                     </div>
                                     <div class="bottom-area d-flex px-3">
                                         <div class="m-auto d-flex">
-                                            {#                                    <a href="#"#}
-                                            {#                                       class="add-to-cart d-flex justify-content-center align-items-center text-center">#}
-                                            {#                                        <span><i class="ion-ios-menu"></i></span>#}
-                                            {#                                    </a>#}
-                                            <a href="#"
+                                            <a href="{% url 'shop:product-single' product.pk %}"
                                                class="buy-now d-flex justify-content-center align-items-center mx-1">
                                                 <span><i class="ion-ios-cart"></i></span>
                                             </a>
-                                            <a href="#" class="heart d-flex justify-content-center align-items-center ">
+                                            <a href="{% url 'shop:add-wish' product.pk %}"
+                                               class="heart d-flex justify-content-center align-items-center ">
                                                 <span><i class="ion-ios-heart"></i></span>
                                             </a>
                                         </div>

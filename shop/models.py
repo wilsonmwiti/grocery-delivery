@@ -42,7 +42,18 @@ class Cart(models.Model):
             pass
         super(Cart, self).save(*args, **kwargs)
 
-
+    def update(self, *args, **kwargs):
+        # fixme error in discount calculation
+        try:
+            if not self.item.discounted:
+                self.price = float(self.item.price_per_unit) * float(self.qty)
+                self.unit_price = float(self.item.price_per_unit)
+            else:
+                self.price = float(self.item.discounted_price_per_unit) * float(self.qty)
+                self.unit_price = float(self.item.discounted_price_per_unit)
+        except ZeroDivisionError:
+            pass
+        super(Cart, self).update(*args, **kwargs)
 class WishList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Inventory, on_delete=models.CASCADE)

@@ -38,12 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
-    'inventory',
-    'payments',
-    'shop',
-    'staffapp',
-    'appAPI',
+    'accounts.apps.AccountsConfig',
+    'inventory.apps.InventoryConfig',
+    'payments.apps.PaymentsConfig',
+    'shop.apps.ShopConfig',
+    'staffapp.apps.StaffappConfig',
+    'appAPI.apps.AppapiConfig',
+    'mpesa_api.apps.MpesaApiConfig',
 
 ]
 

@@ -17,16 +17,17 @@ class MpesaAccessToken:
                      auth=HTTPBasicAuth(MpesaC2bCredential.consumer_key, MpesaC2bCredential.consumer_secret))
     mpesa_access_token = json.loads(r.text)
     validated_mpesa_access_token = mpesa_access_token['access_token']
+    print(validated_mpesa_access_token)
 
 
 class LipanaMpesaPassword:
     lipa_time = datetime.now().strftime('%Y%m%d%H%M%S')
     # use in testing environment
-    # Business_short_code = "174379"  # 525522
-    # Test_c2b_shortcode = "600344"  # todo change to businesses till number
+    Business_short_code = "174379"
+    Test_c2b_shortcode = "600344"
     # use in production environment
-    Business_short_code = "525522"  # 525522 is till number
-    Test_c2b_shortcode = "525522"  # todo change to businesses till number
+    # Business_short_code = "525522"  # 525522 is till number
+    # Test_c2b_shortcode = "525522"  # todo change to businesses till number in production
     passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
 
     data_to_encode = Business_short_code + passkey + lipa_time

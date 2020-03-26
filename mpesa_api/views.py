@@ -47,8 +47,9 @@ def register_urls(request):
     headers = {"Authorization": "Bearer %s" % access_token}
     options = {"ShortCode": LipanaMpesaPassword.Test_c2b_shortcode,
                "ResponseType": "Completed",
-               "ConfirmationURL": "http://127.0.0.1:8000/mpesa-api/v1/c2b/confirmation",
-               "ValidationURL": "http://127.0.0.1:8000/mpesa-api/v1/c2b/validation"}
+               # todo remember to fix ngrok link
+               "ConfirmationURL": "https://17a7c52c.ngrok.io/mobile-pesa-api/v1/c2b/confirmation",
+               "ValidationURL": "https://17a7c52c.ngrok.io/mobile-pesa-api/v1/c2b/validation"}
     response = requests.post(api_url, json=options, headers=headers)
     return HttpResponse(response.text)
 

@@ -1,6 +1,9 @@
 {% extends 'michpastries/base.html' %}
 {% load static %}
 {% block title_extension %}Cart{% endblock %}
+{% block cart %}
+    {{ cart_count }}
+{% endblock %}
 {% block maincontent %}
     <div class="hero-wrap hero-bread" style="background-image: url('../../static/images/bg_1.jpg');">
         <div class="container">

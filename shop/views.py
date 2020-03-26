@@ -11,7 +11,10 @@ from shop.models import Cart, WishList
 
 def index(request):
     products = Inventory.objects.all().order_by('id')[:12]
-    cart_items = Cart.objects.all().count()
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user.pk).count()
+    else:
+        cart_items = 0
     new_products = Inventory.objects.all().order_by('-time_added')[:4]
     return render(request, 'michpastries/index.html',
                   {'products': products, 'new_products': new_products, 'cart_count': cart_items})
@@ -53,43 +56,72 @@ def delete_wish(request, pk):
 
 @login_required(login_url='customer-accounts:login')
 def wishlist(request):
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user.pk).count()
+    else:
+        cart_items = 0
     wishes = WishList.objects.filter(user=request.user.pk)
 
-    return render(request, 'michpastries/wishlist.html', {'wishes': wishes})
+    return render(request, 'michpastries/wishlist.html', {'wishes': wishes, 'cart_count': cart_items})
 
 
 def product(request, pk):
     # print(pk)
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user.pk).count()
+    else:
+        cart_items = 0
     form = QuantityForm()
     product_details = get_object_or_404(Inventory, pk=pk)
-    return render(request, 'michpastries/product-single.html', {'product': product_details, 'form': form})
+    return render(request, 'michpastries/product-single.html',
+                  {'product': product_details, 'form': form, 'cart_count': cart_items})
 
 
 # 198919
 @login_required(login_url='customer-accounts:login')
 def cart(request):
     # user=User.objects.filter(pk=request.user.pk)
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user.pk).count()
+    else:
+        cart_items = 0
     cart = Cart.objects.filter(user=request.user.pk)
     cart_total = 0
     for x in cart:
         cart_total += x.price
-    return render(request, 'michpastries/cart.html', {'cart': cart, 'sum': cart_total})
+    return render(request, 'michpastries/cart.html', {'cart': cart, 'sum': cart_total, 'cart_count': cart_items})
 
 
 @login_required(login_url='customer-accounts:login')
 def checkout(request):
-    return render(request, 'michpastries/checkout.html')
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user.pk).count()
+    else:
+        cart_items = 0
+    return render(request, 'michpastries/checkout.html', {'cart_count': cart_items})
 
 
 def about(request):
-    return render(request, 'michpastries/about.html')
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user.pk).count()
+    else:
+        cart_items = 0
+    return render(request, 'michpastries/about.html', {'cart_count': cart_items})
 
 
 def contact(request):
-    return render(request, 'michpastries/contact.html')
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user.pk).count()
+    else:
+        cart_items = 0
+    return render(request, 'michpastries/contact.html', {'cart_count': cart_items})
 
 
 def login(request):
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user.pk).count()
+    else:
+        cart_items = 0
     return redirect('customer-accounts:login')
 
 
@@ -131,6 +163,10 @@ def login(request):
 
 
 def categories(request, pk):
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user.pk).count()
+    else:
+        cart_items = 0
     products = Inventory.objects.filter(category=pk)
     cat = get_object_or_404(Categories, pk=pk)
 
@@ -142,7 +178,10 @@ def categories(request, pk):
 @login_required(login_url='customer-accounts:login')
 def remove_from_cart(request, pk):
     # removing from cart
-    print(pk)
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user.pk).count()
+    else:
+        cart_items = 0
     user = User.objects.get(pk=request.user.pk)
     item = Inventory.objects.get(pk=pk)
     remove_item = Cart.objects.filter(user=user, item=item)
@@ -152,6 +191,10 @@ def remove_from_cart(request, pk):
 
 @login_required(login_url='customer-accounts:login')
 def cuppy_add(request, pk):
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user.pk).count()
+    else:
+        cart_items = 0
     print("cuppy add to cart")
     if request.method == 'POST':
         print("post")
@@ -165,12 +208,15 @@ def cuppy_add(request, pk):
                 user = User.objects.get(pk=request.user.pk)
                 cartobj = Cart.objects.filter(user=user)
                 item = Inventory.objects.get(pk=pk)
+
                 if cartobj:
                     # if users cart exists
                     obj = Cart.objects.filter(user=user, item=item)
                     if obj:
                         #     if object exists in cart
-                        obj.update(qty=qty)
+                        obj.delete()
+                        cartobj = Cart.objects.create(user=user, qty=qty, item=item)
+
                         # obj.save()
                     else:
                         # object does not exist in cart

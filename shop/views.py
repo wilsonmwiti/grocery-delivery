@@ -1,12 +1,15 @@
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
+from accounts.forms import ContactUsForm
 from accounts.models import User
 from inventory.models import Inventory, Categories
 from shop.forms import QuantityForm, QuantityFormCuppy
 from shop.models import Cart, WishList
+from staffapp.models import ContactMessages
 
 
 def index(request):
@@ -114,7 +117,22 @@ def contact(request):
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
         cart_items = 0
-    return render(request, 'michpastries/contact.html', {'cart_count': cart_items})
+    form = ContactUsForm()
+    if request.method == 'POST':
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            sender_mail = form.cleaned_data['sender_mail']
+            sender_name = form.cleaned_data['sender_name']
+            message = "From:" + sender_name + form.cleaned_data['mail_message']
+            subject = form.cleaned_data['mail_subject']
+            # EmailMessage()
+            send_mail(from_email=sender_mail, recipient_list=['info@michpastries.com'], subject=subject,
+                      message=message)
+            new_msg = ContactMessages.objects.create(sender_mail=sender_mail, sender_name=sender_name,
+                                                     mail_message=message, mail_subject=subject)
+            return redirect('shop:contact-us')
+
+    return render(request, 'michpastries/contact.html', {'cart_count': cart_items, 'form': form})
 
 
 def login(request):

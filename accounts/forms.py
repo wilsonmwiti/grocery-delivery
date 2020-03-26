@@ -31,20 +31,17 @@ class NewPassword(forms.Form):
 
 
 class ContactUsForm(forms.Form):
-    # phone.email,message,name
-    phone = forms.CharField(max_length=20)
-    name = forms.CharField(max_length=200)
-    email = forms.EmailField(max_length=254)
-    message = forms.CharField(widget=forms.Textarea(attrs={"rows": 8, "cols": 30}))
+    sender_name = forms.CharField(required=True,
+                                  widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Your Name'}))
+    sender_mail = forms.EmailField(required=True,
+                                   widget=forms.EmailInput(
+                                       attrs={'class': 'form-control', 'placeholder': 'Your Email'}))
+    mail_subject = forms.CharField(required=True,
+                                   widget=forms.TextInput(
+                                       attrs={'class': 'form-control', 'placeholder': 'Your Subject'}))
 
-    class Meta:
-        fields = ('phone', 'name', 'email', 'message',)
-        widgets = {
-            'phone': forms.TextInput(attrs={'class': 'form-control'}),
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.TextInput(attrs={'class': 'form-control'}),
-            'message': forms.TextInput(attrs={'class': 'form-control'}),
-        }
+    mail_message = forms.CharField(required=True, widget=forms.Textarea(
+        attrs={'class': 'form-control', 'placeholder': 'Message here....', "rows": 7, "cols": 30}))
 
 
 class UserLoginForm(AuthenticationForm):

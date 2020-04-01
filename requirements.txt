@@ -1,5 +1,7 @@
 asgiref==3.2.3
+certifi==2019.11.28
 cffi==1.14.0
+chardet==3.0.4
 cryptography==2.8
 dj-database-url==0.5.0
 Django==3.0.3
@@ -8,10 +10,13 @@ django-cryptography==1.0
 django-heroku==0.3.1
 djangorestframework==3.11.0
 gunicorn==20.0.4
+idna==2.9
 Pillow==7.0.0
 psycopg2==2.8.4
 pycparser==2.19
 pytz==2019.3
+requests==2.23.0
 six==1.14.0
 sqlparse==0.3.1
+urllib3==1.25.8
 whitenoise==5.0.1

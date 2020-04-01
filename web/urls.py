@@ -26,7 +26,7 @@ urlpatterns = [
     path('staff/', include('staffapp.urls')),  # staff
     path('payments/', include('payments.urls')),  # payments
     path('inventory-manager/', include('inventory.urls')),  # inventory
-    path('mobile-pesa-api/v1/', include('mpesa_api.urls')),
+    # fixme path('mobile-pesa-api/v1/', include('mpesa_api.urls')),
 
 ]
 

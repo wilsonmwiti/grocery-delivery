@@ -7,12 +7,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from accounts.forms import ContactUsForm
 from accounts.models import User
 from inventory.models import Inventory, Categories
-from shop.forms import QuantityForm, QuantityFormCuppy
+from shop.forms import QuantityForm, QuantityFormCuppy, SubscribeForm
 from shop.models import Cart, WishList
-from staffapp.models import ContactMessages
+from staffapp.models import ContactMessages, Subscribers
 
 
 def index(request):
+    subscribe_form = SubscribeForm()
     products = Inventory.objects.all().order_by('id')[:12]
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
@@ -20,7 +21,8 @@ def index(request):
         cart_items = 0
     new_products = Inventory.objects.all().order_by('-time_added')[:4]
     return render(request, 'michpastries/index.html',
-                  {'products': products, 'new_products': new_products, 'cart_count': cart_items})
+                  {'products': products, 'new_products': new_products, 'cart_count': cart_items,
+                   'subscribe_form': subscribe_form})
 
 
 @login_required(login_url='customer-accounts:login')
@@ -59,17 +61,20 @@ def delete_wish(request, pk):
 
 @login_required(login_url='customer-accounts:login')
 def wishlist(request):
+    subscribe_form = SubscribeForm()
+
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
         cart_items = 0
     wishes = WishList.objects.filter(user=request.user.pk)
 
-    return render(request, 'michpastries/wishlist.html', {'wishes': wishes, 'cart_count': cart_items})
+    return render(request, 'michpastries/wishlist.html',
+                  {'wishes': wishes, 'cart_count': cart_items, 'subscribe_form': subscribe_form})
 
 
 def product(request, pk):
-    # print(pk)
+    subscribe_form = SubscribeForm()
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
@@ -77,13 +82,14 @@ def product(request, pk):
     form = QuantityForm()
     product_details = get_object_or_404(Inventory, pk=pk)
     return render(request, 'michpastries/product-single.html',
-                  {'product': product_details, 'form': form, 'cart_count': cart_items})
+                  {'product': product_details, 'form': form, 'cart_count': cart_items,
+                   'subscribe_form': subscribe_form})
 
 
 # 198919
 @login_required(login_url='customer-accounts:login')
 def cart(request):
-    # user=User.objects.filter(pk=request.user.pk)
+    subscribe_form = SubscribeForm()
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
@@ -92,27 +98,34 @@ def cart(request):
     cart_total = 0
     for x in cart:
         cart_total += x.price
-    return render(request, 'michpastries/cart.html', {'cart': cart, 'sum': cart_total, 'cart_count': cart_items})
+    return render(request, 'michpastries/cart.html',
+                  {'cart': cart, 'sum': cart_total, 'cart_count': cart_items, 'subscribe_form': subscribe_form})
 
 
 @login_required(login_url='customer-accounts:login')
 def checkout(request):
+    subscribe_form = SubscribeForm()
+
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
         cart_items = 0
-    return render(request, 'michpastries/checkout.html', {'cart_count': cart_items})
+    return render(request, 'michpastries/checkout.html', {'cart_count': cart_items, 'subscribe_form': subscribe_form})
 
 
 def about(request):
+    subscribe_form = SubscribeForm()
+
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
         cart_items = 0
-    return render(request, 'michpastries/about.html', {'cart_count': cart_items})
+    return render(request, 'michpastries/about.html', {'cart_count': cart_items, 'subscribe_form': subscribe_form})
 
 
 def contact(request):
+    subscribe_form = SubscribeForm()
+
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
@@ -126,13 +139,15 @@ def contact(request):
             message = "From:" + sender_name + form.cleaned_data['mail_message']
             subject = form.cleaned_data['mail_subject']
             # EmailMessage()
-            send_mail(from_email=sender_mail, recipient_list=['info@michpastries.com'], subject=subject,
+            # todo change domain
+            send_mail(from_email=sender_mail, recipient_list=['info@shopeaze.com'], subject=subject,
                       message=message)
             new_msg = ContactMessages.objects.create(sender_mail=sender_mail, sender_name=sender_name,
                                                      mail_message=message, mail_subject=subject)
             return redirect('shop:contact-us')
 
-    return render(request, 'michpastries/contact.html', {'cart_count': cart_items, 'form': form})
+    return render(request, 'michpastries/contact.html',
+                  {'cart_count': cart_items, 'form': form, 'subscribe_form': subscribe_form})
 
 
 def login(request):
@@ -181,6 +196,8 @@ def login(request):
 
 
 def categories(request, pk):
+    subscribe_form = SubscribeForm()
+
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
@@ -190,7 +207,7 @@ def categories(request, pk):
 
     cart_items = Cart.objects.filter(user=request.user.pk).count()
     return render(request, 'michpastries/categories.html',
-                  {'products': products, 'cart_count': cart_items, 'category': cat, })
+                  {'products': products, 'cart_count': cart_items, 'category': cat, 'subscribe_form': subscribe_form})
 
 
 @login_required(login_url='customer-accounts:login')
@@ -246,7 +263,7 @@ def cuppy_add(request, pk):
             else:
                 print("invalid form")
     else:
-        return render(request, 'michpastries/accounts/login.html')
+        return redirect('shop:login')
     next = request.POST.get('next', '/')
     print("redirection")
     return HttpResponseRedirect(next)
@@ -272,3 +289,19 @@ def single_add(request, pk):
         # user cart does not exist
         cartobj = Cart.objects.create(user=user, qty=1, item=item)
     return redirect("shop:index")
+
+
+def subscribe(request):
+    if request.method == 'POST':
+        form = SubscribeForm(request.POST)
+        if form.is_valid():
+            mail = form.cleaned_data['email']
+
+            check_if_exists = Subscribers.objects.filter(email=mail)
+            if check_if_exists:
+                pass
+            else:
+                create_subscriber = Subscribers.objects.create(email=mail)
+    next = request.POST.get('next', '/')
+    print("redirection")
+    return HttpResponseRedirect(next)

@@ -22,6 +22,7 @@ urlpatterns = [
     url('about-us/', views.about, name='about-us'),
     url('contact-us/', views.contact, name='contact-us'),
     url('login/', views.login, name='login'),
+    url('subscribe/', views.subscribe, name='subscribe'),
 
     # end of authentication for website
 

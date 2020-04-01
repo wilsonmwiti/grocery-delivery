@@ -24,3 +24,8 @@ class QuantityFormCuppy(forms.Form):
     qty = forms.CharField(widget=forms.TextInput(attrs={
         'class': "form-control input-number", 'id': 'quantity',
         'value': "4", 'min': "4", 'step': "1"}), required=False)
+
+
+class SubscribeForm(forms.Form):
+    email = forms.EmailField(required=True,
+                             widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Your Email'}))

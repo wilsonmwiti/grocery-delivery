@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'staffapp.apps.StaffappConfig',
     'appAPI.apps.AppapiConfig',
-    'mpesa_api.apps.MpesaApiConfig',
+    # fixme 'mpesa_api.apps.MpesaApiConfig',
 
 ]
 

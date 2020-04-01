@@ -13,11 +13,11 @@
                     <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
 
                         <div class="col-md-12 ftco-animate text-center">
-                            <h1 class="mb-2">We bake fresh cakes , cupcakes and sell drinks</h1>
+                            <h1 class="mb-2">We sell fresh fruits , vegies and drinks</h1>
                             <h2 class="subheading mb-4">We deliver products to your door step</h2>
                             {% if user.is_authenticated %}
                             {% else %}
-                                <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">log in to
+                                <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">Log in to
                                     purchase</a></p>
                             {% endif %}
                         </div>
@@ -32,12 +32,12 @@
                     <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
 
                         <div class="col-sm-12 ftco-animate text-center">
-                            <h1 class="mb-2">We accept payments with installments</h1>
-                            <h2 class="subheading mb-4">Pay 30% of the price before and pay the rest before 24 hours
-                                before pick-up</h2>
+                            <h1 class="mb-2">We accept payments with two installments</h1>
+                            <h2 class="subheading mb-4">Pay 60% of the price before and pay the rest during
+                                delivery</h2>
                             {% if user.is_authenticated %}
                             {% else %}
-                                <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">log in to
+                                <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">Log in to
                                     purchase</a></p>
                             {% endif %}
                         </div>
@@ -57,8 +57,8 @@
                             <span class="flaticon-shipped"></span>
                         </div>
                         <div class="media-body">
-                            <h3 class="heading">Free Delivery</h3>
-                            <span>On order over 8000 ksh</span>
+                            <h3 class="heading">Delivery to your door step</h3>
+                            <span>On order all orders within our region of supply</span>
                         </div>
                     </div>
                 </div>
@@ -106,46 +106,43 @@
                     <div class="row">
                         <div class="col-md-6 order-md-last align-items-stretch d-flex">
                             <div class="category-wrap-2 ftco-animate img align-self-stretch d-flex"
-                                 style="background-image: url({% static 'images/category.jpeg' %});">
+                                 style="background-image: url({% static 'images/category.jpg' %});">
                                 <div class="text text-center">
-                                    <h2>Mich pastries</h2>
-                                    <p>The cake-ier,the happier...</p>
-                                    <p><a href="" class="btn btn-primary">Shop now</a></p>
+                                    <h2>ShopEaze</h2>
+                                    <p><a href="{% url 'shop:index' %}" class="btn btn-primary">Shop now</a></p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
-                                 style="background-image: url({% static 'images/cakes-image.jpg' %});">
+                                 style="background-image: url({% static 'images/fruits.jpg' %});">
                                 <div class="text px-3 py-1">
-                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 1 %}">Cakes</a></h2>
+                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 1 %}">Fruits</a></h2>
                                 </div>
                             </div>
                             {#                                todo add categorical urls for the different categories#}
                             <div class="category-wrap ftco-animate img d-flex align-items-end"
-                                 style="background-image: url({% static 'images/cup-cakes-image.jpg' %});">
+                                 style="background-image: url({% static 'images/vegetables.jpg' %});">
                                 <div class="text px-3 py-1">
-                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 2 %}">Cupcakes</a>
+                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 2 %}">Vegetables</a>
                                     </h2>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {#14244940657#}
-                {#					2812200200159#}
 
                 <div class="col-md-4">
                     <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
-                         style="background-image: url({% static 'images/other-pastries-image.jpg' %});">
+                         style="background-image: url({% static 'images/dryfoods.jpg' %});">
                         <div class="text px-3 py-1">
-                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 3 %}">Other pastries</a></h2>
+                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 3 %}">Dried cereals</a></h2>
                         </div>
                     </div>
                     <div class="category-wrap ftco-animate img d-flex align-items-end"
-                         style="background-image: url({% static 'images/drinks-image.jpg' %});">
+                         style="background-image: url({% static 'images/cooking.jpg' %});">
                         <div class="text px-3 py-1">
-                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 4 %}">Drinks</a></h2>
+                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 4 %}">Cooking spices</a></h2>
                         </div>
                     </div>
                 </div>
@@ -478,15 +475,17 @@
                     <span>Get e-mail updates about our latest shops and special offers</span>
                 </div>
                 <div class="col-md-6 d-flex align-items-center">
-                    <form action="#" class="subscribe-form">
-              <div class="form-group d-flex">
-                <input type="text" class="form-control" placeholder="Enter email address">
-                <input type="submit" value="Subscribe" class="submit px-3">
-              </div>
-            </form>
-          </div>
+                    <form action="{% url 'shop:subscribe' %}" method="post" class="subscribe-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <div class="form-group d-flex">
+                            {{ subscribe_form.email }}
+                            <button type="submit" class="submit px-3">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
 {% endblock %}

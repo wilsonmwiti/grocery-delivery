@@ -27,7 +27,7 @@ class Inventory(models.Model):
     item_name = models.CharField(max_length=20)
     price_per_unit = models.CharField(max_length=20)
     discounted_price_per_unit = models.CharField(max_length=20)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='images/products/')
     time_added = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     discount = models.IntegerField(default=0)

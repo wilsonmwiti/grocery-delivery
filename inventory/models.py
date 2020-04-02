@@ -5,6 +5,8 @@ from django.db import models
 # model for categories
 from django.utils.safestring import mark_safe
 
+from sellers.models import Stores
+
 
 class Categories(models.Model):
     name = models.CharField(max_length=20)
@@ -21,14 +23,11 @@ class Categories(models.Model):
 
 # model for inventory items
 class Inventory(models.Model):
+    owner = models.ForeignKey(Stores, on_delete=models.CASCADE)
     item_name = models.CharField(max_length=20)
     price_per_unit = models.CharField(max_length=20)
     discounted_price_per_unit = models.CharField(max_length=20)
-    egg_less = models.BooleanField(default=True)
-    delivery = models.BooleanField(default=False)
     image = models.ImageField(upload_to='images/')
-    amount_remaining = models.CharField(max_length=20)
-    description = models.TextField(max_length=200)
     time_added = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     discount = models.IntegerField(default=0)

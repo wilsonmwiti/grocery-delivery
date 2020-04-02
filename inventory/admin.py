@@ -21,9 +21,9 @@ class InventoryAdmin(admin.ModelAdmin):
     #     time_added = models.DateTimeField(auto_now_add=True)
     #     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     list_display = (
-        'id', 'item_name', 'price_per_unit', 'egg_less', 'delivery', 'image_tag', 'amount_remaining', 'category',
+        'id', 'item_name', 'price_per_unit', 'image_tag', 'category',
         'discount', 'discounted_price_per_unit',
-        'discounted', 'description', 'offer_of_the_day',)
+        'discounted', 'offer_of_the_day',)
     search_fields = ('item_name', 'description',)
     # fields = []
     readonly_fields = ['image_tag', 'discounted_price_per_unit', ]

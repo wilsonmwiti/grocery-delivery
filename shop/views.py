@@ -7,22 +7,28 @@ from django.shortcuts import render, redirect, get_object_or_404
 from accounts.forms import ContactUsForm
 from accounts.models import User
 from inventory.models import Inventory, Categories
-from shop.forms import QuantityForm, QuantityFormCuppy, SubscribeForm
+from sellers.models import Stores
+from shop.forms import QuantityForm, QuantityFormCuppy, SubscribeForm, SearchForm, SearchStoresForm
 from shop.models import Cart, WishList
 from staffapp.models import ContactMessages, Subscribers
 
 
 def index(request):
     subscribe_form = SubscribeForm()
+    search_form = SearchForm()
     products = Inventory.objects.all().order_by('id')[:12]
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
         cart_items = 0
     new_products = Inventory.objects.all().order_by('-time_added')[:4]
-    return render(request, 'michpastries/index.html',
-                  {'products': products, 'new_products': new_products, 'cart_count': cart_items,
-                   'subscribe_form': subscribe_form})
+    user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller').count()
+    if user_is_seller > 0:
+        return redirect('sellers:panel')
+    else:
+        return render(request, 'shopeaze/index.html',
+                      {'products': products, 'new_products': new_products, 'cart_count': cart_items,
+                       'subscribe_form': subscribe_form, 'search_form': search_form})
 
 
 @login_required(login_url='customer-accounts:login')
@@ -56,6 +62,7 @@ def delete_wish(request, pk):
     item = Inventory.objects.get(pk=pk)
     remove_item = WishList.objects.filter(user=user, item=item)
     remove_item.delete()
+
     return redirect("shop:wishlist")
 
 
@@ -68,9 +75,12 @@ def wishlist(request):
     else:
         cart_items = 0
     wishes = WishList.objects.filter(user=request.user.pk)
-
-    return render(request, 'michpastries/wishlist.html',
-                  {'wishes': wishes, 'cart_count': cart_items, 'subscribe_form': subscribe_form})
+    user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller').count()
+    if user_is_seller > 0:
+        return redirect('sellers:panel')
+    else:
+        return render(request, 'shopeaze/wishlist.html',
+                      {'wishes': wishes, 'cart_count': cart_items, 'subscribe_form': subscribe_form})
 
 
 def product(request, pk):
@@ -81,9 +91,13 @@ def product(request, pk):
         cart_items = 0
     form = QuantityForm()
     product_details = get_object_or_404(Inventory, pk=pk)
-    return render(request, 'michpastries/product-single.html',
-                  {'product': product_details, 'form': form, 'cart_count': cart_items,
-                   'subscribe_form': subscribe_form})
+    user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller').count()
+    if user_is_seller > 0:
+        return redirect('sellers:panel')
+    else:
+        return render(request, 'shopeaze/product-single.html',
+                      {'product': product_details, 'form': form, 'cart_count': cart_items,
+                       'subscribe_form': subscribe_form})
 
 
 # 198919
@@ -98,8 +112,12 @@ def cart(request):
     cart_total = 0
     for x in cart:
         cart_total += x.price
-    return render(request, 'michpastries/cart.html',
-                  {'cart': cart, 'sum': cart_total, 'cart_count': cart_items, 'subscribe_form': subscribe_form})
+    user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller').count()
+    if user_is_seller > 0:
+        return redirect('sellers:panel')
+    else:
+        return render(request, 'shopeaze/cart.html',
+                      {'cart': cart, 'sum': cart_total, 'cart_count': cart_items, 'subscribe_form': subscribe_form})
 
 
 @login_required(login_url='customer-accounts:login')
@@ -110,7 +128,11 @@ def checkout(request):
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
         cart_items = 0
-    return render(request, 'michpastries/checkout.html', {'cart_count': cart_items, 'subscribe_form': subscribe_form})
+    user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller').count()
+    if user_is_seller > 0:
+        return redirect('sellers:panel')
+    else:
+        return render(request, 'shopeaze/checkout.html', {'cart_count': cart_items, 'subscribe_form': subscribe_form})
 
 
 def about(request):
@@ -120,7 +142,11 @@ def about(request):
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
         cart_items = 0
-    return render(request, 'michpastries/about.html', {'cart_count': cart_items, 'subscribe_form': subscribe_form})
+    user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller').count()
+    if user_is_seller > 0:
+        return redirect('sellers:panel')
+    else:
+        return render(request, 'shopeaze/about.html', {'cart_count': cart_items, 'subscribe_form': subscribe_form})
 
 
 def contact(request):
@@ -146,7 +172,7 @@ def contact(request):
                                                      mail_message=message, mail_subject=subject)
             return redirect('shop:contact-us')
 
-    return render(request, 'michpastries/contact.html',
+    return render(request, 'shopeaze/contact.html',
                   {'cart_count': cart_items, 'form': form, 'subscribe_form': subscribe_form})
 
 
@@ -158,43 +184,6 @@ def login(request):
     return redirect('customer-accounts:login')
 
 
-# @login_required(login_url='customer-accounts:login')
-# def add_to_cart(request, pk):
-#     print("add to cart")
-#     if request.method == 'POST':
-#         print("post")
-#         if request.user.is_authenticated:
-#             form = QuantityForm(request.POST)
-#             print(form.errors)
-#             if form.is_valid():
-#
-#                 qty = form.cleaned_data.get("quantity")
-#                 size = form.cleaned_data.get("size")
-#                 user = request.user.pk
-#                 cartobj = Cart.objects.filter(user=user)
-#                 item = Inventory.objects.get(pk=pk)
-#                 if cartobj:
-#                     # users cart exists
-#                     obj = Cart.objects.filter(user=user, item=item)
-#                     if obj:
-#                         #     object exists in cart
-#                         obj.update(qty=qty, size=size)
-#                     else:
-#                         # object does not exist in cart
-#                         cartobj = Cart.objects.create(user=user, qty=qty, item=item, size=size)
-#
-#                 else:
-#                     # user cart does not exist
-#                     cartobj = Cart.objects.create(user=user, qty=qty, item=item, size=size)
-#             else:
-#                 print("invalid form")
-#     else:
-#         return render(request, 'michpastries/accounts/login.html')
-#     next = request.POST.get('next', '/')
-#     print("redirection")
-#     return HttpResponseRedirect(next)
-
-
 def categories(request, pk):
     subscribe_form = SubscribeForm()
 
@@ -204,10 +193,14 @@ def categories(request, pk):
         cart_items = 0
     products = Inventory.objects.filter(category=pk)
     cat = get_object_or_404(Categories, pk=pk)
-
-    cart_items = Cart.objects.filter(user=request.user.pk).count()
-    return render(request, 'michpastries/categories.html',
-                  {'products': products, 'cart_count': cart_items, 'category': cat, 'subscribe_form': subscribe_form})
+    user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller').count()
+    if user_is_seller > 0:
+        return redirect('sellers:panel')
+    else:
+        cart_items = Cart.objects.filter(user=request.user.pk).count()
+        return render(request, 'shopeaze/categories.html',
+                      {'products': products, 'cart_count': cart_items, 'category': cat,
+                       'subscribe_form': subscribe_form})
 
 
 @login_required(login_url='customer-accounts:login')
@@ -305,3 +298,53 @@ def subscribe(request):
     next = request.POST.get('next', '/')
     print("redirection")
     return HttpResponseRedirect(next)
+
+
+def search(request):
+    subscribe_form = SubscribeForm()
+    search_form = SearchForm()
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user.pk).count()
+    else:
+        cart_items = 0
+    user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller').count()
+    if user_is_seller > 0:
+        return redirect('sellers:panel')
+    else:
+        if request.method == 'POST':
+            form = SearchForm(request.POST)
+            if form.is_valid():
+                name = form.cleaned_data['item']
+                items = Inventory.objects.filter(item_name__icontains=name)
+
+                return render(request, 'shopeaze/products_searched.html', {'products': items, 'cart_count': cart_items,
+                                                                           'subscribe_form': subscribe_form,
+                                                                           'search_form': search_form})
+
+
+def searchstores(request):
+    subscribe_form = SubscribeForm()
+    search_form = SearchStoresForm()
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user.pk).count()
+    else:
+        cart_items = 0
+    user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller').count()
+    if user_is_seller > 0:
+        return redirect('sellers:panel')
+    else:
+        if request.method == 'POST':
+            form = SearchStoresForm(request.POST)
+            if form.is_valid():
+                name = form.cleaned_data['item']
+                items = Stores.objects.filter(name__icontains=name)
+
+                return render(request, 'shopeaze/shops.html', {'stores': items, 'cart_count': cart_items,
+                                                               'subscribe_form': subscribe_form,
+                                                               'formSearchShop': search_form})
+        else:
+            items = Stores.objects.all()
+
+            return render(request, 'shopeaze/shops.html', {'stores': items, 'cart_count': cart_items,
+                                                           'subscribe_form': subscribe_form,
+                                                           'formSearchShop': search_form})

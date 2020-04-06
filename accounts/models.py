@@ -47,16 +47,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     class UserAccount(Enum):
         admin = ('admin', 'admin account')
         customer = ('customer', 'customer account')
+        seller = ('seller', 'seller account')
         staff = ('staff', 'staff account')
-
-        @classmethod
-        def get_value(cls, member):
-            return cls[member].value[0]
-
-    class Location(Enum):
-        Juja = ('Juja', 'Juja and environs')
-        Witeithie = ('Witeithie', 'Witeithie')
-        Kroad = ('Kenyatta road', 'Kenyatta road')
 
         @classmethod
         def get_value(cls, member):
@@ -79,9 +71,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                                  choices=[x.value for x in UserAccount],
                                  default=UserAccount.get_value('customer'))
     email_confirmed = models.BooleanField(default=False)
-    location = models.CharField(max_length=32,
-                                choices=[x.value for x in Location],
-                                default=Location.get_value('Juja'))
+    location = models.CharField(max_length=32)
     USERNAME_FIELD = 'email'  # make email username field
     objects = UserManager()
 
@@ -103,3 +93,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def user_is_active(self):
         return self.is_active
+
+
+class SellerProfile(models.Model):
+    seller = models.ForeignKey(User, models.CASCADE)
+    is_seller_admin = models.BooleanField(default=False)
+    orders_completed = models.IntegerField()
+
+    class Meta:
+        db_table = 'Seller Profile'
+        verbose_name_plural = "Seller Profiles"

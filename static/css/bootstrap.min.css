@@ -3998,7 +3998,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 868px) {
     .navbar-expand-md {
         -ms-flex-flow: row nowrap;
         flex-flow: row nowrap;
@@ -4083,14 +4083,14 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     }
 }
 
-@media (max-width: 1199.98px) {
+@media (max-width: 1159.98px) {
     .navbar-expand-xl > .container, .navbar-expand-xl > .container-fluid {
         padding-right: 0;
         padding-left: 0
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1160px) {
     .navbar-expand-xl {
         -ms-flex-flow: row nowrap;
         flex-flow: row nowrap;

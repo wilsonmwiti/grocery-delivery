@@ -27,6 +27,10 @@ def panel(request):
 
     elif user.user_type == "staff":
         return HttpResponse("<p>Staff panel</p>")
+    elif user.user_type == 'seller':
+        return redirect('sellers:panel')
+    elif user.user_type == "admin":
+        return HttpResponse("<p> Admin panel</p>")
 
 
 def signup(request):
@@ -39,7 +43,7 @@ def signup(request):
 
             current_site = get_current_site(request)
             subject = 'Activate Your Account'
-            message = render_to_string('michpastries/customer-accounts/account_activation_email.html', {
+            message = render_to_string('shopeaze/customer-accounts/account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -56,11 +60,11 @@ def signup(request):
             return redirect('customer-accounts:account_activation_sent')
     else:
         form = SignUpForm()
-    return render(request, 'michpastries/customer-accounts/signup.html', {'form': form})
+    return render(request, 'shopeaze/customer-accounts/signup.html', {'form': form})
 
 
 def account_activation_sent(request):
-    return render(request, 'michpastries/customer-accounts/account_activation_sent.html')
+    return render(request, 'shopeaze/customer-accounts/account_activation_sent.html')
 
 
 def activate(request, uidb64, token):
@@ -78,7 +82,7 @@ def activate(request, uidb64, token):
         login(request, user)
         return redirect('customer-accounts:panel')
     else:
-        return render(request, 'michpastries/customer-accounts/account_activation_invalid.html')
+        return render(request, 'shopeaze/customer-accounts/account_activation_invalid.html')
 
 
 def resettoken(request, uidb64, token):
@@ -96,12 +100,13 @@ def resettoken(request, uidb64, token):
         login(request, user)
         return redirect('customer-accounts:panel')
     else:
-        return render(request, 'michpastries/customer-accounts/account_activation_invalid.html')
+        return render(request, 'shopeaze/customer-accounts/account_activation_invalid.html')
+
 
 @login_required(login_url='customer-accounts:login')
 def logout_view(request):
     logout(request)
-    return redirect('site:home')
+    return redirect('shop:index')
 
 
 def edit_profile(request):
@@ -120,7 +125,7 @@ def forgot_password(request):
                 user.save()
                 current_site = get_current_site(request)
                 subject = 'This is your new password'
-                message = render_to_string('michpastries/customer-accounts/password_reset.html', {
+                message = render_to_string('shopeaze/customer-accounts/password_reset.html', {
                     'user': user,
                     # 'domain': current_site.domain,
                     # 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -135,7 +140,7 @@ def forgot_password(request):
                     fail_silently=False,
                 )
                 print("sent email")
-                return render(request, 'michpastries/customer-accounts/reset-email-sent.html')
+                return render(request, 'shopeaze/customer-accounts/reset-email-sent.html')
             except:
                 print("user does not exist")
                 messages.error(request, 'such an account does not exist')
@@ -145,12 +150,13 @@ def forgot_password(request):
         else:
             print("did not send email due to invalid form")
             form = ForgotPasswordForm()
-            return render(request, 'michpastries/customer-accounts/forgot.html', {'form': form})
+            return render(request, 'shopeaze/customer-accounts/forgot.html', {'form': form})
 
     else:
         print("did not send email..just loaded the page")
         form = ForgotPasswordForm()
-        return render(request, 'michpastries/customer-accounts/forgot.html', {'form': form})
+        return render(request, 'shopeaze/customer-accounts/forgot.html', {'form': form})
+
 
 # def reset_password(request):
 #     return None
@@ -170,7 +176,7 @@ def forgot_password(request):
 #     else:
 #         print('could not redirect to db update page')
 #         form = ForgotPasswordForm()
-#         return render(request, 'michpastries/customer-accounts/forgot.html', {'form': form})
+#         return render(request, 'shopeaze/customer-accounts/forgot.html', {'form': form})
 
 
 # def enter_new_password(request):
@@ -192,6 +198,6 @@ def forgot_password(request):
 #         print("not post...just loaded up the file")
 #         form = EnterNewPassword()
 #
-#         return render(request, 'michpastries/customer-accounts/enter_new_password.html', {'form': form})
+#         return render(request, 'shopeaze/customer-accounts/enter_new_password.html', {'form': form})
 def profile(request):
     return redirect('customer-accounts:panel')

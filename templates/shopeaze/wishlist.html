@@ -1,0 +1,71 @@
+{% extends 'shopeaze/base.html' %}
+{% load static %}
+{% block title_extension %}Wish List{% endblock %}
+{% block cart %}
+    {{ cart_count }}
+{% endblock %}
+{% block maincontent %}
+    <div class="hero-wrap hero-bread" style="background-image: url('../../static/images/bg_1.jpg');">
+        <div class="container">
+            <div class="row no-gutters slider-text align-items-center justify-content-center">
+                <div class="col-md-9 ftco-animate text-center">
+                    <p class="breadcrumbs"><span class="mr-2"><a href="{% url 'shop:index' %}">Home</a></span>
+                        <span>Wish List</span></p>
+                    <h1 class="mb-0 bread">My Wish List</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="ftco-section ftco-cart">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 ftco-animate">
+                    <div class="cart-list">
+                        <table class="table">
+                            <thead class="thead-primary">
+                            <tr class="text-center">
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>Product name</th>
+                                <th>Price</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for product in wishes %}
+                                <tr class="text-center">
+                                    <td class="product-remove"><a
+                                            href="{% url 'shop:delete-wish' product.item.pk %}"><span
+                                            class="ion-ios-close"></span></a></td>
+                                    <td class="product-remove"><a
+                                            href="{% url 'shop:product-single' product.item.pk %}"><span
+                                            class="ion-ios-add"></span></a></td>
+
+                                    <td class="image-prod">
+                                        <div class="img">
+                                            <a href="{% url 'shop:product-single'  product.item.pk %}"><img
+                                                    src="{{ product.item.image.url }}"
+                                                    alt="{{ product.item.item_name }}" class="img"></a>
+                                        </div>
+                                    </td>
+
+                                    <td class="product-name">
+                                        <h3>{{ product.item.item_name }}</h3>
+                                        <p>{{ product.item.description }}</p>
+                                    </td>
+
+                                    <td class="price">{{ product.unit_price }}</td>
+
+                                </tr><!-- END TR-->
+
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

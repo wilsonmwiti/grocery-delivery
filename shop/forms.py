@@ -29,3 +29,19 @@ class QuantityFormCuppy(forms.Form):
 class SubscribeForm(forms.Form):
     email = forms.EmailField(required=True,
                              widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Your Email'}))
+
+
+class SearchForm(forms.Form):
+    item = forms.CharField(required=True,
+                           widget=forms.TextInput(
+                               attrs={'class': "form-control form-control-sm  w-50 mr-2 rounded mb-0",
+                                      'placeholder': 'item name'}),
+                           label='')
+
+
+class SearchStoresForm(forms.Form):
+    item = forms.CharField(required=True,
+                           widget=forms.TextInput(
+                               attrs={'class': "form-control form-control-sm  w-50 mr-2 rounded mb-0",
+                                      'placeholder': 'Location'}),
+                           label='')

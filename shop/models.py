@@ -54,6 +54,8 @@ class Cart(models.Model):
     #     except ZeroDivisionError:
     #         pass
     #     super(Cart, self).update(*args, **kwargs)
+
+
 class WishList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Inventory, on_delete=models.CASCADE)

@@ -1,0 +1,44 @@
+{% extends 'shopeaze/base.html' %}
+{% load static %}
+{% block title_extension %} Login {% endblock %}
+{% block maincontent %}
+
+    <div style="color: red">
+
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100">
+                    {#                        <div class="login100-form-title"#}
+                    {#                             style="background-image: url('{% static 'images/bg-01.jpg' %}');">#}
+                    {#					<span class="login100-form-title-1">#}
+                    {#						Sign In#}
+                    {#					</span>#}
+                    {#                        </div>#}
+
+                    <form class="login100-form validate-form" method="post"
+                          action="{% url 'customer-accounts:signup' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ next }}"/>
+                        {% for field in form %}
+                            <p>
+                                {{ field.label_tag }}<br>
+                            <div class="wrap-input100 validate-input m-b-26" data-validate="Field is required">
+                                {{ field }}
+                                <span class="focus-input100"></span>
+                            </div>
+                            {% for error in field.errors %}
+                                <p style="color: red">{{ error }}</p>
+                            {% endfor %}
+                            {% if field.help_text %}
+                                <p><small style="color: grey">{{ field.help_text }}</small></p>
+                            {% endif %}
+                            </p>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary px-3 py-3">Register as a new member</button>
+                        <a href="{% url 'customer-accounts:login' %}">Already a member? Sign up</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -18,8 +18,8 @@ from accounts.models import User
 
 class UserAdmin(admin.ModelAdmin):
     list_display = (
-    'id', 'username', 'email', 'is_admin', 'is_staff', 'user_status', 'phone_number', 'location', 'user_type',
-    'email_confirmed',)
+        'id', 'username', 'email', 'is_admin', 'is_staff', 'user_status', 'phone_number', 'location', 'user_type',
+        'email_confirmed',)
     search_fields = ('username', 'email', 'user_type', 'phone_number',)
 
 

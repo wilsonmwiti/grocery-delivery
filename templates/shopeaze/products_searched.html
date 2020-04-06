@@ -1,0 +1,125 @@
+{% extends 'shopeaze/base.html' %}
+{% load static %}
+{% block title_extension %} {{ category.name }} {% endblock %}
+{% block cart %}
+    {{ cart_count }}
+{% endblock %}
+{% block formSearch %}
+    <form class="form-inline ml-0 col-md  " method="post" action="{% url 'shop:search' %}">
+        {% csrf_token %}
+        <div class="form-group ">
+            {{ search_form }}
+            <button type="submit" class="btn btn-success"><i class="icon-search"></i></button>
+        </div>
+    </form>
+
+{% endblock %}
+
+{% block maincontent %}
+    <section class="ftco-section">
+
+
+        <div class="container">
+            <div class="row">
+                {% for product in products %}
+                    {% if product.discounted %}
+                        <div class="col-md-6 col-lg-3 ftco-animate">
+                            <div class="product">
+                                <a href="{% url 'shop:product-single' product.pk %}" class="img-prod">
+                                    <img
+                                            class="img-responsive" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="width: 255px;height: 190px;">
+                                    <span class="status">{{ product.discount }}%</span>
+                                    <div class="overlay"></div>
+                                </a>
+                                <div class="text py-3 pb-4 px-3 text-center">
+                                    <h3><a href="{% url 'shop:product-single' product.pk %}">{{ product.item_name }}</a>
+                                    </h3>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            <p class="price"><span
+                                                    class="mr-2 price-dc">ksh {{ product.price_per_unit }} per {{ product.category.unit }}</span><span
+                                                    class="price-sale">ksh {{ product.discounted_price_per_unit }} per {{ product.category.unit }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="bottom-area d-flex px-3">
+                                        <div class="m-auto d-flex">
+                                            <a href="{% url 'shop:product-single' product.pk %}"
+                                               class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                                <span><i class="ion-ios-cart"></i></span>
+                                            </a>
+                                            <a href="{% url 'shop:add-wish' product.pk %}"
+                                               class="heart d-flex justify-content-center align-items-center ">
+                                                <span><i class="ion-ios-heart"></i></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% else %}
+                        <div class="col-md-6 col-lg-3 ftco-animate">
+                            <div class="product">
+                                <a href="{% url 'shop:product-single' product.pk %}" class="img-prod"><img
+                                        class="img-fluid" src="{{ product.image.url }}"
+                                        alt="{{ product.item_name }}" style="height: 100%">
+                                    <div class="overlay"></div>
+                                </a>
+                                <div class="text py-3 pb-4 px-3 text-center">
+                                    <h3><a href="{% url 'shop:product-single' product.pk %}">{{ product.item_name }}</a>
+                                    </h3>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            <p class="price">
+                                                <span>ksh {{ product.price_per_unit }} per {{ product.category.unit }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="bottom-area d-flex px-3">
+                                        <div class="m-auto d-flex">
+                                            <a href="{% url 'shop:product-single' product.pk %}"
+                                               class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                                <span><i class="ion-ios-cart"></i></span>
+                                            </a>
+                                            <a href="{% url 'shop:add-wish' product.pk %}"
+                                               class="heart d-flex justify-content-center align-items-center ">
+                                                <span><i class="ion-ios-heart"></i></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+
+
+        </div>
+    </section>
+    <section class="ftco-section ftco-no-pt ftco-no-pb py-5 bg-light">
+        <div class="container py-4">
+            <div class="row d-flex justify-content-center py-5">
+                <div class="col-md-6">
+                    <h2 style="font-size: 22px;" class="mb-0">Subcribe to our Newsletter</h2>
+                    <span>Get e-mail updates about our latest shops and special offers</span>
+                </div>
+                <div class="col-md-6 d-flex align-items-center">
+                    <form action="{% url 'shop:subscribe' %}" method="post" class="subscribe-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <div class="form-group d-flex">
+                            {{ subscribe_form.email }}
+                            <button type="submit" class="submit px-3">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

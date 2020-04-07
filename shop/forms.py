@@ -43,5 +43,5 @@ class SearchStoresForm(forms.Form):
     item = forms.CharField(required=True,
                            widget=forms.TextInput(
                                attrs={'class': "form-control form-control-sm  w-50 mr-2 rounded mb-0",
-                                      'placeholder': 'Location'}),
+                                      'placeholder': 'Your Location...'}),
                            label='')

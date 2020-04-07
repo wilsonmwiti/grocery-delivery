@@ -15,28 +15,42 @@ from staffapp.models import ContactMessages, Subscribers
 
 def index(request):
     subscribe_form = SubscribeForm()
-    search_form = SearchForm()
+    search_form = SearchStoresForm()
     products = Inventory.objects.all().order_by('id')[:12]
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
         cart_items = 0
-    new_products = Inventory.objects.all().order_by('-time_added')[:4]
+    fruits = Inventory.objects.filter(category=Categories.objects.get(name__contains='fruits')).order_by('time_added')[
+             :4]
+    vegies = Inventory.objects.filter(category=Categories.objects.get(name__contains='vegetables')).order_by(
+        'time_added')[:4]
+    spices = Inventory.objects.filter(category=Categories.objects.get(name__contains='spice')).order_by('time_added')[
+             :4]
+    household = Inventory.objects.filter(category=Categories.objects.get(name__contains='household')).order_by(
+        'time_added')[:4]
+    cereals = Inventory.objects.filter(category=Categories.objects.get(name__contains='cereals')).order_by(
+        'time_added')[:4]
+    sanitisers = Inventory.objects.filter(category=Categories.objects.get(name__contains='sanitizers')).order_by(
+        'time_added')[:4]
     user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller').count()
     if user_is_seller > 0:
         return redirect('sellers:panel')
     else:
+        stores = Stores.objects.all()
         return render(request, 'shopeaze/index.html',
-                      {'products': products, 'new_products': new_products, 'cart_count': cart_items,
-                       'subscribe_form': subscribe_form, 'search_form': search_form})
+                      {'products': products, 'fruits': fruits, 'vegetables': vegies, 'spices': spices,
+                       'household_items': household, 'cereals': cereals, 'sanitizers': sanitisers,
+                       'cart_count': cart_items,
+                       'subscribe_form': subscribe_form, 'formSearchShop': search_form, 'stores': stores})
 
 
 @login_required(login_url='customer-accounts:login')
-def add_wish(request, pk):
+def add_wish(request, hash):
     print("in wishes")
     user = User.objects.get(pk=request.user.pk)
     wishobj = WishList.objects.filter(user=user)
-    item = Inventory.objects.get(pk=pk)
+    item = Inventory.objects.get(hash=hash)
     if wishobj:
         print("user has wishes")
         # if users wishlist exists
@@ -83,14 +97,14 @@ def wishlist(request):
                       {'wishes': wishes, 'cart_count': cart_items, 'subscribe_form': subscribe_form})
 
 
-def product(request, pk):
+def product(request, hash):
     subscribe_form = SubscribeForm()
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
         cart_items = 0
     form = QuantityForm()
-    product_details = get_object_or_404(Inventory, pk=pk)
+    product_details = get_object_or_404(Inventory, hash=hash)
     user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller').count()
     if user_is_seller > 0:
         return redirect('sellers:panel')
@@ -316,10 +330,12 @@ def search(request):
             if form.is_valid():
                 name = form.cleaned_data['item']
                 items = Inventory.objects.filter(item_name__icontains=name)
-
-                return render(request, 'shopeaze/products_searched.html', {'products': items, 'cart_count': cart_items,
-                                                                           'subscribe_form': subscribe_form,
-                                                                           'search_form': search_form})
+                store = request.POST.get('store')
+                store_details = Stores.objects.get(name__exact=store)
+                return render(request, 'shopeaze/products_searched.html',
+                              {'store': store_details, 'products': items, 'cart_count': cart_items,
+                               'subscribe_form': subscribe_form,
+                               'search_form': search_form})
 
 
 def searchstores(request):

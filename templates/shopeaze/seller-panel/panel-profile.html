@@ -5,10 +5,14 @@
     {% block nav %}
         <div class="container">
             {% if line %}
-                <a class="navbar-brand" href="{% url 'shop:index' %}">{{ line.name }}</a>
+                {% for x in line %}
+                    <a class="navbar-brand" href="{% url 'shop:index' %}"><span style="    font-family: 'Yellowtail';
+">{{ x }}</span></a>
+                {% endfor %}
 
             {% else %}
-                <a class="navbar-brand" href="{% url 'shop:index' %}">Shop Eaze</a>
+                <a class="navbar-brand" href="{% url 'shop:index' %}">Shop<span style="    font-family: 'Yellowtail';
+"><b>Eaze</b></span></a>
 
             {% endif %}
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
@@ -19,28 +23,30 @@
                 <ul class="navbar-nav ml-auto">
                     {% if user.is_authenticated %}
                         {% if line %}
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="{% url 'shop:index' %}" id="dropdown04"
-                                   data-toggle="dropdown"
-                                   aria-haspopup="true" aria-expanded="false">{{ line.name }}</a>
-                                <div class="dropdown-menu" aria-labelledby="dropdown04">
-                                    <a class="dropdown-item" href="{% url 'sellers:line_sales' %}">Sales</a>
-                                    <a class="dropdown-item" href="{% url 'sellers:line_orders' %}">Orders</a>
-                                    <a class="dropdown-item" href="{% url 'sellers:line_messages' %}">Messages</a>
-                                    <a class="dropdown-item" href="{% url 'sellers:line_reports' %}">Reports</a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="" id="dropdown04"
-                                   data-toggle="dropdown"
-                                   aria-haspopup="true" aria-expanded="false">My Stores</a>
-                                <div class="dropdown-menu" aria-labelledby="dropdown04">
-                                    <a class="dropdown-item" href="{% url 'sellers:addstore' %}">Create store </a>
-                                    <a class="dropdown-item" href="{% url 'sellers:line_orders' %}">Edit store</a>
-                                    <a class="dropdown-item" href="{% url 'sellers:line_messages' %}">View Stores</a>
-                                    <a class="dropdown-item" href="{% url 'sellers:line_reports' %}">Reports</a>
-                                </div>
-                            </li>
+                            {% for x in line %}
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="{% url 'shop:index' %}" id="dropdown04"
+                                       data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false"><span>{{ x }}</span></a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown04">
+                                        <a class="dropdown-item" href="{% url 'sellers:line_sales' %}">Sales</a>
+                                        <a class="dropdown-item" href="{% url 'sellers:line_orders' %}">Orders</a>
+                                        <a class="dropdown-item" href="{% url 'sellers:line_messages' %}">Messages</a>
+                                        <a class="dropdown-item" href="{% url 'sellers:line_reports' %}">Reports</a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+
+                            {#                            <li class="nav-item dropdown">#}
+                            {#                                <a class="nav-link dropdown-toggle" href="" id="dropdown04"#}
+                            {#                                   data-toggle="dropdown"#}
+                            {#                                   aria-haspopup="true" aria-expanded="false">My Stores</a>#}
+                            {#                                <div class="dropdown-menu" aria-labelledby="dropdown04">#}
+                            {#                                    <a class="dropdown-item" href="{% url 'sellers:line_orders' %}">Line Orders</a>#}
+                            {#                                    <a class="dropdown-item" href="{% url 'sellers:line_messages' %}">Line Messages</a>#}
+                            {#                                    <a class="dropdown-item" href="{% url 'sellers:line_reports' %}">Reports</a>#}
+                            {#                                </div>#}
+                            {#                            </li>#}
                         {% else %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="" id="dropdown04"
@@ -54,9 +60,9 @@
 
                         {% endif %}
                     {% endif %}
-                    <li class="nav-item"><a href="{% url 'shop:about-us' %}" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="{% url 'sellers:about-us' %}" class="nav-link">About</a></li>
                     {#	          <li class="nav-item"><a href="{% url 'shop:blog' %}" class="nav-link">Blog</a></li>#}
-                    <li class="nav-item"><a href="{% url 'shop:contact-us' %}" class="nav-link">Contact</a></li>
+                    <li class="nav-item"><a href="{% url 'sellers:contact-us' %}" class="nav-link">Contact</a></li>
 
 
                     <li class="nav-item cta cta-colored"><a href="{% url 'customer-accounts:panel' %}" class="nav-link"><span
@@ -68,6 +74,7 @@
                                aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
                             <div class="dropdown-menu" aria-labelledby="dropdown04">
                                 <a class="dropdown-item" href="{% url 'customer-accounts:logout' %}">Log out</a>
+                                <a class="dropdown-item" href="{% url 'sellers:profile' %}">Profile</a>
 
                             </div>
                         </li>
@@ -163,15 +170,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for store in stores %}
-                    <tr>
-                        <th scope="row">{{ store.pk }}</th>
-                        <td>{{ store.name }}</td>
-                        <td>{{ store.phone_number }}</td>
-                        <td>{{ store.email }}</td>
-                        <td>{{ store.time_added }}</td>
-                    </tr>
-                {% endfor %}
+                {#                {% for store in stores %}#}
+                {#                    <tr>#}
+                {#                        <th scope="row">{{ store.pk }}</th>#}
+                {#                        <td>{{ store.name }}</td>#}
+                {#                        <td>{{ store.phone_number }}</td>#}
+                {#                        <td>{{ store.email }}</td>#}
+                {#                        <td>{{ store.time_added }}</td>#}
+                {#                    </tr>#}
+                {#                {% endfor %}#}
                 </tbody>
             </table>
             </p>

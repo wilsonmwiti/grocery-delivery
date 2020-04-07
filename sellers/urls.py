@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^line-messages/$', views.messages, name='line_messages'),
     url(r'^line-orders/$', views.orders, name='line_orders'),
     url(r'^list/$', views.list, name='list'),
-    url(r'^store/(?P<pk>[0-9]+)/$', views.store_products, name='store'),
-
+    url(r'^store/(?P<hash>[0-9a-zA-Z]+)/$', views.store_products, name='store'),
+    url('about-us/', views.about, name='about-us'),
+    url('contact-us/', views.contact, name='contact-us'),
 ]

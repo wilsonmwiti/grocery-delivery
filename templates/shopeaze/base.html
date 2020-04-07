@@ -72,17 +72,14 @@
                     {% block formSearch %}{% endblock %}
 
                     {#                                    <li class="nav-item active"><a href="{% url 'shop:index' %}" class="nav-link">Home</a></li>#}
-                    <li class="nav-item"><a href="{% url 'shop:contact-us' %}" class="nav-link"><span
-                            class="icon-contact_mail"></span>Contact us</a></li>
-                    <li class="nav-item"><a href="{% url 'sellers:list' %}" class="nav-link"><span
-                            class="icon-local_convenience_store"></span>Stores</a></li>
+                    <li class="nav-item"><a href="{% url 'shop:contact-us' %}" class="nav-link">Reach us</a></li>
+                    <li class="nav-item"><a href="{% url 'sellers:list' %}" class="nav-link">Stores</a></li>
 
                     {% if user.is_authenticated %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="{% url 'shop:index' %}" id="dropdown04"
                                data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false"><span
-                                    class="icon-store_mall_directory"></span> Shop</a>
+                               aria-haspopup="true" aria-expanded="false">Shop</a>
                             <div class="dropdown-menu" aria-labelledby="dropdown04">
                                 <a class="dropdown-item" href="{% url 'shop:index' %}"><span
                                         class="icon-store_mall_directory"></span>Shop</a>
@@ -105,8 +102,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="{% url 'customer-accounts:login' %}"
                                id="dropdown04" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false"><span
-                                    class="icon-user"></span>{{ user.username }}</a>
+                               aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
                             <div class="dropdown-menu" aria-labelledby="dropdown04">
                                 <a class="dropdown-item" href="{% url 'customer-accounts:login' %}"><span
                                         class="icon-details"></span>Details</a>

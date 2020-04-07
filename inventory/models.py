@@ -5,12 +5,13 @@ from django.db import models
 # model for categories
 from django.utils.safestring import mark_safe
 
+from sellers.extras import encrypt_string
 from sellers.models import Stores
 
 
 class Categories(models.Model):
-    name = models.CharField(max_length=20)
-    unit = models.CharField(max_length=20)
+    name = models.CharField(max_length=50)
+    unit = models.CharField(max_length=10)
     time_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -33,7 +34,7 @@ class Inventory(models.Model):
     discount = models.IntegerField(default=0)
     discounted = models.BooleanField(default=False)
     offer_of_the_day = models.BooleanField(default=False)
-
+    hash = models.TextField()
     class Meta:
         db_table = "Inventory"
         verbose_name_plural = "inventory items"
@@ -46,6 +47,8 @@ class Inventory(models.Model):
 
     def save(self, *args, **kwargs):
         try:
+            self.hash = encrypt_string('{}{}{}{}'.format(self.pk, self.item_name, self.time_added, self.category))
+
             self.discounted_price_per_unit = ceil(
                 float(self.price_per_unit) - float(self.price_per_unit) / self.discount)
         except ZeroDivisionError:

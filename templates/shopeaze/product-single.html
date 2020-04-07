@@ -56,82 +56,13 @@
                     <p>
                         {{ product.description }}
                     </p>
-                    {% if product.category.name == 'cup cakes' %}
-                        <form action="{% url 'shop:cuppyorderinclude' product.pk %}" method="post">
-                            {% csrf_token %}
-                            <div class="row mt-4">
+                    <form action="{% url 'shop:cuppyorderinclude' product.pk %}" method="post">
+                        {% csrf_token %}
+                        <div class="row mt-4">
 
-                                <input type="hidden" name="next" value="{{ request.path }}">
-                                <div class="w-100"></div>
-                                <div class="input-group col-md-8 d-flex mb-3">
-	             	    <span class="input-group-btn mr-2">
-	                	<button type="button" class="quantity-left-minus btn" data-type="minus"
-                                onclick="changeSubtract()" data-field="">
-	                   <i class="ion-ios-remove"></i>
-	                	</button>
-	            		</span>
-                                    {{ form.qty }}
-                                    <span class="input-group-btn ml-2">
-	                	<button type="button" class="quantity-right-plus btn" data-type="plus" onclick="changeAdd()"
-                                data-field="">
-	                     <i class="ion-ios-add"></i>
-	                 </button>
-	             	</span>
-                                </div>
-                                <div class="w-100"></div>
-                                {#                            <div class="col-md-12">#}
-                                {#                                <p style="color: #000;">Total:<div id="totals"> </div></p>#}
-                                {#                            </div>#}
-                            </div>
-                            <p>
-                                <button type="submit" class="btn btn-dark"
-                                        style="background-color: black;border-radius: 2px;color: black">ADD TO CART
-                                </button>
-                            </p>
-                        </form>
-                    {% elif product.category.name == 'cakes' %}
-                        <form action="{% url 'shop:cuppyorderinclude' product.pk %}" method="post">
-                            {% csrf_token %}
-                            <div class="row mt-4">
-
-                                <input type="hidden" name="next" value="{{ request.path }}">
-                                <div class="w-100"></div>
-                                <div class="input-group col-md-8 d-flex mb-3">
-	             	    <span class="input-group-btn mr-2">
-	                	<button type="button" class="quantity-left-minus btn" data-type="minus"
-                                onclick="changeSubtract()" data-field="">
-	                   <i class="ion-ios-remove"></i>
-	                	</button>
-	            		</span>
-                                    {{ form.qty }}
-                                    <span class="input-group-btn ml-2">
-	                	<button type="button" class="quantity-right-plus btn" data-type="plus" onclick="changeAdd()"
-                                data-field="">
-	                     <i class="ion-ios-add"></i>
-	                 </button>
-	             	</span>
-                                </div>
-                                <div class="w-100"></div>
-                                {#                            <div class="col-md-12">#}
-                                {#                                <p style="color: #000;">Total:<div id="totals"> </div></p>#}
-                                {#                            </div>#}
-                            </div>
-                            <p>
-                                <button type="submit" class="btn btn-dark"
-                                        style="background-color: black;border-radius: 2px;color: black">ADD TO CART
-                                </button>
-                            </p>
-                        </form>
-                    {% elif product.category.name == 'others' %}
-                        <form method="post" action="{% url 'shop:cuppyorderinclude' product.pk %}">
-                            {% csrf_token %}
                             <input type="hidden" name="next" value="{{ request.path }}">
-
-                            <div class="row mt-4">
-
-                                <input type="hidden" name="next" value="{{ request.path }}">
-                                <div class="w-100"></div>
-                                <div class="input-group col-md-8 d-flex mb-3">
+                            <div class="w-100"></div>
+                            <div class="input-group col-md-8 d-flex mb-3">
 	             	    <span class="input-group-btn mr-2">
 	                	<button type="button" class="quantity-left-minus btn" data-type="minus"
                                 onclick="changeSubtract()" data-field="">
@@ -150,48 +81,15 @@
                                 {#                            <div class="col-md-12">#}
                                 {#                                <p style="color: #000;">Total:<div id="totals"> </div></p>#}
                                 {#                            </div>#}
-                            </div>
-                            <p>
-                                <button type="submit" class="btn btn-dark"
-                                        style="background-color: black;border-radius: 2px;color: black">ADD TO CART
-                                </button>
-                            </p>
+                        </div>
+                        <p>
+                            <button type="submit" class="btn btn-dark"
+                                    style="background-color: black;border-radius: 2px;color: black">ADD TO CART
+                            </button>
+                        </p>
+                    </form>
 
-                        </form>
-                    {% elif product.category.name == 'drinks' %}
-                        <form action="{% url 'shop:cuppyorderinclude' product.pk %}" method="post">
-                            {% csrf_token %}
-                            <div class="row mt-4">
 
-                                <input type="hidden" name="next" value="{{ request.path }}">
-                                <div class="w-100"></div>
-                                <div class="input-group col-md-8 d-flex mb-3">
-	             	    <span class="input-group-btn mr-2">
-	                	<button type="button" class="quantity-left-minus btn" data-type="minus"
-                                onclick="changeSubtract()" data-field="">
-	                   <i class="ion-ios-remove"></i>
-	                	</button>
-	            		</span>
-                                    {{ form.qty }}
-                                    <span class="input-group-btn ml-2">
-	                	<button type="button" class="quantity-right-plus btn" data-type="plus" onclick="changeAdd()"
-                                data-field="">
-	                     <i class="ion-ios-add"></i>
-	                 </button>
-	             	</span>
-                                </div>
-                                <div class="w-100"></div>
-                                {#                            <div class="col-md-12">#}
-                                {#                                <p style="color: #000;">Total:<div id="totals"> </div></p>#}
-                                {#                            </div>#}
-                            </div>
-                            <p>
-                                <button type="submit" class="btn btn-dark"
-                                        style="background-color: black;border-radius: 2px;color: black">ADD TO CART
-                                </button>
-                            </p>
-                        </form>
-                    {% endif %}
                 </div>
             </div>
         </div>

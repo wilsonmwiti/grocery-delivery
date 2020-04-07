@@ -7,8 +7,16 @@
 {% block formSearch %}
     <form class="form-inline ml-0 col-md  " method="post" action="{% url 'shop:search' %}">
         {% csrf_token %}
+        <input type="hidden" value="{{ store }}" name="store">
         <div class="form-group ">
-            {{ search_form }}
+            <input type="text" class="col-6"
+                   name="{{ search_form.item.name }}"
+                   id="{{ search_form.item.id_for_label }}"
+                   placeholder="search in {{ store }}"
+                   maxlength="{{ form.name.field.max_length }}"
+                   required
+            >
+            {#            {{ search_form }}#}
             <button type="submit" class="btn btn-success"><i class="icon-search"></i></button>
         </div>
     </form>
@@ -16,6 +24,18 @@
 {% endblock %}
 
 {% block maincontent %}
+    <div class="hero-wrap hero-bread" style="background-image: url('{% static 'images/bg_1.jpg' %}');">
+        <div class="container">
+            <div class="row no-gutters slider-text align-items-center justify-content-center">
+                <div class="col-md-9 ftco-animate text-center">
+                    <p class="breadcrumbs"><span class="mr-2"><a href="{% url 'shop:index' %}">Home</a></span>
+                        <span>{{ store.line.name }}</span></p>
+                    <h1 class="mb-0 bread">{{ store.name }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <section class="ftco-section">
 
 

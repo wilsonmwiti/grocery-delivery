@@ -7,6 +7,7 @@ from django.db import models
 from django.utils.safestring import mark_safe
 
 from accounts.models import User
+from sellers.extras import encrypt_string
 
 
 class StoreLine(models.Model):
@@ -26,6 +27,9 @@ class StoreLine(models.Model):
     image_tag.short_description = 'Logo'
     image_tag.allow_tags = True
 
+    def __str__(self):
+        return self.name
+
 
 class Stores(models.Model):
     line = models.ForeignKey(StoreLine, on_delete=models.CASCADE)
@@ -34,11 +38,19 @@ class Stores(models.Model):
     verified = models.BooleanField(default=False)
     time_added = models.DateTimeField(auto_now_add=True)
     phone_number = models.CharField(max_length=12)
-    email = models.EmailField(max_length=12)
+    email = models.EmailField(max_length=50)
+    hash = models.TextField()
 
     class Meta:
         db_table = 'stores'
         verbose_name_plural = 'stores'
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.hash = encrypt_string('{}{}{}{}'.format(self.pk, self.town, self.time_added, self.email))
+        super(Stores, self).save(*args, **kwargs)
 
 
 class OpeningHours(models.Model):
@@ -64,3 +76,8 @@ class OpeningHours(models.Model):
                                )
     from_hour = models.TimeField()
     to_hour = models.TimeField()
+    time_modified = models.DateTimeField(auto_now=True)
+    time_added = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'hours'

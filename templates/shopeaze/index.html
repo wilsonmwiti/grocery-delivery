@@ -6,10 +6,10 @@
 {% endblock %}
 
 {% block formSearch %}
-    <form class="form-inline ml-0 col-md  " method="post" action="{% url 'shop:search' %}">
+    <form class="form-inline ml-0 col-md  " method="post" action="{% url 'shop:searchLocation' %}">
         {% csrf_token %}
         <div class="form-group ">
-            {{ search_form }}
+            {{ formSearchShop }}
             <button type="submit" class="btn btn-success"><i class="icon-search"></i></button>
         </div>
     </form>
@@ -24,7 +24,7 @@
                     <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
 
                         <div class="col-md-12 ftco-animate text-center">
-                            <h1 class="mb-2">We sell fresh fruits , vegies and drinks</h1>
+                            <h1 class="mb-2">We deliver fresh groceries and ousehold items from trusted stores </h1>
                             <h2 class="subheading mb-4">We deliver products to your door step</h2>
                             {% if user.is_authenticated %}
                             {% else %}
@@ -42,9 +42,9 @@
                     <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
 
                         <div class="col-sm-12 ftco-animate text-center">
-                            <h1 class="mb-2">We accept payments with two installments</h1>
-                            <h2 class="subheading mb-4">Pay 60% of the price before and pay the rest during
-                                delivery</h2>
+                            <h1 class="mb-2">Stay at home and let us deliver products from the stores to you</h1>
+                            {#                            <h2 class="subheading mb-4">Pay 60% of the price before and pay the rest during#}
+                            {#                                delivery</h2>#}
                             {% if user.is_authenticated %}
                             {% else %}
                                 <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">Log in</a></p>
@@ -137,7 +137,8 @@
                                  style="background-image: url({% static 'images/category.jpg' %});">
                                 <div class="text text-center">
                                     <h2>ShopEaze</h2>
-                                    <p><a href="{% url 'shop:index' %}" class="btn btn-primary">Shop now</a></p>
+                                    <p><a href="{% url 'shop:searchLocation' %}" class="btn btn-primary">Shop now</a>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -145,14 +146,24 @@
                             <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
                                  style="background-image: url({% static 'images/fruits.jpg' %});">
                                 <div class="text px-3 py-1">
-                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 1 %}">Fruits</a></h2>
+                                    {#                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 1 %}">Fruits</a></h2>#}
+                                    <h2 class="mb-0"><a href="#">Fruits</a></h2>
                                 </div>
                             </div>
                             {#                                todo add categorical urls for the different categories#}
-                            <div class="category-wrap ftco-animate img d-flex align-items-end"
+                            <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
                                  style="background-image: url({% static 'images/vegetables.jpg' %});">
                                 <div class="text px-3 py-1">
-                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 2 %}">Vegetables</a>
+                                    {#                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 2 %}">Vegetables</a>#}
+                                    <h2 class="mb-0"><a href="#">Vegetables</a>
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="category-wrap ftco-animate img d-flex align-items-end"
+                                 style="background-image: url({% static 'images/sani.jpg' %});">
+                                <div class="text px-3 py-1">
+                                    {#                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 2 %}">Vegetables</a>#}
+                                    <h2 class="mb-0"><a href="#">Sanitisers & disinfectants</a>
                                     </h2>
                                 </div>
                             </div>
@@ -164,104 +175,58 @@
                     <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
                          style="background-image: url({% static 'images/dryfoods.jpg' %});">
                         <div class="text px-3 py-1">
-                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 3 %}">Dried cereals</a></h2>
+                            {#                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 3 %}">Dried cereals</a></h2>#}
+                            <h2 class="mb-0"><a href="#">Dried cereals</a></h2>
+                        </div>
+                    </div>
+                    <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
+                         style="background-image: url({% static 'images/cooking.jpg' %});">
+                        <div class="text px-3 py-1">
+                            {#                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 4 %}">Cooking spices</a></h2>#}
+                            <h2 class="mb-0"><a href="#">Cooking spices</a></h2>
                         </div>
                     </div>
                     <div class="category-wrap ftco-animate img d-flex align-items-end"
-                         style="background-image: url({% static 'images/cooking.jpg' %});">
+                         style="background-image: url({% static 'images/household.jpg' %});">
                         <div class="text px-3 py-1">
-                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 4 %}">Cooking spices</a></h2>
+                            {#                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 4 %}">Cooking spices</a></h2>#}
+                            <h2 class="mb-0"><a href="#">House hold items</a></h2>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
     <section class="ftco-section">
         <div class="container">
             <div class="row justify-content-center mb-3 pb-3">
                 <div class="col-md-12 heading-section text-center ftco-animate">
-                    <span class="subheading">Featured Products</span>
-                    <h2 class="mb-4">Our Products</h2>
+                    <h2 class="mb-4">Featured Stores</h2>
                 </div>
             </div>
         </div>
+
         <div class="container">
             <div class="row">
-                {% for product in products %}
-                    {% if product.discounted %}
-                        <div class="col-md-6 col-lg-3 ftco-animate">
-                            <div class="product">
-                                <a href="{% url 'shop:product-single' product.pk %}" class="img-prod">
-                                    <img
-                                            class="img-responsive" src="{{ product.image.url }}"
-                                            alt="{{ product.item_name }}" style="width: 255px;height: 190px;">
-                                    <span class="status">{{ product.discount }}%</span>
-                                    <div class="overlay"></div>
-                                </a>
-                                <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="{% url 'shop:product-single' product.pk %}">{{ product.item_name }}</a>
-                                    </h3>
-                                    <div class="d-flex">
-                                        <div class="pricing">
-                                            <p class="price"><span
-                                                    class="mr-2 price-dc">ksh {{ product.price_per_unit }} per {{ product.category.unit }}</span><span
-                                                    class="price-sale">ksh {{ product.discounted_price_per_unit }} per {{ product.category.unit }}</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="bottom-area d-flex px-3">
-                                        <div class="m-auto d-flex">
-                                            <a href="{% url 'shop:product-single' product.pk %}"
-                                               class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                                <span><i class="ion-ios-cart"></i></span>
-                                            </a>
-                                            <a href="{% url 'shop:add-wish' product.pk %}"
-                                               class="heart d-flex justify-content-center align-items-center ">
-                                                <span><i class="ion-ios-heart"></i></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+                {% for store in stores %}
+
+                    <div class="col-md-6 col-lg-3 ftco-animate">
+                        <div class="product">
+                            <a href="{% url 'sellers:store' store.hash %}" class="img-prod"><img
+                                    class="img-fluid" src="{{ store.line.logo.url }}"
+                                    alt="{{ store.item_name }}" style="height: 100%">
+                                <div class="overlay"></div>
+                            </a>
+                            <div class="text py-3 pb-4 px-3 text-center">
+                                <h3><a href="{% url 'sellers:store' store.hash %}">{{ store.name }}</a>
+                                </h3>
+                                <h3><a href="">{{ store.line.name }}</a>
+                                </h3>
+
                             </div>
                         </div>
+                    </div>
 
-                    {% else %}
-                        <div class="col-md-6 col-lg-3 ftco-animate">
-                            <div class="product">
-                                <a href="{% url 'shop:product-single' product.pk %}" class="img-prod"><img
-                                        class="img-fluid" src="{{ product.image.url }}"
-                                        alt="{{ product.item_name }}" style="height: 100%">
-                                    <div class="overlay"></div>
-                                </a>
-                                <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="{% url 'shop:product-single' product.pk %}">{{ product.item_name }}</a>
-                                    </h3>
-                                    <div class="d-flex">
-                                        <div class="pricing">
-                                            <p class="price">
-                                                <span>ksh {{ product.price_per_unit }} per {{ product.category.unit }}</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="bottom-area d-flex px-3">
-                                        <div class="m-auto d-flex">
-                                            <a href="{% url 'shop:product-single' product.pk %}"
-                                               class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                                <span><i class="ion-ios-cart"></i></span>
-                                            </a>
-                                            <a href="{% url 'shop:add-wish' product.pk %}"
-                                               class="heart d-flex justify-content-center align-items-center ">
-                                                <span><i class="ion-ios-heart"></i></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    {% endif %}
                 {% endfor %}
 
             </div>
@@ -274,17 +239,19 @@
         <div class="container">
             <div class="row justify-content-center mb-3 pb-3">
                 <div class="col-md-12 heading-section text-center ftco-animate">
-                    <span class="subheading">New Products</span>
+                    <h2 class="mb-4">Featured Products</h2>
+
+                    <span class="subheading">Featured Fruits</span>
                 </div>
             </div>
         </div>
         <div class="container">
             <div class="row">
-                {% for product in new_products %}
+                {% for product in fruits %}
                     {% if product.discounted %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="{% url 'shop:product-single' product.pk %}" class="img-prod">
+                                <a href="#" class="img-prod">
                                     <img
                                             class="img-responsive" src="{{ product.image.url }}"
                                             alt="{{ product.item_name }}" style="width: 255px;height: 190px;">
@@ -292,7 +259,7 @@
                                     <div class="overlay"></div>
                                 </a>
                                 <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="{% url 'shop:product-single' product.pk %}">{{ product.item_name }}</a>
+                                    <h3><a href="#">{{ product.item_name }}</a>
                                     </h3>
                                     <div class="d-flex">
                                         <div class="pricing">
@@ -302,18 +269,18 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="bottom-area d-flex px-3">
-                                        <div class="m-auto d-flex">
-                                            <a href="{% url 'shop:product-single' product.pk %}"
-                                               class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                                <span><i class="ion-ios-cart"></i></span>
-                                            </a>
-                                            <a href="{% url 'shop:add-wish' product.pk %}"
-                                               class="heart d-flex justify-content-center align-items-center ">
-                                                <span><i class="ion-ios-heart"></i></span>
-                                            </a>
-                                        </div>
-                                    </div>
+                                    {#                                    <div class="bottom-area d-flex px-3">#}
+                                    {#                                        <div class="m-auto d-flex">#}
+                                    {#                                            <a href="#"#}
+                                    {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
+                                    {#                                                <span><i class="ion-ios-cart"></i></span>#}
+                                    {#                                            </a>#}
+                                    {#                                            <a href="#"#}
+                                    {#                                               class="heart d-flex justify-content-center align-items-center ">#}
+                                    {#                                                <span><i class="ion-ios-heart"></i></span>#}
+                                    {#                                            </a>#}
+                                    {#                                        </div>#}
+                                    {#                                    </div>#}
                                 </div>
                             </div>
                         </div>
@@ -321,13 +288,13 @@
                     {% else %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="{% url 'shop:product-single' product.pk %}" class="img-prod"><img
+                                <a href="#" class="img-prod"><img
                                         class="img-fluid" src="{{ product.image.url }}"
                                         alt="{{ product.item_name }}" style="height: 100%">
                                     <div class="overlay"></div>
                                 </a>
                                 <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="{% url 'shop:product-single' product.pk %}">{{ product.item_name }}</a>
+                                    <h3><a href="#">{{ product.item_name }}</a>
                                     </h3>
                                     <div class="d-flex">
                                         <div class="pricing">
@@ -336,18 +303,402 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="bottom-area d-flex px-3">
-                                        <div class="m-auto d-flex">
-                                            <a href="{% url 'shop:product-single' product.pk %}"
-                                               class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                                <span><i class="ion-ios-cart"></i></span>
-                                            </a>
-                                            <a href="{% url 'shop:add-wish' product.pk %}"
-                                               class="heart d-flex justify-content-center align-items-center ">
-                                                <span><i class="ion-ios-heart"></i></span>
-                                            </a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+
+
+        </div>
+    </section>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center mb-3 pb-3">
+                <div class="col-md-12 heading-section text-center ftco-animate">
+                    <span class="subheading">Featured Vegetables</span>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                {% for product in vegetables %}
+                    {% if product.discounted %}
+                        <div class="col-md-6 col-lg-3 ftco-animate">
+                            <div class="product">
+                                <a href="#" class="img-prod">
+                                    <img
+                                            class="img-responsive" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="width: 255px;height: 190px;">
+                                    <span class="status">{{ product.discount }}%</span>
+                                    <div class="overlay"></div>
+                                </a>
+                                <div class="text py-3 pb-4 px-3 text-center">
+                                    <h3><a href="#">{{ product.item_name }}</a>
+                                    </h3>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            <p class="price"><span
+                                                    class="mr-2 price-dc">ksh {{ product.price_per_unit }} per {{ product.category.unit }}</span><span
+                                                    class="price-sale">ksh {{ product.discounted_price_per_unit }} per {{ product.category.unit }}</span>
+                                            </p>
                                         </div>
                                     </div>
+                                    {#                                    <div class="bottom-area d-flex px-3">#}
+                                    {#                                        <div class="m-auto d-flex">#}
+                                    {#                                            <a href="#"#}
+                                    {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
+                                    {#                                                <span><i class="ion-ios-cart"></i></span>#}
+                                    {#                                            </a>#}
+                                    {#                                            <a href="#"#}
+                                    {#                                               class="heart d-flex justify-content-center align-items-center ">#}
+                                    {#                                                <span><i class="ion-ios-heart"></i></span>#}
+                                    {#                                            </a>#}
+                                    {#                                        </div>#}
+                                    {#                                    </div>#}
+                                </div>
+                            </div>
+                        </div>
+
+                    {% else %}
+                        <div class="col-md-6 col-lg-3 ftco-animate">
+                            <div class="product">
+                                <a href="#" class="img-prod"><img
+                                        class="img-fluid" src="{{ product.image.url }}"
+                                        alt="{{ product.item_name }}" style="height: 100%">
+                                    <div class="overlay"></div>
+                                </a>
+                                <div class="text py-3 pb-4 px-3 text-center">
+                                    <h3><a href="#">{{ product.item_name }}</a>
+                                    </h3>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            <p class="price">
+                                                <span>ksh {{ product.price_per_unit }} per {{ product.category.unit }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+
+
+        </div>
+    </section>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center mb-3 pb-3">
+                <div class="col-md-12 heading-section text-center ftco-animate">
+                    <span class="subheading">Featured Cereals and grains</span>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                {% for product in cereals %}
+                    {% if product.discounted %}
+                        <div class="col-md-6 col-lg-3 ftco-animate">
+                            <div class="product">
+                                <a href="#" class="img-prod">
+                                    <img
+                                            class="img-responsive" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="width: 255px;height: 190px;">
+                                    <span class="status">{{ product.discount }}%</span>
+                                    <div class="overlay"></div>
+                                </a>
+                                <div class="text py-3 pb-4 px-3 text-center">
+                                    <h3><a href="#">{{ product.item_name }}</a>
+                                    </h3>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            <p class="price"><span
+                                                    class="mr-2 price-dc">ksh {{ product.price_per_unit }} per {{ product.category.unit }}</span><span
+                                                    class="price-sale">ksh {{ product.discounted_price_per_unit }} per {{ product.category.unit }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {#                                    <div class="bottom-area d-flex px-3">#}
+                                    {#                                        <div class="m-auto d-flex">#}
+                                    {#                                            <a href="#"#}
+                                    {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
+                                    {#                                                <span><i class="ion-ios-cart"></i></span>#}
+                                    {#                                            </a>#}
+                                    {#                                            <a href="#"#}
+                                    {#                                               class="heart d-flex justify-content-center align-items-center ">#}
+                                    {#                                                <span><i class="ion-ios-heart"></i></span>#}
+                                    {#                                            </a>#}
+                                    {#                                        </div>#}
+                                    {#                                    </div>#}
+                                </div>
+                            </div>
+                        </div>
+
+                    {% else %}
+                        <div class="col-md-6 col-lg-3 ftco-animate">
+                            <div class="product">
+                                <a href="#" class="img-prod"><img
+                                        class="img-fluid" src="{{ product.image.url }}"
+                                        alt="{{ product.item_name }}" style="height: 100%">
+                                    <div class="overlay"></div>
+                                </a>
+                                <div class="text py-3 pb-4 px-3 text-center">
+                                    <h3><a href="#">{{ product.item_name }}</a>
+                                    </h3>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            <p class="price">
+                                                <span>ksh {{ product.price_per_unit }} per {{ product.category.unit }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+
+
+        </div>
+    </section>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center mb-3 pb-3">
+                <div class="col-md-12 heading-section text-center ftco-animate">
+                    <span class="subheading">Featured Spices</span>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                {% for product in spices %}
+                    {% if product.discounted %}
+                        <div class="col-md-6 col-lg-3 ftco-animate">
+                            <div class="product">
+                                <a href="#" class="img-prod">
+                                    <img
+                                            class="img-responsive" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="width: 255px;height: 190px;">
+                                    <span class="status">{{ product.discount }}%</span>
+                                    <div class="overlay"></div>
+                                </a>
+                                <div class="text py-3 pb-4 px-3 text-center">
+                                    <h3><a href="#">{{ product.item_name }}</a>
+                                    </h3>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            <p class="price"><span
+                                                    class="mr-2 price-dc">ksh {{ product.price_per_unit }} per {{ product.category.unit }}</span><span
+                                                    class="price-sale">ksh {{ product.discounted_price_per_unit }} per {{ product.category.unit }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {#                                    <div class="bottom-area d-flex px-3">#}
+                                    {#                                        <div class="m-auto d-flex">#}
+                                    {#                                            <a href="#"#}
+                                    {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
+                                    {#                                                <span><i class="ion-ios-cart"></i></span>#}
+                                    {#                                            </a>#}
+                                    {#                                            <a href="#"#}
+                                    {#                                               class="heart d-flex justify-content-center align-items-center ">#}
+                                    {#                                                <span><i class="ion-ios-heart"></i></span>#}
+                                    {#                                            </a>#}
+                                    {#                                        </div>#}
+                                    {#                                    </div>#}
+                                </div>
+                            </div>
+                        </div>
+
+                    {% else %}
+                        <div class="col-md-6 col-lg-3 ftco-animate">
+                            <div class="product">
+                                <a href="#" class="img-prod"><img
+                                        class="img-fluid" src="{{ product.image.url }}"
+                                        alt="{{ product.item_name }}" style="height: 100%">
+                                    <div class="overlay"></div>
+                                </a>
+                                <div class="text py-3 pb-4 px-3 text-center">
+                                    <h3><a href="#">{{ product.item_name }}</a>
+                                    </h3>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            <p class="price">
+                                                <span>ksh {{ product.price_per_unit }} per {{ product.category.unit }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+
+
+        </div>
+    </section>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center mb-3 pb-3">
+                <div class="col-md-12 heading-section text-center ftco-animate">
+                    <span class="subheading">Featured House hold items</span>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                {% for product in household_items %}
+                    {% if product.discounted %}
+                        <div class="col-md-6 col-lg-3 ftco-animate">
+                            <div class="product">
+                                <a href="#" class="img-prod">
+                                    <img
+                                            class="img-responsive" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="width: 255px;height: 190px;">
+                                    <span class="status">{{ product.discount }}%</span>
+                                    <div class="overlay"></div>
+                                </a>
+                                <div class="text py-3 pb-4 px-3 text-center">
+                                    <h3><a href="#">{{ product.item_name }}</a>
+                                    </h3>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            <p class="price"><span
+                                                    class="mr-2 price-dc">ksh {{ product.price_per_unit }} per {{ product.category.unit }}</span><span
+                                                    class="price-sale">ksh {{ product.discounted_price_per_unit }} per {{ product.category.unit }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {#                                    <div class="bottom-area d-flex px-3">#}
+                                    {#                                        <div class="m-auto d-flex">#}
+                                    {#                                            <a href="#"#}
+                                    {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
+                                    {#                                                <span><i class="ion-ios-cart"></i></span>#}
+                                    {#                                            </a>#}
+                                    {#                                            <a href="#"#}
+                                    {#                                               class="heart d-flex justify-content-center align-items-center ">#}
+                                    {#                                                <span><i class="ion-ios-heart"></i></span>#}
+                                    {#                                            </a>#}
+                                    {#                                        </div>#}
+                                    {#                                    </div>#}
+                                </div>
+                            </div>
+                        </div>
+
+                    {% else %}
+                        <div class="col-md-6 col-lg-3 ftco-animate">
+                            <div class="product">
+                                <a href="#" class="img-prod"><img
+                                        class="img-fluid" src="{{ product.image.url }}"
+                                        alt="{{ product.item_name }}" style="height: 100%">
+                                    <div class="overlay"></div>
+                                </a>
+                                <div class="text py-3 pb-4 px-3 text-center">
+                                    <h3><a href="#">{{ product.item_name }}</a>
+                                    </h3>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            <p class="price">
+                                                <span>ksh {{ product.price_per_unit }} per {{ product.category.unit }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+
+
+        </div>
+    </section>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center mb-3 pb-3">
+                <div class="col-md-12 heading-section text-center ftco-animate">
+                    <span class="subheading">Sanitizers,laundry & disinfectants</span>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                {% for product in sanitizers %}
+                    {% if product.discounted %}
+                        <div class="col-md-6 col-lg-3 ftco-animate">
+                            <div class="product">
+                                <a href="#" class="img-prod">
+                                    <img
+                                            class="img-responsive" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="width: 255px;height: 190px;">
+                                    <span class="status">{{ product.discount }}%</span>
+                                    <div class="overlay"></div>
+                                </a>
+                                <div class="text py-3 pb-4 px-3 text-center">
+                                    <h3><a href="#">{{ product.item_name }}</a>
+                                    </h3>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            <p class="price"><span
+                                                    class="mr-2 price-dc">ksh {{ product.price_per_unit }} per {{ product.category.unit }}</span><span
+                                                    class="price-sale">ksh {{ product.discounted_price_per_unit }} per {{ product.category.unit }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {#                                    <div class="bottom-area d-flex px-3">#}
+                                    {#                                        <div class="m-auto d-flex">#}
+                                    {#                                            <a href="#"#}
+                                    {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
+                                    {#                                                <span><i class="ion-ios-cart"></i></span>#}
+                                    {#                                            </a>#}
+                                    {#                                            <a href="#"#}
+                                    {#                                               class="heart d-flex justify-content-center align-items-center ">#}
+                                    {#                                                <span><i class="ion-ios-heart"></i></span>#}
+                                    {#                                            </a>#}
+                                    {#                                        </div>#}
+                                    {#                                    </div>#}
+                                </div>
+                            </div>
+                        </div>
+
+                    {% else %}
+                        <div class="col-md-6 col-lg-3 ftco-animate">
+                            <div class="product">
+                                <a href="#" class="img-prod"><img
+                                        class="img-fluid" src="{{ product.image.url }}"
+                                        alt="{{ product.item_name }}" style="height: 100%">
+                                    <div class="overlay"></div>
+                                </a>
+                                <div class="text py-3 pb-4 px-3 text-center">
+                                    <h3><a href="#">{{ product.item_name }}</a>
+                                    </h3>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            <p class="price">
+                                                <span>ksh {{ product.price_per_unit }} per {{ product.category.unit }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

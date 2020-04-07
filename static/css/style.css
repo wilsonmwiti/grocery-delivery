@@ -11545,6 +11545,7 @@ h1, h2, h3, h4, h5,
     margin-bottom: 0;
     z-index: 99;
     font-weight: 300;
+
 }
 
 .hero-wrap .slider-text .breadcrumbs span {
@@ -11557,7 +11558,7 @@ h1, h2, h3, h4, h5,
 
 .hero-wrap .slider-text .bread {
     font-weight: 800;
-    color: #fff;
+    color: #000000;
     font-size: 30px;
     font-family: "Poppins", Arial, sans-serif;
     letter-spacing: 3px;

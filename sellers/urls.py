@@ -6,8 +6,7 @@ app_name = 'sellers'
 urlpatterns = [
 
     url(r'^panel/$', views.panel, name='panel'),
-    url(r'^profile/$', views.profile, name='profile'),
-    url(r'^add-line/$', views.addline, name='addline'),
+    url(r'^add-line/$', views.add_line, name='add_line'),
     url(r'^add-store/$', views.addStore, name='addstore'),
     url(r'^line-sales/$', views.sales, name='line_sales'),
     url(r'^line-reports/$', views.reports, name='line_reports'),
@@ -17,4 +16,5 @@ urlpatterns = [
     url(r'^store/(?P<hash>[0-9a-zA-Z]+)/$', views.store_products, name='store'),
     url('about-us/', views.about, name='about-us'),
     url('contact-us/', views.contact, name='contact-us'),
+    url('update-store/', views.update_store, name='updatestore'),
 ]

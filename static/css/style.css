@@ -12165,10 +12165,11 @@ h1, h2, h3, h4, h5,
 }
 
 .product .img-prod {
+
     position: relative;
     display: block;
     overflow: hidden;
-    height: inherit;
+    height: 230px;
 }
 
 .product .img-prod .overlay {

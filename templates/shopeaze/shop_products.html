@@ -17,7 +17,6 @@
                    maxlength="{{ form.name.field.max_length }}"
                    required
             >
-            {#            {{ search_form }}#}
             <button type="submit" class="btn btn-success"><i class="icon-search"></i></button>
         </div>
     </form>
@@ -31,7 +30,7 @@
                 <div class="col-md-9 ftco-animate text-center">
                     <p class="breadcrumbs"><span class="mr-2"><a href="{% url 'shop:index' %}">Home</a></span>
                         <span>{{ store.line.name }}</span></p>
-                    <h1 class="mb-0 bread">{{ store.name }}</h1>
+                    <h1 class="mb-0 bread " style=" font-family: 'Yellowtail',sans-serif;">{{ store.name }}</h1>
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
 # Create your views here.
 from django.core.mail import send_mail
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from accounts.forms import ContactUsForm
@@ -18,34 +19,25 @@ def panel(request):
     user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller')
 
     if line.count() > 0:
-
-        return render(request, 'shopeaze/seller-panel/panel-home.html',
-                      {'line': line, 'stores': stores, 'seller': user_is_seller})
-    else:
+        user = User.objects.get(pk=request.user.pk)
+        line = StoreLine.objects.filter(admin=user)
+        stores = Stores.objects.filter(line__admin=user)
+        user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller')
         store_line_form = StoresLineCreationForm()
         stores_form = StoresCreationForm()
-        return render(request, 'shopeaze/seller-panel/panel-profile.html',
-                      {'line': line, 'stores': stores, 'StoreLineForm': store_line_form,
-                       'StoresForm': stores_form, 'seller': user_is_seller})
+        return render(request, 'shopeaze/seller-panel/panel-home.html',
+                      {'line': line, 'stores': stores, 'StoreLineForm': store_line_form, 'StoresForm': stores_form,
+                       'seller': user_is_seller})
 
-
-def profile(request):
-    user = User.objects.get(pk=request.user.pk)
-    line = StoreLine.objects.filter(admin=user)
-    stores = Stores.objects.filter(line=line)
-    user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller')
-    store_line_form = StoresLineCreationForm()
-    stores_form = StoresCreationForm()
-    return render(request, 'shopeaze/seller-panel/panel-profile.html',
-                  {'line': line, 'stores': stores, 'StoreLineForm': store_line_form, 'StoresForm': stores_form,
-                   'seller': user_is_seller})
+    else:
+        return HttpResponse('<p>hey</p>')
 
 
 def list(request):
     return redirect('shop:searchLocation')
 
 
-def addline(request):
+def add_line(request):
     if request.method == 'POST':
         form = StoresLineCreationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -99,28 +91,44 @@ def store_products(request, hash):
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
         cart_items = 0
-    new_products = Inventory.objects.filter(owner=store).order_by('-time_added')[:4]
+    new_products = Inventory.objects.filter(owner=store).order_by('-time_added')[:8]
+    context_items = {}
+
     fruits = Inventory.objects.filter(category=Categories.objects.get(name__contains='fruits'), owner=store).order_by(
         'time_added')[
-             :4]
+             :8]
+    if fruits.count() > 0:
+        context_items['fruits'] = fruits
     vegies = Inventory.objects.filter(category=Categories.objects.get(name__contains='vegetables'),
                                       owner=store).order_by(
-        'time_added')[:4]
+        'time_added')[:8]
+    if vegies.count() > 0:
+        context_items['vegetables'] = vegies
     spices = Inventory.objects.filter(category=Categories.objects.get(name__contains='spice'), owner=store).order_by(
         'time_added')[
-             :4]
+             :8]
+    if spices.count() > 0:
+        context_items['spices'] = spices
     household = Inventory.objects.filter(category=Categories.objects.get(name__contains='household'),
                                          owner=store).order_by(
-        'time_added')[:4]
+        'time_added')[:8]
+    if household.count() > 0:
+        context_items['household_items'] = household
     cereals = Inventory.objects.filter(category=Categories.objects.get(name__contains='cereals'), owner=store).order_by(
-        'time_added')[:4]
+        'time_added')[:8]
+    if cereals.count() > 0:
+        context_items['cereals'] = cereals
     sanitisers = Inventory.objects.filter(category=Categories.objects.get(name__contains='sanitizers'),
                                           owner=store).order_by(
-        'time_added')[:4]
+        'time_added')[:8]
+    if sanitisers.count() > 0:
+        context_items['sanitizers'] = sanitisers
+    context_forms = {'cart_count': cart_items,
+                     'subscribe_form': subscribe_form, 'search_form': search_form, 'store': store}
+    context_items['new_products'] = new_products
+    context_items.update(context_forms)
     return render(request, 'shopeaze/shop_products.html',
-                  {'fruits': fruits, 'vegetables': vegies, 'spices': spices, 'household_items': household,
-                   'cereals': cereals, 'sanitizers': sanitisers, 'new_products': new_products, 'cart_count': cart_items,
-                   'subscribe_form': subscribe_form, 'search_form': search_form, 'store': store})
+                  context_items)
 
 
 def about(request):
@@ -163,3 +171,7 @@ def contact(request):
 
     return render(request, 'shopeaze/contact_seller.html',
                   {'cart_count': cart_items, 'form': form, 'subscribe_form': subscribe_form})
+
+
+def update_store(request):
+    return None

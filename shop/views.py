@@ -282,7 +282,7 @@ def single_add(request, pk):
     item = Inventory.objects.get(pk=pk)
     if cartobj:
         # if users cart exists
-        obj = Cart.objects.filter(user=user, item=item)
+        obj = Cart.objects.filter(user=user, item=item, store=item.owner)
         qty = obj.model.qty + 1
         if obj:
             #     if object exists in cart

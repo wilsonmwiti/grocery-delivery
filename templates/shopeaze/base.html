@@ -37,24 +37,24 @@
 <body class="goto-here">
 
 {% block news %}
-    <div class="py-1 bg-danger">
-        <div class="container">
-            <div class="row no-gutters d-flex align-items-start align-items-center px-md-0">
-                <div class="col-lg-12 d-block">
-                    <div class="row d-flex">
-                        <div class="col-md pr-4 d-flex topper align-items-center">
-                            <div class="icon mr-2 d-flex justify-content-center align-items-center"><span
-                                    class="icon-message"></span></div>
-                            <span class="text">Beware of the covid-19!!Practise self hygiene,avoid handling money and use mobile banking where possible.Safety starts with you!!</span>
-                            <div class="icon mr-2 d-flex justify-content-center align-items-center"><span
-                                    class="icon-message"></span></div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {#    <div class="py-1 bg-danger">#}
+    {#        <div class="container">#}
+    {#            <div class="row no-gutters d-flex align-items-start align-items-center px-md-0">#}
+    {#                <div class="col-lg-12 d-block">#}
+    {#                    <div class="row d-flex">#}
+    {#                        <div class="col-md pr-4 d-flex topper align-items-center">#}
+    {#                            <div class="icon mr-2 d-flex justify-content-center align-items-center"><span#}
+    {#                                    class="icon-message"></span></div>#}
+    {#                            <span class="text">Beware of the covid-19!!Practise self hygiene,avoid handling money and use mobile banking where possible.Safety starts with you!!</span>#}
+    {#                            <div class="icon mr-2 d-flex justify-content-center align-items-center"><span#}
+    {#                                    class="icon-message"></span></div>#}
+    {#                        </div>#}
+    {##}
+    {#                    </div>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
 
 {% endblock %}
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -72,7 +72,7 @@
                     {% block formSearch %}{% endblock %}
 
                     {#                                    <li class="nav-item active"><a href="{% url 'shop:index' %}" class="nav-link">Home</a></li>#}
-                    <li class="nav-item"><a href="{% url 'shop:contact-us' %}" class="nav-link">Reach us</a></li>
+                    <li class="nav-item"><a href="{% url 'shop:contact-us' %}" class="nav-link">Contact</a></li>
                     <li class="nav-item"><a href="{% url 'sellers:list' %}" class="nav-link">Stores</a></li>
 
                     {% if user.is_authenticated %}

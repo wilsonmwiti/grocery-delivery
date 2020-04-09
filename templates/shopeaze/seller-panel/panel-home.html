@@ -1,5 +1,6 @@
 {% extends 'shopeaze/base.html' %}
-{% block title_extension %}Seller Panel{% endblock %}
+{% load crispy_forms_tags %}
+{% block title_extension %}Seller {% endblock %}
 {% if seller %}
     {% block nav %}
         <div class="container">
@@ -73,7 +74,6 @@
                                aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
                             <div class="dropdown-menu" aria-labelledby="dropdown04">
                                 <a class="dropdown-item" href="{% url 'customer-accounts:logout' %}">Log out</a>
-                                <a class="dropdown-item" href="{% url 'sellers:profile' %}">Profile</a>
 
                             </div>
                         </li>
@@ -96,8 +96,127 @@
 
 {% endif %}
 {% block maincontent %}
-    <div style="background:url('{{ line.logo.url }}') 50% 50% no-repeat"></div>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
 
+        <li class="nav-item">
+            <a class="nav-link active" id="add-store-tab" data-toggle="tab" href="#newstores" role="tab"
+               aria-controls="profile" aria-selected="false">Add Stores</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="edits-tore-tab" data-toggle="tab" href="#updatestore" role="tab"
+               aria-controls="contact" aria-selected="false">Edit Stores</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="view-stores-tab" data-toggle="tab" href="#myStores" role="tab"
+               aria-controls="contact" aria-selected="false">View Stores</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div id="newstores" class="tab-pane fade">
+            <h3>Add New Store</h3>
+
+            <form method="post" action="{% url 'sellers:addstore' %}" enctype="multipart/form-data">
+                <form method="post" action="{% url 'sellers:addstore' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for x in StoresForm %}
+                        <div class="form-group">
+                            {{ x|as_crispy_field }}
+                            {#    {{ StoresForm|crispy }}#}
+                        </div>
+                    {% endfor %}
+                    {% if line %}
+                        <button type="submit" class="btn btn-success">submit</button>
+                    {% else %}
+                        <button type="submit" class="btn btn-warning" disabled>submit</button>
+
+                    {% endif %}
+                </form>
+        </div>
+        <div id="updatestore" class="tab-pane fade">
+            <h3>Update Stores</h3>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Store id</th>
+                    <th scope="col">Store Name</th>
+                    <th scope="col">phone number</th>
+                    <th scope="col">email</th>
+                    <th scope="col">time added</th>
+                    <th scope="col">Update</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for store in stores %}
+                    <tr>
+                        <form method="post" action="{% url 'sellers:updatestore' %}">
+                            <td>
+                                <div class="col-12 mb-3">
+                                    <input type="text" name="quantity"
+                                           class="quantity form-control input-number" value="{{ store.pk }}"
+                                           min="1" max="100" disabled>
+                                </div>
+                            </td>
+                            <td>
+                                <div class=" mb-3 col-12">
+                                    <input type="text" name="name"
+                                           class="quantity form-control input-number" value="{{ store.name }}"
+                                           min="1" max="100" disabled>
+                                </div>
+                            </td>
+                            <td>
+                                <div class=" mb-3 col-12">
+                                    <input type="text" name="number"
+                                           class="quantity form-control input-number" value="{{ store.phone_number }}"
+                                    >
+                                </div>
+                            </td>
+                            <td>
+                                <div class=" mb-3 col-12">
+                                    <input type="text" name="email"
+                                           class="quantity form-control input-number" value="{{ store.email }}"
+                                    >
+                                </div>
+                            </td>
+                            <td>
+                                <div class="mb-3 col-12">{{ store.time_added }}</div>
+                            </td>
+                            <td>
+                                <button type="submit">Update records</button>
+                            </td>
+                        </form>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="myStores" class="tab-pane fade">
+            <h3>My Stores</h3>
+            <p>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Store id</th>
+                    <th scope="col">Store Name</th>
+                    <th scope="col">phone number</th>
+                    <th scope="col">email</th>
+                    <th scope="col">time added</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for store in stores %}
+                    <tr>
+                        <th scope="row">{{ store.pk }}</th>
+                        <td>{{ store.name }}</td>
+                        <td>{{ store.phone_number }}</td>
+                        <td>{{ store.email }}</td>
+                        <td>{{ store.time_added }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </p>
+        </div>
+    </div>
 
 
 {% endblock %}

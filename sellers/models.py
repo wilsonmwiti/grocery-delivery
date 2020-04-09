@@ -37,7 +37,7 @@ class Stores(models.Model):
     name = models.CharField(max_length=100)
     verified = models.BooleanField(default=False)
     time_added = models.DateTimeField(auto_now_add=True)
-    phone_number = models.CharField(max_length=12)
+    phone_number = models.CharField(max_length=12, unique=True)
     email = models.EmailField(max_length=50)
     hash = models.TextField()
 
@@ -49,6 +49,7 @@ class Stores(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
+        self.name = '{} {}'.format(self.line.name, self.town)
         self.hash = encrypt_string('{}{}{}{}'.format(self.pk, self.town, self.time_added, self.email))
         super(Stores, self).save(*args, **kwargs)
 

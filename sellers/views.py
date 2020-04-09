@@ -60,11 +60,12 @@ def addStore(request):
             email = form.cleaned_data['email']
             user = User.objects.get(pk=request.user.pk)
             line = StoreLine.objects.get(admin=user)
-            new_store = Stores.objects.create(line=line, name='{0} {1}'.format(line.name, town), town=town,
+            new_store = Stores.objects.create(line=line, town=town,
                                               phone_number=phone_number, email=email)
+
         else:
             print(form.errors)
-    return redirect('sellers:profile')
+    return redirect('sellers:panel')
 
 
 def sales(request):
@@ -174,4 +175,16 @@ def contact(request):
 
 
 def update_store(request):
-    return None
+    if request.method == 'POST':
+        store = request.POST.get('store')
+        number = request.POST.get('number')
+        email = request.POST.get('email')
+        storename = request.POST.get('store')
+        store_object = Stores.objects.filter(pk=store)
+        for obj in store_object:
+            obj.email = email
+            obj.name = storename
+            obj.phone_number = number
+            obj.save()
+
+    return redirect('sellers:panel')

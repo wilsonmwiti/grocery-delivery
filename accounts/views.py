@@ -26,7 +26,7 @@ def panel(request):
             return HttpResponse("<p>Please verify your account using the link sent to your email address</p>")
 
     elif user.user_type == "staff":
-        return HttpResponse("<p>Staff panel</p>")
+        return redirect('staff:panel')
     elif user.user_type == 'seller':
         return redirect('sellers:panel')
     elif user.user_type == "admin":

@@ -25,7 +25,7 @@ class Categories(models.Model):
 # model for inventory items
 class Inventory(models.Model):
     owner = models.ForeignKey(Stores, on_delete=models.CASCADE)
-    item_name = models.CharField(max_length=20)
+    item_name = models.CharField(max_length=200)
     price_per_unit = models.CharField(max_length=20)
     discounted_price_per_unit = models.CharField(max_length=20)
     image = models.ImageField(upload_to='images/products/')

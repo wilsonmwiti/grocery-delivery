@@ -1,7 +1,9 @@
 # Create your views here.
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
 
 from accounts.forms import ContactUsForm
 from inventory.models import Inventory, Categories
@@ -179,12 +181,50 @@ def update_store(request):
         store = request.POST.get('store')
         number = request.POST.get('number')
         email = request.POST.get('email')
+        admin = request.POST.get('admin')
+        adminobj = User.objects.get(email=admin)
+        current_site = get_current_site(request)
+        subject = 'Request to be a  store admin'
+        message = render_to_string('shopeaze/seller-panel/admin_activation_email.html', {
+            'user': adminobj,
+            'domain': current_site.domain,
+            'token': adminobj.hash
+        })
+        send_mail(
+            subject,
+            message,
+            'info@nanotechsoftwares.co.ke',
+            [adminobj.__str__()],
+            fail_silently=False,
+        )
         storename = request.POST.get('store')
         store_object = Stores.objects.filter(pk=store)
         for obj in store_object:
             obj.email = email
             obj.name = storename
+            obj.admin = adminobj
             obj.phone_number = number
             obj.save()
 
     return redirect('sellers:panel')
+
+
+def setmanager(request, hash):
+    print("hello!!")
+    adminobj = User.objects.get(hash=hash)
+    if adminobj:
+        adminobj.user_type = 'staff'
+        adminobj.save()
+    return redirect('sellers:activationsuccessfull')
+
+
+def activation_successful(request):
+    subscribe_form = SubscribeForm()
+
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user.pk).count()
+    else:
+        cart_items = 0
+    form = ContactUsForm()
+    return render(request, 'shopeaze/success.html',
+                  {'cart_count': cart_items, 'form': form, 'subscribe_form': subscribe_form})

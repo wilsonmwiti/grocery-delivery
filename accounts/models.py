@@ -6,6 +6,8 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 
+from sellers.extras import encrypt_string
+
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, is_staff=False, is_admin=False, is_active=True, is_company=True,
@@ -72,6 +74,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                                  default=UserAccount.get_value('customer'))
     email_confirmed = models.BooleanField(default=False)
     location = models.CharField(max_length=32)
+    hash = models.TextField()
     USERNAME_FIELD = 'email'  # make email username field
     objects = UserManager()
 
@@ -93,6 +96,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def user_is_active(self):
         return self.is_active
+
+    def save(self, *args, **kwargs):
+        self.hash = encrypt_string('{}{}{}{}'.format(self.pk, self.username, self.password, self.timestamp))
+        super(User, self).save(*args, **kwargs)
 
 
 class SellerProfile(models.Model):

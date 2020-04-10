@@ -24,9 +24,9 @@ class InventoryAdmin(admin.ModelAdmin):
         'id', 'item_name', 'price_per_unit', 'image_tag', 'category',
         'discount', 'discounted_price_per_unit',
         'discounted', 'offer_of_the_day',)
-    search_fields = ('item_name', 'description',)
+    search_fields = ('item_name', 'description', 'hash')
     # fields = []
-    readonly_fields = ['image_tag', 'discounted_price_per_unit', ]
+    readonly_fields = ['image_tag', 'discounted_price_per_unit', 'hash']
 
 
 admin.site.register(Categories, CategoriesAdmin)

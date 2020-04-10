@@ -4,7 +4,7 @@ from . import views
 
 app_name = 'staff'
 urlpatterns = [
-    url(r'^staff-app/$', views.login, name='login_staff'),
+    url(r'^panel/$', views.panel, name='panel'),
     # end of authentication for website
 
 ]

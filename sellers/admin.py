@@ -9,8 +9,9 @@ from sellers.models import Stores, StoreLine, OpeningHours
 
 
 class StoresAdmin(admin.ModelAdmin):
-    list_display = ('id', 'line', 'town', 'verified', 'time_added', 'phone_number', 'email',)
-    search_fields = ('town', 'name')
+    list_display = ('id', 'line', 'town', 'verified', 'time_added', 'phone_number', 'email', 'hash')
+    search_fields = ('town', 'name', 'hash')
+    readonly_fields = ['hash']
 
 
 class LinesAdmin(admin.ModelAdmin):

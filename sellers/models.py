@@ -35,10 +35,11 @@ class Stores(models.Model):
     line = models.ForeignKey(StoreLine, on_delete=models.CASCADE)
     town = models.CharField(max_length=50)
     name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100, unique=True)
     verified = models.BooleanField(default=False)
     time_added = models.DateTimeField(auto_now_add=True)
     phone_number = models.CharField(max_length=12, unique=True)
-    email = models.EmailField(max_length=50)
+    admin = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, unique=True)
     hash = models.TextField()
 
     class Meta:

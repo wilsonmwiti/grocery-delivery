@@ -7,7 +7,6 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css" rel="stylesheet"/>
 
 {% endblock %}
-{% if seller %}
     {% block nav %}
         <div class="container">
             {% if line %}
@@ -35,10 +34,10 @@
                                        data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false"><span>{{ x }}</span></a>
                                     <div class="dropdown-menu" aria-labelledby="dropdown04">
-                                        <a class="dropdown-item" href="{% url 'sellers:line_sales' %}">Sales</a>
-                                        <a class="dropdown-item" href="{% url 'sellers:line_orders' %}">Orders</a>
-                                        <a class="dropdown-item" href="{% url 'sellers:line_messages' %}">Messages</a>
-                                        <a class="dropdown-item" href="{% url 'sellers:line_reports' %}">Reports</a>
+                                        <a class="dropdown-item" href="{% url 'staff:branch_sales' %}">Sales</a>
+                                        <a class="dropdown-item" href="{% url 'staff:branch_orders' %}">Orders</a>
+                                        <a class="dropdown-item" href="{% url 'staff:branch_messages' %}">Messages</a>
+                                        <a class="dropdown-item" href="{% url 'staff:branch_reports' %}">Reports</a>
                                     </div>
                                 </li>
                             {% endfor %}
@@ -53,16 +52,7 @@
                             {#                                    <a class="dropdown-item" href="{% url 'sellers:line_reports' %}">Reports</a>#}
                             {#                                </div>#}
                             {#                            </li>#}
-                        {% else %}
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="" id="dropdown04"
-                                   data-toggle="dropdown"
-                                   aria-haspopup="true" aria-expanded="false">Store Line</a>
-                                <div class="dropdown-menu" aria-labelledby="dropdown04">
-                                    <a class="dropdown-item" href="#">Create Line </a>
 
-                                </div>
-                            </li>
 
                         {% endif %}
                     {% endif %}
@@ -100,7 +90,6 @@
         </div>
     {% endblock %}
 
-{% endif %}
 {% block maincontent %}
 
 
@@ -109,13 +98,13 @@
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs" id="tabs">
                     <li class="nav-item">
-                        <a class="active nav-link active" href="#add" data-toggle="tab">Add new store</a>
+                        <a class="active nav-link active" href="#add" data-toggle="tab">Add new Items</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#update" data-toggle="tab">View Stores</a>
+                        <a class="nav-link" href="#update" data-toggle="tab">Add Branch Shopeaze Operators</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#view" data-toggle="tab">Update Stores</a>
+                        <a class="nav-link" href="#view" data-toggle="tab">View Branch Shopeaze Operators</a>
                     </li>
                 </ul>
             </div>
@@ -149,9 +138,9 @@
                 {#</div>#}
                 <div class="tab-content">
                     <div class="tab-pane active" id="add">
-                        <h3 class="text-center">Add New Store</h3>
+                        <h3 class="text-center">Add New Inventory</h3>
 
-                        <form method="post" action="{% url 'sellers:addstore' %}" enctype="multipart/form-data">
+                        <form method="post" action="{% url 'staff:additems' %}" enctype="multipart/form-data">
                             {% csrf_token %}
                             {% for x in StoresForm %}
                                 <div class="form-group">

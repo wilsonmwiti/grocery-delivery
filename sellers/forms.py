@@ -1,5 +1,7 @@
 from django import forms
 
+from inventory.models import Inventory
+
 
 class StoresLineCreationForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'col-md-6 mb-0', 'placeholder': 'Store  Line  Name'}))
@@ -13,3 +15,9 @@ class StoresCreationForm(forms.Form):
     phone_number = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'col-md-6 mb-0', 'placeholder': 'Store Phone Number'}))
     email = forms.EmailField(widget=forms.TextInput(attrs={'class': 'col-md-6 mb-0', 'placeholder': 'Store Email'}))
+
+
+class InventoryAdditionForm(forms.ModelForm):
+    class Meta:
+        model = Inventory
+        fields = ['item_name', 'price_per_unit', 'image', 'category', 'discount', 'discounted']

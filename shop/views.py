@@ -34,8 +34,12 @@ def index(request):
     sanitisers = Inventory.objects.filter(category=Categories.objects.get(name__contains='sanitizers')).order_by(
         'time_added')[:4]
     user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller').count()
+    user_is_staff = User.objects.filter(pk=request.user.pk, user_type='staff').count()
+
     if user_is_seller > 0:
         return redirect('sellers:panel')
+    elif user_is_seller > 0:
+        return redirect('staff:panel')
     else:
         stores = Stores.objects.all()
         return render(request, 'shopeaze/index.html',

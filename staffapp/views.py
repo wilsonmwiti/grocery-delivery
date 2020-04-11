@@ -1,26 +1,41 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from accounts.models import User
-from sellers.forms import InventoryAdditionForm
+from inventory.models import Inventory
 from sellers.models import StoreLine, Stores
+from shop.forms import SearchForm
+from staffapp.forms import InventoryAdditionForm
 
 
 def panel(request):
     user = User.objects.get(pk=request.user.pk)
     stores = Stores.objects.get(admin=user)
-    # todo start with logo and brand display tomorrow after creating calling service document for amanda
-    line = StoreLine.objects.filter(pk=stores.line.pk)
-    line = StoreLine.objects.filter(pk=stores.line.pk)
+    search_form = SearchForm()
 
-    if line.count() > 0:
-        stores = Stores.objects.filter(line__admin=user)
+    # todo start with logo and brand display tomorrow after creating calling service document for amanda
+    line = StoreLine.objects.get(pk=stores.line.pk)
+    if line:
+        store = Stores.objects.get(admin=user)
+        items = Inventory.objects.filter(owner=store)
         inventory_form = InventoryAdditionForm()
         return render(request, 'shopeaze/staff-panel/panel-home.html',
-                      {'line': line, 'stores': stores, 'StoresForm': inventory_form})
+                      {'line': line, 'store': store, 'InventoryForm': inventory_form, 'search_form': search_form,
+                       'items': items})
 
 
 def additems(request):
-    return None
+    user = User.objects.get(pk=request.user.pk)
+    store = Stores.objects.get(admin=user)
+    if request.method == 'POST':
+        form = InventoryAdditionForm(request.POST, request.FILES)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.owner = store
+            obj.save()
+            return redirect('staff:panel')
+        else:
+            print(form.errors)
+            print('invalid form')
 
 
 def sales(request):
@@ -36,4 +51,8 @@ def reports(request):
 
 
 def messages(request):
+    return None
+
+
+def updateitem(request):
     return None

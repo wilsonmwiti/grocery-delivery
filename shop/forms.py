@@ -21,7 +21,7 @@ class QuantityForm(forms.Form):
 
 
 class QuantityFormCuppy(forms.Form):
-    qty = forms.CharField(widget=forms.TextInput(attrs={
+    qty = forms.IntegerField(widget=forms.TextInput(attrs={
         'class': "form-control input-number", 'id': 'quantity',
         'value': "4", 'min': "4", 'step': "1"}), required=False)
 

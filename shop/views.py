@@ -38,7 +38,7 @@ def index(request):
 
     if user_is_seller > 0:
         return redirect('sellers:panel')
-    elif user_is_seller > 0:
+    elif user_is_staff > 0:
         return redirect('staff:panel')
     else:
         stores = Stores.objects.all()
@@ -257,20 +257,20 @@ def cuppy_add(request, pk):
 
                 if cartobj:
                     # if users cart exists
-                    obj = Cart.objects.filter(user=user, item=item)
+                    obj = Cart.objects.filter(user=user, item=item, store=item.owner)
                     if obj:
                         #     if object exists in cart
                         obj.delete()
-                        cartobj = Cart.objects.create(user=user, qty=qty, item=item)
+                        cartobj = Cart.objects.create(user=user, qty=qty, item=item, store=item.owner)
 
                         # obj.save()
                     else:
                         # object does not exist in cart
-                        cartobj = Cart.objects.create(user=user, qty=qty, item=item)
+                        cartobj = Cart.objects.create(user=user, qty=qty, item=item, store=item.owner)
 
                 else:
                     # user cart does not exist
-                    cartobj = Cart.objects.create(user=user, qty=qty, item=item)
+                    cartobj = Cart.objects.create(user=user, qty=qty, item=item, store=item.owner)
             else:
                 print("invalid form")
     else:

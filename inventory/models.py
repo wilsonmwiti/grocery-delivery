@@ -24,14 +24,14 @@ class Categories(models.Model):
 
 # model for inventory items
 class Inventory(models.Model):
-    owner = models.ForeignKey(Stores, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Stores, on_delete=models.CASCADE, blank=True)
     item_name = models.CharField(max_length=200)
-    price_per_unit = models.IntegerField(blank=False)
+    price_per_unit = models.PositiveIntegerField(blank=False)
     discounted_price_per_unit = models.CharField(max_length=20)
     image = models.ImageField(upload_to='images/products/')
     time_added = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
-    discount = models.IntegerField(default=0)
+    discount = models.PositiveIntegerField(default=0)
     discounted = models.BooleanField(default=False)
     offer_of_the_day = models.BooleanField(default=False)
     hash = models.TextField()

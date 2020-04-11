@@ -1,49 +1,63 @@
 {% extends 'shopeaze/base.html' %}
 {% load crispy_forms_tags %}
-{% block title_extension %}Seller {% endblock %}
+{% block title_extension %}{{ store.name }}Staff {% endblock %}
 {% block extra %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css" rel="stylesheet"/>
 
 {% endblock %}
-    {% block nav %}
-        <div class="container">
-            {% if line %}
-                {% for x in line %}
-                    <a class="navbar-brand" href="{% url 'shop:index' %}"><span
-                            style=" font-family: 'Yellowtail'; color: #82ae46">{{ x }}</span></a>
-                {% endfor %}
+{#{% block formSearch %}#}
+{#    <form class="form-inline ml-0 col-md  " method="post" action="{% url 'shop:search' %}">#}
+{#        {% csrf_token %}#}
+{#        <input type="hidden" value="{{ store }}" name="store">#}
+{#        <div class="form-group ">#}
+{#            <input type="text" class="col-6"#}
+{#                   name="{{ search_form.item.name }}"#}
+{#                   id="{{ search_form.item.id_for_label }}"#}
+{#                   placeholder="search in {{ store.name }}"#}
+{#                   maxlength="{{ form.name.field.max_length }}"#}
+{#                   required#}
+{#            >#}
+{#            <button type="submit" class="btn btn-success"><i class="icon-search"></i></button>#}
+{#        </div>#}
+{#    </form>#}
+{##}
+{#{% endblock %}#}
 
-            {% else %}
-                <a class="navbar-brand" href="{% url 'shop:index' %}">Shop<span style="    font-family: 'Yellowtail';
+{% block nav %}
+    <div class="container">
+        {% if line %}
+            <a class="navbar-brand" href="{% url 'shop:index' %}"><span
+                    style=" font-family: 'Yellowtail'; color: #82ae46">{{ store.name }}</span></a>
+
+        {% else %}
+            <a class="navbar-brand" href="{% url 'shop:index' %}">Shop<span style="    font-family: 'Yellowtail';
 "><b>Eaze</b></span></a>
 
-            {% endif %}
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
-                    aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="oi oi-menu"></span> Menu
-            </button>
-            <div class="collapse navbar-collapse" id="ftco-nav">
-                <ul class="navbar-nav ml-auto">
-                    {% if user.is_authenticated %}
-                        {% if line %}
-                            {% for x in line %}
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="{% url 'shop:index' %}" id="dropdown04"
-                                       data-toggle="dropdown"
-                                       aria-haspopup="true" aria-expanded="false"><span>{{ x }}</span></a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdown04">
-                                        <a class="dropdown-item" href="{% url 'staff:branch_sales' %}">Sales</a>
-                                        <a class="dropdown-item" href="{% url 'staff:branch_orders' %}">Orders</a>
-                                        <a class="dropdown-item" href="{% url 'staff:branch_messages' %}">Messages</a>
-                                        <a class="dropdown-item" href="{% url 'staff:branch_reports' %}">Reports</a>
-                                    </div>
-                                </li>
-                            {% endfor %}
+        {% endif %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    {% if line %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="{% url 'shop:index' %}" id="dropdown04"
+                               data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false"><span>{{ line.name }}</span></a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown04">
+                                <a class="dropdown-item" href="{% url 'staff:branch_sales' %}">Sales</a>
+                                <a class="dropdown-item" href="{% url 'staff:branch_orders' %}">Orders</a>
+                                <a class="dropdown-item" href="{% url 'staff:branch_messages' %}">Messages</a>
+                                <a class="dropdown-item" href="{% url 'staff:branch_reports' %}">Reports</a>
+                            </div>
+                        </li>
 
-                            {#                            <li class="nav-item dropdown">#}
-                            {#                                <a class="nav-link dropdown-toggle" href="" id="dropdown04"#}
+                        {#                            <li class="nav-item dropdown">#}
+                        {#                                <a class="nav-link dropdown-toggle" href="" id="dropdown04"#}
                             {#                                   data-toggle="dropdown"#}
                             {#                                   aria-haspopup="true" aria-expanded="false">My Stores</a>#}
                             {#                                <div class="dropdown-menu" aria-labelledby="dropdown04">#}
@@ -101,51 +115,27 @@
                         <a class="active nav-link active" href="#add" data-toggle="tab">Add new Items</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#update" data-toggle="tab">Add Branch Shopeaze Operators</a>
+                        <a class="nav-link" href="#view" data-toggle="tab"
+                           style="text-transform: capitalize">View {{ store }} Inventory</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#view" data-toggle="tab">View Branch Shopeaze Operators</a>
+                        <a class="nav-link" href="#viewMessages" data-toggle="tab" style="text-transform: capitalize">View {{ store }}
+                            Orders</a>
                     </li>
                 </ul>
             </div>
             <div class="card-body">
 
 
-                {#            <!-- Button trigger modal -->#}
-                {#<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">#}
-                {#  Launch demo modal#}
-                {#</button>#}
-                {##}
-                {#<!-- Modal -->#}
-                {#<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">#}
-                {#  <div class="modal-dialog" role="document">#}
-                {#    <div class="modal-content">#}
-                {#      <div class="modal-header">#}
-                {#        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>#}
-                {#        <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
-                {#          <span aria-hidden="true">&times;</span>#}
-                {#        </button>#}
-                {#      </div>#}
-                {#      <div class="modal-body">#}
-                {#        ...#}
-                {#      </div>#}
-                {#      <div class="modal-footer">#}
-                {#        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>#}
-                {#        <button type="button" class="btn btn-primary">Save changes</button>#}
-                {#      </div>#}
-                {#    </div>#}
-                {#  </div>#}
-                {#</div>#}
                 <div class="tab-content">
                     <div class="tab-pane active" id="add">
                         <h3 class="text-center">Add New Inventory</h3>
 
                         <form method="post" action="{% url 'staff:additems' %}" enctype="multipart/form-data">
                             {% csrf_token %}
-                            {% for x in StoresForm %}
+                            {% for x in InventoryForm %}
                                 <div class="form-group">
                                     {{ x|as_crispy_field }}
-                                    {#                                {{ StoresForm|crispy }}#}
                                 </div>
                                 <br>
                                 <br>
@@ -160,58 +150,57 @@
                     </div>
                     <div class="tab-pane" id="view">
 
-                        <h3 class="text-center">Update Stores</h3>
+                        <h3 class="text-center">View /update Store Inventory</h3>
                         <table class="table">
                             <thead class="thead-dark">
                             <tr>
-                                <th scope="col">Store id</th>
-                                <th scope="col">Store Name</th>
-                                <th scope="col">phone number</th>
-                                <th scope="col">email</th>
-                                <th scope="col">Admin</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Discount</th>
+                                <th scope="col">is Discounted</th>
                                 <th scope="col">time added</th>
                                 <th scope="col">Update</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for store in stores %}
+                            {% for item in items %}
                                 <tr>
-                                    <form method="post" action="{% url 'sellers:updatestore' %}">
+                                    <form method="post" action="{% url 'staff:updateitem' %}">
                                         {% csrf_token %}
+                                        <input type="hidden" name="store" value="{{ item.pk }}">
+
                                         <td>
-                                            {{ store.pk }} <input type="hidden" name="store" value="{{ store.pk }}">
+                                            <div class="mb-3 col-12">{{ item.item_name }}</div>
 
                                         </td>
                                         <td>
-                                            <div class="mb-3 col-12">{{ store.name }}</div>
-
-                                        </td>
-                                        <td>
                                             <div class=" mb-3 col-12">
-                                                <input type="text" name="number"
-                                                       class="quantity form-control input-number"
-                                                       value="{{ store.phone_number }}"
-                                                >
-                                            </div>
+                                                <a href="#" class="img-prod"><img
+                                                        class="img-fluid rounded" src="{{ item.image.url }}"
+                                                        alt="{{ item.item_name }}" style="    height: 230px;
+">
+                                                    <div class="overlay"></div>
+                                                </a></div>
                                         </td>
-                                        <td>
-                                            <div class=" mb-3 col-12">
-                                                <input type="text" name="email"
-                                                       class="quantity form-control input-number"
-                                                       value="{{ store.email }}"
-                                                >
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class=" mb-3 col-12">
-                                                <input type="text" name="admin"
-                                                       class="quantity form-control input-number"
-                                                       value="{{ store.admin }}"
-                                                ></div>
-                                        </td>
-                                        <td>
-                                            <div class="mb-3 col-12">{{ store.time_added }}</div>
-                                        </td>
+                                        {#                                        <td>#}
+                                        {#                                            <div class=" mb-3 col-12">#}
+                                        {#                                                <input type="text" name="email"#}
+                                        {#                                                       class="quantity form-control input-number"#}
+                                        {#                                                       value="{{ store.email }}"#}
+                                        {#                                                >#}
+                                        {#                                            </div>#}
+                                        {#                                        </td>#}
+                                        {#                                        <td>#}
+                                        {#                                            <div class=" mb-3 col-12">#}
+                                        {#                                                <input type="text" name="admin"#}
+                                        {#                                                       class="quantity form-control input-number"#}
+                                        {#                                                       value="{{ store.admin }}"#}
+                                        {#                                                ></div>#}
+                                        {#                                        </td>#}
+                                        {#                                        <td>#}
+                                        {#                                            <div class="mb-3 col-12">{{ store.time_added }}</div>#}
+                                        {#                                        </td>#}
                                         <td>
                                             <button type="submit">Update</button>
                                         </td>
@@ -221,35 +210,68 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="tab-pane" id="update">
-                        <h3 class="text-center">My Stores</h3>
-                        <p>
+                    <div class="tab-pane" id="viewMessages">
+
+                        <h3 class="text-center">View orders</h3>
                         <table class="table">
                             <thead class="thead-dark">
                             <tr>
-                                <th scope="col">Store id</th>
-                                <th scope="col">Store Name</th>
-                                <th scope="col">Phone number</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Admin</th>
-                                <th scope="col">Time added</th>
+                                <th scope="col">id</th>
+                                <th scope="col">Customer name</th>
+                                <th scope="col">Customer email</th>
+                                <th scope="col">Customer Location</th>
+                                <th scope="col">Customer contact number</th>
+                                <th scope="col">time ordered</th>
+                                <th scope="col">Confirm</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for store in stores %}
+                            {% for item in items %}
+                                {#                                todo orders after payments#}
                                 <tr>
-                                    <th scope="row">{{ store.pk }}</th>
-                                    <td>{{ store.name }}</td>
-                                    <td>{{ store.phone_number }}</td>
-                                    <td>{{ store.email }}</td>
-                                    <td>{{ store.admin }}</td>
+                                    <form method="post" action="{% url 'staff:updateitem' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="store" value="{{ item.pk }}">
 
-                                    <td>{{ store.time_added }}</td>
+                                        <td>
+                                            <div class="mb-3 col-12">{{ item.item_name }}</div>
+
+                                        </td>
+                                        <td>
+                                            <div class=" mb-3 col-12">
+                                                <a href="#" class="img-prod"><img
+                                                        class="img-fluid rounded" src="{{ item.image.url }}"
+                                                        alt="{{ item.item_name }}" style="    height: 230px;
+">
+                                                    <div class="overlay"></div>
+                                                </a></div>
+                                        </td>
+                                        {#                                        <td>#}
+                                        {#                                            <div class=" mb-3 col-12">#}
+                                        {#                                                <input type="text" name="email"#}
+                                        {#                                                       class="quantity form-control input-number"#}
+                                        {#                                                       value="{{ store.email }}"#}
+                                        {#                                                >#}
+                                        {#                                            </div>#}
+                                        {#                                        </td>#}
+                                        {#                                        <td>#}
+                                        {#                                            <div class=" mb-3 col-12">#}
+                                        {#                                                <input type="text" name="admin"#}
+                                        {#                                                       class="quantity form-control input-number"#}
+                                        {#                                                       value="{{ store.admin }}"#}
+                                        {#                                                ></div>#}
+                                        {#                                        </td>#}
+                                        {#                                        <td>#}
+                                        {#                                            <div class="mb-3 col-12">{{ store.time_added }}</div>#}
+                                        {#                                        </td>#}
+                                        <td>
+                                            <button type="submit">Update</button>
+                                        </td>
+                                    </form>
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table>
-                        </p>
                     </div>
                 </div>
             </div>

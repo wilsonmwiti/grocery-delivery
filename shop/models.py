@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 from accounts.models import User
 from inventory.models import Inventory
+from sellers.extras import encrypt_string
 from sellers.models import Stores
 
 
@@ -26,6 +27,7 @@ class Cart(models.Model):
     price = models.IntegerField(default=0)
     unit_price = models.IntegerField(default=0)
     size = models.CharField(null=True, default=None, max_length=20)
+    hash = models.TextField()
 
     class Meta:
         verbose_name_plural = 'Carts'
@@ -34,6 +36,7 @@ class Cart(models.Model):
     def save(self, *args, **kwargs):
         # fixme error in discount calculation
         try:
+            self.hash = encrypt_string('{}'.format(self.pk))
             if not self.item.discounted:
                 self.price = float(self.item.price_per_unit) * float(self.qty)
                 self.unit_price = float(self.item.price_per_unit)

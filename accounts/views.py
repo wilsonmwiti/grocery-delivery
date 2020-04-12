@@ -10,7 +10,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from accounts.forms import SignUpForm, ForgotPasswordForm, ProfileForm
-from accounts.models import User, UserProfile
+from accounts.models import User
 from shop.models import Cart
 from .tokens import account_activation_token
 
@@ -207,11 +207,13 @@ def profile(request):
 @login_required(login_url='customer-accounts:login')
 def create_profile(request):
     user = User.objects.get(pk=request.user.pk)
-    profile = UserProfile.objects.get_or_create(user=user)
     if profile:
+        print("profile ala")
         form = ProfileForm(
-            # initial={'address': profile.address, 'mobile_money_phone_number': profile.mobile_money_phone_number,
-            #          'alternative_phone_number': profile.alternative_phone_number, 'location': profile.location}
+            initial={'address': user.profile.address,
+                     'mobile_money_phone_number': user.profile.mobile_money_phone_number,
+                     'alternative_phone_number': user.profile.alternative_phone_number,
+                     'location': user.profile.location}
         )
     else:
         form = ProfileForm()
@@ -220,12 +222,9 @@ def create_profile(request):
     else:
         cart_items = 0
     if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=profile)
-        store = UserProfile.objects.get(user=user)
-
+        form = ProfileForm(request.POST, instance=user.profile)
         if form.is_valid():
             obj = form.save(commit=False)
-            # obj.user = store
             obj.save()
         else:
             print(form.errors)

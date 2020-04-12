@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
 from accounts.forms import ContactUsForm
-from accounts.models import User, UserProfile
+from accounts.models import User, Profile
 from inventory.models import Inventory, Categories
 from sellers.models import Stores
 from shop.forms import QuantityForm, QuantityFormCuppy, SubscribeForm, SearchForm, SearchStoresForm
@@ -142,7 +142,7 @@ def cart(request):
 def checkout(request):
     # check if delivery profile is set and redirect to user profile creation or checkout page if it is available
     user = User.objects.get(pk=request.user.pk)
-    user_profile = UserProfile.objects.filter(user=user)
+    user_profile = Profile.objects.filter(user=user)
     if user_profile.count() > 0:
         #     exists move to checkout
         subscribe_form = SubscribeForm()

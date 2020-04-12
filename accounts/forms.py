@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
-from accounts.models import User, UserProfile
+from accounts.models import User, Profile
 
 
 class SignUpForm(UserCreationForm):
@@ -61,7 +61,7 @@ class UserLoginForm(AuthenticationForm):
 
 class ProfileForm(forms.ModelForm):
     class Meta:
-        model = UserProfile
+        model = Profile
         fields = ['address', 'mobile_money_phone_number', 'alternative_phone_number', 'location']
         widgets = {
             'address': forms.TextInput(attrs={'placeholder': 'Address'}),

@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 # the module name is app_name.models
-from accounts.models import User, UserProfile
+from accounts.models import User, Profile
 
 
 # username = models.CharField(max_length=20)
@@ -38,4 +38,4 @@ class ProfileAdmin(admin.ModelAdmin):
     ]
 # Register your models to admin site, then you can add, edit, delete and search your models in Django admin site.
 admin.site.register(User, UserAdmin)
-admin.site.register(UserProfile, ProfileAdmin)
+admin.site.register(Profile, ProfileAdmin)

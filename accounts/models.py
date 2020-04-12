@@ -5,6 +5,8 @@ from enum import Enum
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch.dispatcher import receiver
 
 from sellers.extras import encrypt_string
 
@@ -102,7 +104,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         super(User, self).save(*args, **kwargs)
 
 
-class UserProfile(models.Model):
+class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     address = models.TextField(max_length=200, null=True)
     alternative_phone_number = models.CharField(null=True, max_length=20, blank=True)
@@ -114,7 +116,18 @@ class UserProfile(models.Model):
         verbose_name_plural = "User Profiles"
 
 
-class SellerProfile(UserProfile):
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
+
+class SellerProfile(Profile):
     is_seller_admin = models.BooleanField(default=False)
     seller_mobile_money_till_number = models.CharField(null=True, max_length=10)
     orders_completed = models.ImageField()

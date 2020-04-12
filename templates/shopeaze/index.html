@@ -24,7 +24,7 @@
                     <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
 
                         <div class="col-md-12 ftco-animate text-center">
-                            <h1 class="mb-2">We deliver fresh groceries and ousehold items from trusted stores </h1>
+                            <h1 class="mb-2">We deliver fresh groceries and household items from trusted stores </h1>
                             <h2 class="subheading mb-4">We deliver products to your door step</h2>
                             {% if user.is_authenticated %}
                             {% else %}
@@ -251,13 +251,12 @@
                     {% if product.discounted %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="#" class="img-prod">
-                                    <img
-                                            class="img-responsive" src="{{ product.image.url }}"
-                                            alt="{{ product.item_name }}" style="width: 255px;height: 190px;">
-                                    <span class="status">{{ product.discount }}%</span>
-                                    <div class="overlay"></div>
-                                </a>
+                                {% if product.image %}
+                                    <a href="#" class="img-prod"><img
+                                            class="img-fluid" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="height: 100%">
+                                        <div class="overlay"></div>
+                                    </a>{% endif %}
                                 <div class="text py-3 pb-4 px-3 text-center">
                                     <h3><a href="#">{{ product.item_name }}</a>
                                     </h3>
@@ -288,11 +287,15 @@
                     {% else %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="#" class="img-prod"><img
-                                        class="img-fluid" src="{{ product.image.url }}"
-                                        alt="{{ product.item_name }}" style="height: 100%">
-                                    <div class="overlay"></div>
-                                </a>
+
+
+                                {% if product.image %}
+                                    <a href="#" class="img-prod"><img
+                                            class="img-fluid" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="height: 100%">
+                                        <div class="overlay"></div>
+                                    </a>{% endif %}
+
                                 <div class="text py-3 pb-4 px-3 text-center">
                                     <h3><a href="#">{{ product.item_name }}</a>
                                     </h3>
@@ -330,13 +333,12 @@
                     {% if product.discounted %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="#" class="img-prod">
-                                    <img
-                                            class="img-responsive" src="{{ product.image.url }}"
-                                            alt="{{ product.item_name }}" style="width: 255px;height: 190px;">
-                                    <span class="status">{{ product.discount }}%</span>
-                                    <div class="overlay"></div>
-                                </a>
+                                {% if product.image %}
+                                    <a href="#" class="img-prod"><img
+                                            class="img-fluid" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="height: 100%">
+                                        <div class="overlay"></div>
+                                    </a>{% endif %}
                                 <div class="text py-3 pb-4 px-3 text-center">
                                     <h3><a href="#">{{ product.item_name }}</a>
                                     </h3>
@@ -367,11 +369,12 @@
                     {% else %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="#" class="img-prod"><img
-                                        class="img-fluid" src="{{ product.image.url }}"
-                                        alt="{{ product.item_name }}" style="height: 100%">
-                                    <div class="overlay"></div>
-                                </a>
+                                {% if product.image %}
+                                    <a href="#" class="img-prod"><img
+                                            class="img-fluid" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="height: 100%">
+                                        <div class="overlay"></div>
+                                    </a>{% endif %}
                                 <div class="text py-3 pb-4 px-3 text-center">
                                     <h3><a href="#">{{ product.item_name }}</a>
                                     </h3>
@@ -409,13 +412,12 @@
                     {% if product.discounted %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="#" class="img-prod">
-                                    <img
-                                            class="img-responsive" src="{{ product.image.url }}"
-                                            alt="{{ product.item_name }}" style="width: 255px;height: 190px;">
-                                    <span class="status">{{ product.discount }}%</span>
-                                    <div class="overlay"></div>
-                                </a>
+                                {% if product.image %}
+                                    <a href="#" class="img-prod"><img
+                                            class="img-fluid" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="height: 100%">
+                                        <div class="overlay"></div>
+                                    </a>{% endif %}
                                 <div class="text py-3 pb-4 px-3 text-center">
                                     <h3><a href="#">{{ product.item_name }}</a>
                                     </h3>
@@ -446,11 +448,12 @@
                     {% else %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="#" class="img-prod"><img
-                                        class="img-fluid" src="{{ product.image.url }}"
-                                        alt="{{ product.item_name }}" style="height: 100%">
-                                    <div class="overlay"></div>
-                                </a>
+                                {% if product.image %}
+                                    <a href="#" class="img-prod"><img
+                                            class="img-fluid" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="height: 100%">
+                                        <div class="overlay"></div>
+                                    </a>{% endif %}
                                 <div class="text py-3 pb-4 px-3 text-center">
                                     <h3><a href="#">{{ product.item_name }}</a>
                                     </h3>
@@ -488,13 +491,12 @@
                     {% if product.discounted %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="#" class="img-prod">
-                                    <img
-                                            class="img-responsive" src="{{ product.image.url }}"
-                                            alt="{{ product.item_name }}" style="width: 255px;height: 190px;">
-                                    <span class="status">{{ product.discount }}%</span>
-                                    <div class="overlay"></div>
-                                </a>
+                                {% if product.image %}
+                                    <a href="#" class="img-prod"><img
+                                            class="img-fluid" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="height: 100%">
+                                        <div class="overlay"></div>
+                                    </a>{% endif %}
                                 <div class="text py-3 pb-4 px-3 text-center">
                                     <h3><a href="#">{{ product.item_name }}</a>
                                     </h3>
@@ -525,11 +527,12 @@
                     {% else %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="#" class="img-prod"><img
-                                        class="img-fluid" src="{{ product.image.url }}"
-                                        alt="{{ product.item_name }}" style="height: 100%">
-                                    <div class="overlay"></div>
-                                </a>
+                                {% if product.image %}
+                                    <a href="#" class="img-prod"><img
+                                            class="img-fluid" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="height: 100%">
+                                        <div class="overlay"></div>
+                                    </a>{% endif %}
                                 <div class="text py-3 pb-4 px-3 text-center">
                                     <h3><a href="#">{{ product.item_name }}</a>
                                     </h3>
@@ -567,13 +570,12 @@
                     {% if product.discounted %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="#" class="img-prod">
-                                    <img
-                                            class="img-responsive" src="{{ product.image.url }}"
-                                            alt="{{ product.item_name }}" style="width: 255px;height: 190px;">
-                                    <span class="status">{{ product.discount }}%</span>
-                                    <div class="overlay"></div>
-                                </a>
+                                {% if product.image %}
+                                    <a href="#" class="img-prod"><img
+                                            class="img-fluid" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="height: 100%">
+                                        <div class="overlay"></div>
+                                    </a>{% endif %}
                                 <div class="text py-3 pb-4 px-3 text-center">
                                     <h3><a href="#">{{ product.item_name }}</a>
                                     </h3>
@@ -604,11 +606,12 @@
                     {% else %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="#" class="img-prod"><img
-                                        class="img-fluid" src="{{ product.image.url }}"
-                                        alt="{{ product.item_name }}" style="height: 100%">
-                                    <div class="overlay"></div>
-                                </a>
+                                {% if product.image %}
+                                    <a href="#" class="img-prod"><img
+                                            class="img-fluid" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="height: 100%">
+                                        <div class="overlay"></div>
+                                    </a>{% endif %}
                                 <div class="text py-3 pb-4 px-3 text-center">
                                     <h3><a href="#">{{ product.item_name }}</a>
                                     </h3>
@@ -646,13 +649,12 @@
                     {% if product.discounted %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="#" class="img-prod">
-                                    <img
-                                            class="img-responsive" src="{{ product.image.url }}"
-                                            alt="{{ product.item_name }}" style="width: 255px;height: 190px;">
-                                    <span class="status">{{ product.discount }}%</span>
-                                    <div class="overlay"></div>
-                                </a>
+                                {% if product.image %}
+                                    <a href="#" class="img-prod"><img
+                                            class="img-fluid" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="height: 100%">
+                                        <div class="overlay"></div>
+                                    </a>{% endif %}
                                 <div class="text py-3 pb-4 px-3 text-center">
                                     <h3><a href="#">{{ product.item_name }}</a>
                                     </h3>
@@ -683,11 +685,12 @@
                     {% else %}
                         <div class="col-md-6 col-lg-3 ftco-animate">
                             <div class="product">
-                                <a href="#" class="img-prod"><img
-                                        class="img-fluid" src="{{ product.image.url }}"
-                                        alt="{{ product.item_name }}" style="height: 100%">
-                                    <div class="overlay"></div>
-                                </a>
+                                {% if product.image %}
+                                    <a href="#" class="img-prod"><img
+                                            class="img-fluid" src="{{ product.image.url }}"
+                                            alt="{{ product.item_name }}" style="height: 100%">
+                                        <div class="overlay"></div>
+                                    </a>{% endif %}
                                 <div class="text py-3 pb-4 px-3 text-center">
                                     <h3><a href="#">{{ product.item_name }}</a>
                                     </h3>

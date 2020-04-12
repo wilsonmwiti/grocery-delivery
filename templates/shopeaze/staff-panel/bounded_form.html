@@ -1,0 +1,100 @@
+{% extends 'shopeaze/base.html' %}
+{% load crispy_forms_tags %}
+{% block title_extension %}{{ store.name }}Staff {% endblock %}
+{% block extra %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css" rel="stylesheet"/>
+
+{% endblock %}
+{% block nav %}
+    <div class="container">
+        {% if line %}
+            <a class="navbar-brand" href="{% url 'shop:index' %}"><span
+                    style=" font-family: 'Yellowtail'; color: #82ae46">{{ store.name }}</span></a>
+
+        {% else %}
+            <a class="navbar-brand" href="{% url 'shop:index' %}">Shop<span style="    font-family: 'Yellowtail';
+"><b>Eaze</b></span></a>
+
+        {% endif %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    {% if line %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="{% url 'shop:index' %}" id="dropdown04"
+                               data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false"><span>{{ line.name }}</span></a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown04">
+                                <a class="dropdown-item" href="{% url 'staff:branch_sales' %}">Sales</a>
+                                <a class="dropdown-item" href="{% url 'staff:branch_orders' %}">Orders</a>
+                                <a class="dropdown-item" href="{% url 'staff:branch_messages' %}">Messages</a>
+                                <a class="dropdown-item" href="{% url 'staff:branch_reports' %}">Reports</a>
+                            </div>
+                        </li>
+
+                        {#                            <li class="nav-item dropdown">#}
+                        {#                                <a class="nav-link dropdown-toggle" href="" id="dropdown04"#}
+                        {#                                   data-toggle="dropdown"#}
+                        {#                                   aria-haspopup="true" aria-expanded="false">My Stores</a>#}
+                        {#                                <div class="dropdown-menu" aria-labelledby="dropdown04">#}
+                        {#                                    <a class="dropdown-item" href="{% url 'sellers:line_orders' %}">Line Orders</a>#}
+                        {#                                    <a class="dropdown-item" href="{% url 'sellers:line_messages' %}">Line Messages</a>#}
+                        {#                                    <a class="dropdown-item" href="{% url 'sellers:line_reports' %}">Reports</a>#}
+                        {#                                </div>#}
+                        {#                            </li>#}
+
+
+                    {% endif %}
+                {% endif %}
+                <li class="nav-item"><a href="{% url 'sellers:about-us' %}" class="nav-link">About</a></li>
+                {#	          <li class="nav-item"><a href="{% url 'shop:blog' %}" class="nav-link">Blog</a></li>#}
+                <li class="nav-item"><a href="{% url 'sellers:contact-us' %}" class="nav-link">Contact</a></li>
+
+
+                <li class="nav-item cta cta-colored"><a href="{% url 'customer-accounts:panel' %}"
+                                                        class="nav-link"><span
+                ></span>Panel</a></li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="{% url 'customer-accounts:login' %}"
+                           id="dropdown04" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">{{ user }}</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown04">
+                            <a class="dropdown-item" href="{% url 'customer-accounts:logout' %}">Log out</a>
+
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="{% url 'customer-accounts:login' %}"
+                           id="dropdown04" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">Accounts</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown04">
+                            <a class="dropdown-item" href="{% url 'customer-accounts:login' %}">Login</a>
+                            <a class="dropdown-item" href="{% url 'customer-accounts:signup' %}">Register</a>
+
+                        </div>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+{% block maincontent %}
+    <form method="post" action="{% url 'staff:updateitem' item.hash %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group ">
+                {{ field|as_crispy_field }}
+            </div>    {% endfor %}
+        <a href="{% url 'staff:panel' %}" class="btn btn-warning">Cancel</a>
+        <button type="submit" class="btn btn-success">Submit changes</button>
+
+    </form>
+{% endblock %}

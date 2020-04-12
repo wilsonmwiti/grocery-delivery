@@ -102,14 +102,15 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="{% url 'customer-accounts:login' %}"
                                id="dropdown04" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
+                               aria-haspopup="true" aria-expanded="false">{{ user }}</a>
                             <div class="dropdown-menu" aria-labelledby="dropdown04">
-                                <a class="dropdown-item" href="{% url 'customer-accounts:login' %}"><span
-                                        class="icon-details"></span>Details</a>
+                                <a class="dropdown-item" href="{% url 'customer-accounts:createprofile' %}"><span
+                                        class="icon-account_circle"></span>User Profile</a>
                                 <a class="dropdown-item" href="{% url 'customer-accounts:signup' %}"><span
                                         class="icon-shop"></span>Orders</a>
                                 <a class="dropdown-item" href="{% url 'customer-accounts:signup' %}"><span
                                         class="icon-local_offer"></span>Coupons</a>
+
                                 <a class="dropdown-item" href="{% url 'customer-accounts:logout' %}"> <span
                                         class="icon-sign-out"></span>Log out</a>
 

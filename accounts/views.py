@@ -9,8 +9,9 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from accounts.forms import SignUpForm, ForgotPasswordForm
-from accounts.models import User
+from accounts.forms import SignUpForm, ForgotPasswordForm, ProfileForm
+from accounts.models import User, UserProfile
+from shop.models import Cart
 from .tokens import account_activation_token
 
 
@@ -201,3 +202,33 @@ def forgot_password(request):
 #         return render(request, 'shopeaze/customer-accounts/enter_new_password.html', {'form': form})
 def profile(request):
     return redirect('customer-accounts:panel')
+
+
+@login_required(login_url='customer-accounts:login')
+def create_profile(request):
+    user = User.objects.get(pk=request.user.pk)
+    profile = UserProfile.objects.get_or_create(user=user)
+    if profile:
+        form = ProfileForm(
+            # initial={'address': profile.address, 'mobile_money_phone_number': profile.mobile_money_phone_number,
+            #          'alternative_phone_number': profile.alternative_phone_number, 'location': profile.location}
+        )
+    else:
+        form = ProfileForm()
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user.pk).count()
+    else:
+        cart_items = 0
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=profile)
+        store = UserProfile.objects.get(user=user)
+
+        if form.is_valid():
+            obj = form.save(commit=False)
+            # obj.user = store
+            obj.save()
+        else:
+            print(form.errors)
+    context = {'cart_count': cart_items, 'form': form, 'user': user}
+
+    return render(request, 'shopeaze/customer-accounts/profile.html', context)

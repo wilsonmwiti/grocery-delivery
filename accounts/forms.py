@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
-from accounts.models import User
+from accounts.models import User, UserProfile
 
 
 class SignUpForm(UserCreationForm):
@@ -9,7 +9,7 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'phone_number', 'email', 'location', 'password1', 'password2')
+        fields = ('first_name', 'last_name', 'email', 'password1', 'password2')
 
 
 class ForgotPasswordForm(forms.Form):
@@ -57,3 +57,15 @@ class UserLoginForm(AuthenticationForm):
             'id': 'hi',
         }
     ))
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['address', 'mobile_money_phone_number', 'alternative_phone_number', 'location']
+        widgets = {
+            'address': forms.TextInput(attrs={'placeholder': 'Address'}),
+            'alternative_phone_number': forms.TextInput(attrs={'placeholder': 'Alternative Phone Number'}),
+            'mobile_money_phone_number': forms.TextInput(attrs={'placeholder': 'Safaricom Mpesa Phone Number'}),
+            'location': forms.TextInput(attrs={'placeholder': 'Town Of Residence'})
+        }

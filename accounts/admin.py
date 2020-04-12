@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 # the module name is app_name.models
-from accounts.models import User
+from accounts.models import User, UserProfile
 
 
 # username = models.CharField(max_length=20)
@@ -18,10 +18,24 @@ from accounts.models import User
 
 class UserAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'username', 'email', 'is_admin', 'is_staff', 'user_status', 'phone_number', 'location', 'user_type',
+        'id', 'first_name', 'last_name', 'email', 'is_admin', 'is_staff', 'user_status',
+        'user_type',
         'email_confirmed',)
-    search_fields = ('username', 'email', 'user_type', 'phone_number',)
+    search_fields = ('first_name', 'last_name', 'email', 'user_type')
 
 
+class ProfileAdmin(admin.ModelAdmin):
+    #  user = models.OneToOneField(User, on_delete=models.CASCADE, null=True,blank=True)
+    #     address = models.CharField(max_length=200,blank=True,null=True)
+    #     alternative_phone_number = models.CharField(null=True, blank=True, max_length=20)
+    #     mobile_money_phone_number = models.CharField(null=True, blank=True, max_length=20)
+    #     location = models.CharField(max_length=32)
+    list_display = [
+        'user', 'address', 'alternative_phone_number', 'mobile_money_phone_number', 'location'
+    ]
+    search_fields = [
+        'user', 'address', 'mobile_money_phone_number', 'location'
+    ]
 # Register your models to admin site, then you can add, edit, delete and search your models in Django admin site.
 admin.site.register(User, UserAdmin)
+admin.site.register(UserProfile, ProfileAdmin)

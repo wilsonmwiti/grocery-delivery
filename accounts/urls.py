@@ -14,6 +14,7 @@ urlpatterns = [
     #     views.reset_password, name='reset-password'),
     # url(r'^change-password/$', views.enter_new_password, name='enter_new_password'),
     url(r'^panel/$', views.panel, name='panel'),
+    url(r'^profile/$', views.create_profile, name='createprofile'),
     url(r'^forgot/$', views.forgot_password, name='forgot'),
     # url(r'^edit-add_line/$', views.edit_profile, name='panel'),
     url(r'^login/$',

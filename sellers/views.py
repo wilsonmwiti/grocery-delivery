@@ -90,11 +90,13 @@ def store_products(request, hash):
     store = Stores.objects.get(hash=hash)
     subscribe_form = SubscribeForm()
     search_form = SearchForm()
+    user = User.objects.get(pk=request.user.pk)
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
         cart_items = 0
     new_products = Inventory.objects.filter(owner=store).order_by('-time_added')[:8]
+    categories = Categories.objects.all().order_by('name')
     context_items = {}
 
     fruits = Inventory.objects.filter(category=Categories.objects.get(name__contains='fruits'), owner=store).order_by(
@@ -129,6 +131,10 @@ def store_products(request, hash):
     context_forms = {'cart_count': cart_items,
                      'subscribe_form': subscribe_form, 'search_form': search_form, 'store': store}
     context_items['new_products'] = new_products
+
+    context_items['categories'] = categories
+    context_items['store'] = store
+    context_items['cart_count'] = Cart.objects.filter(user=user).count()
     context_items.update(context_forms)
     return render(request, 'shopeaze/shop_products.html',
                   context_items)

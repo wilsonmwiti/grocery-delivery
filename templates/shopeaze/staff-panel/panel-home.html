@@ -58,51 +58,52 @@
 
                         {#                            <li class="nav-item dropdown">#}
                         {#                                <a class="nav-link dropdown-toggle" href="" id="dropdown04"#}
-                            {#                                   data-toggle="dropdown"#}
-                            {#                                   aria-haspopup="true" aria-expanded="false">My Stores</a>#}
-                            {#                                <div class="dropdown-menu" aria-labelledby="dropdown04">#}
-                            {#                                    <a class="dropdown-item" href="{% url 'sellers:line_orders' %}">Line Orders</a>#}
-                            {#                                    <a class="dropdown-item" href="{% url 'sellers:line_messages' %}">Line Messages</a>#}
-                            {#                                    <a class="dropdown-item" href="{% url 'sellers:line_reports' %}">Reports</a>#}
-                            {#                                </div>#}
-                            {#                            </li>#}
+                        {#                                   data-toggle="dropdown"#}
+                        {#                                   aria-haspopup="true" aria-expanded="false">My Stores</a>#}
+                        {#                                <div class="dropdown-menu" aria-labelledby="dropdown04">#}
+                        {#                                    <a class="dropdown-item" href="{% url 'sellers:line_orders' %}">Line Orders</a>#}
+                        {#                                    <a class="dropdown-item" href="{% url 'sellers:line_messages' %}">Line Messages</a>#}
+                        {#                                    <a class="dropdown-item" href="{% url 'sellers:line_reports' %}">Reports</a>#}
+                        {#                                </div>#}
+                        {#                            </li>#}
 
 
-                        {% endif %}
                     {% endif %}
-                    <li class="nav-item"><a href="{% url 'sellers:about-us' %}" class="nav-link">About</a></li>
-                    {#	          <li class="nav-item"><a href="{% url 'shop:blog' %}" class="nav-link">Blog</a></li>#}
-                    <li class="nav-item"><a href="{% url 'sellers:contact-us' %}" class="nav-link">Contact</a></li>
+                {% endif %}
+                <li class="nav-item"><a href="{% url 'sellers:about-us' %}" class="nav-link">About</a></li>
+                {#	          <li class="nav-item"><a href="{% url 'shop:blog' %}" class="nav-link">Blog</a></li>#}
+                <li class="nav-item"><a href="{% url 'sellers:contact-us' %}" class="nav-link">Contact</a></li>
 
 
-                    <li class="nav-item cta cta-colored"><a href="{% url 'customer-accounts:panel' %}" class="nav-link"><span
-                    ></span>Panel</a></li>
-                    {% if user.is_authenticated %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="{% url 'customer-accounts:login' %}"
-                               id="dropdown04" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
-                            <div class="dropdown-menu" aria-labelledby="dropdown04">
-                                <a class="dropdown-item" href="{% url 'customer-accounts:logout' %}">Log out</a>
+                <li class="nav-item cta cta-colored"><a href="{% url 'customer-accounts:panel' %}"
+                                                        class="nav-link"><span
+                ></span>Panel</a></li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="{% url 'customer-accounts:login' %}"
+                           id="dropdown04" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">{{ user }}</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown04">
+                            <a class="dropdown-item" href="{% url 'customer-accounts:logout' %}">Log out</a>
 
-                            </div>
-                        </li>
-                    {% else %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="{% url 'customer-accounts:login' %}"
-                               id="dropdown04" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">Accounts</a>
-                            <div class="dropdown-menu" aria-labelledby="dropdown04">
-                                <a class="dropdown-item" href="{% url 'customer-accounts:login' %}">Login</a>
-                                <a class="dropdown-item" href="{% url 'customer-accounts:signup' %}">Register</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="{% url 'customer-accounts:login' %}"
+                           id="dropdown04" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">Accounts</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown04">
+                            <a class="dropdown-item" href="{% url 'customer-accounts:login' %}">Login</a>
+                            <a class="dropdown-item" href="{% url 'customer-accounts:signup' %}">Register</a>
 
-                            </div>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
+                        </div>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
-    {% endblock %}
+    </div>
+{% endblock %}
 
 {% block maincontent %}
 
@@ -158,7 +159,7 @@
                                 <th scope="col">Image</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Discount</th>
-                                <th scope="col">is Discounted</th>
+                                <th scope="col">Is Discounted</th>
                                 <th scope="col">time added</th>
                                 <th scope="col">Update</th>
                             </tr>
@@ -166,45 +167,42 @@
                             <tbody>
                             {% for item in items %}
                                 <tr>
-                                    <form method="post" action="{% url 'staff:updateitem' %}">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="store" value="{{ item.pk }}">
 
-                                        <td>
+
+                                    <td>
+                                        <a href="{% url 'staff:updateitem' item.hash %}">
                                             <div class="mb-3 col-12">{{ item.item_name }}</div>
+                                        </a>
 
-                                        </td>
-                                        <td>
-                                            <div class=" mb-3 col-12">
-                                                <a href="#" class="img-prod"><img
-                                                        class="img-fluid rounded" src="{{ item.image.url }}"
-                                                        alt="{{ item.item_name }}" style="    height: 230px;
+                                    </td>
+                                    <td>
+                                        <div class=" mb-3 col-12">
+                                            <a href="#" class="img-prod"><img
+                                                    class="img-fluid rounded" src="{{ item.image.url }}"
+                                                    alt="{{ item.item_name }}" style="    height: 230px;
 ">
-                                                    <div class="overlay"></div>
-                                                </a></div>
-                                        </td>
-                                        {#                                        <td>#}
-                                        {#                                            <div class=" mb-3 col-12">#}
-                                        {#                                                <input type="text" name="email"#}
-                                        {#                                                       class="quantity form-control input-number"#}
-                                        {#                                                       value="{{ store.email }}"#}
-                                        {#                                                >#}
-                                        {#                                            </div>#}
-                                        {#                                        </td>#}
-                                        {#                                        <td>#}
-                                        {#                                            <div class=" mb-3 col-12">#}
-                                        {#                                                <input type="text" name="admin"#}
-                                        {#                                                       class="quantity form-control input-number"#}
-                                        {#                                                       value="{{ store.admin }}"#}
-                                        {#                                                ></div>#}
-                                        {#                                        </td>#}
-                                        {#                                        <td>#}
-                                        {#                                            <div class="mb-3 col-12">{{ store.time_added }}</div>#}
-                                        {#                                        </td>#}
-                                        <td>
-                                            <button type="submit">Update</button>
-                                        </td>
-                                    </form>
+                                                <div class="overlay"></div>
+                                            </a></div>
+                                    </td>
+                                    <td>
+                                        <div class=" mb-3 col-12">
+                                            <div class="mb-3 col-12">{{ item.price_per_unit }}</div>
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class=" mb-3 col-12">
+                                            <div class="mb-3 col-12">{{ item.discount }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="mb-3 col-12">{{ item.discounted }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="mb-3 col-12">{{ item.time_added }}</div>
+                                    </td>
+
+
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -229,7 +227,7 @@
                             {% for item in items %}
                                 {#                                todo orders after payments#}
                                 <tr>
-                                    <form method="post" action="{% url 'staff:updateitem' %}">
+                                    <form method="post" action="{% url 'staff:updateitem' item.hash %}">
                                         {% csrf_token %}
                                         <input type="hidden" name="store" value="{{ item.pk }}">
 

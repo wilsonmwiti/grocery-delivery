@@ -62,18 +62,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     #     choices=[x.value for x in STATUS],
     #     default=STATUS.get_value('available'),
     # )
-    username = models.CharField(max_length=20)
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
     email = models.EmailField(max_length=255, unique=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     user_status = models.CharField(max_length=20, null=False, default="active")
     timestamp = models.DateTimeField(auto_now_add=True)
-    phone_number = models.CharField(unique=True, null=True, blank=True, max_length=20)
     user_type = models.CharField(max_length=32,
                                  choices=[x.value for x in UserAccount],
                                  default=UserAccount.get_value('customer'))
     email_confirmed = models.BooleanField(default=False)
-    location = models.CharField(max_length=32)
     hash = models.TextField()
     USERNAME_FIELD = 'email'  # make email username field
     objects = UserManager()
@@ -83,7 +82,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = "Users"
 
     def __str__(self):
-        return self.email
+        return '{} {}'.format(self.first_name, self.last_name)
 
     @property
     def user_is_admin(self):
@@ -98,14 +97,27 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.is_active
 
     def save(self, *args, **kwargs):
-        self.hash = encrypt_string('{}{}{}{}'.format(self.pk, self.username, self.password, self.timestamp))
+        self.hash = encrypt_string(
+            '{}{}{}{}{}'.format(self.pk, self.first_name, self.last_name, self.password, self.timestamp))
         super(User, self).save(*args, **kwargs)
 
 
-class SellerProfile(models.Model):
-    seller = models.ForeignKey(User, models.CASCADE)
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    address = models.TextField(max_length=200, null=True)
+    alternative_phone_number = models.CharField(null=True, max_length=20, blank=True)
+    mobile_money_phone_number = models.CharField(null=True, max_length=20)
+    location = models.CharField(max_length=32)
+
+    class Meta:
+        db_table = 'User Profile'
+        verbose_name_plural = "User Profiles"
+
+
+class SellerProfile(UserProfile):
     is_seller_admin = models.BooleanField(default=False)
-    orders_completed = models.IntegerField()
+    seller_mobile_money_till_number = models.CharField(null=True, max_length=10)
+    orders_completed = models.ImageField()
 
     class Meta:
         db_table = 'Seller Profile'

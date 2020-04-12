@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
 from accounts.forms import ContactUsForm
-from accounts.models import User
+from accounts.models import User, UserProfile
 from inventory.models import Inventory, Categories
 from sellers.models import Stores
 from shop.forms import QuantityForm, QuantityFormCuppy, SubscribeForm, SearchForm, SearchStoresForm
@@ -140,17 +140,27 @@ def cart(request):
 
 @login_required(login_url='customer-accounts:login')
 def checkout(request):
-    subscribe_form = SubscribeForm()
+    # check if delivery profile is set and redirect to user profile creation or checkout page if it is available
+    user = User.objects.get(pk=request.user.pk)
+    user_profile = UserProfile.objects.filter(user=user)
+    if user_profile.count() > 0:
+        #     exists move to checkout
+        subscribe_form = SubscribeForm()
 
-    if request.user.is_authenticated:
-        cart_items = Cart.objects.filter(user=request.user.pk).count()
+        if request.user.is_authenticated:
+            cart_items = Cart.objects.filter(user=request.user.pk).count()
+        else:
+            cart_items = 0
+        user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller').count()
+        if user_is_seller > 0:
+            return redirect('sellers:panel')
+        else:
+            return render(request, 'shopeaze/checkout.html',
+                          {'cart_count': cart_items, 'subscribe_form': subscribe_form})
+
     else:
-        cart_items = 0
-    user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller').count()
-    if user_is_seller > 0:
-        return redirect('sellers:panel')
-    else:
-        return render(request, 'shopeaze/checkout.html', {'cart_count': cart_items, 'subscribe_form': subscribe_form})
+        #     create profile
+        return redirect('customer-accounts:createprofile')
 
 
 def about(request):
@@ -202,15 +212,16 @@ def login(request):
     return redirect('customer-accounts:login')
 
 
-def categories(request, pk):
+def categories(request, storehash, categorypk):
     subscribe_form = SubscribeForm()
 
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
         cart_items = 0
-    products = Inventory.objects.filter(category=pk)
-    cat = get_object_or_404(Categories, pk=pk)
+    owner = Stores.objects.get(hash=storehash)
+    products = Inventory.objects.filter(category=categorypk, owner=owner)
+    cat = get_object_or_404(Categories, pk=categorypk)
     user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller').count()
     if user_is_seller > 0:
         return redirect('sellers:panel')

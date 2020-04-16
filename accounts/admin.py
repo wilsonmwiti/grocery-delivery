@@ -34,7 +34,7 @@ class ProfileAdmin(admin.ModelAdmin):
         'user', 'address', 'alternative_phone_number', 'mobile_money_phone_number', 'location'
     ]
     search_fields = [
-        'user', 'address', 'mobile_money_phone_number', 'location'
+        'address', 'mobile_money_phone_number', 'location', 'alternative_phone_number'
     ]
 # Register your models to admin site, then you can add, edit, delete and search your models in Django admin site.
 admin.site.register(User, UserAdmin)

@@ -217,14 +217,14 @@
                                             <div class=" mb-3 col-12">
                                                 <input type="text" name="admin"
                                                        class="quantity form-control input-number"
-                                                       value="{{ store.admin }}"
+                                                       value="{{ store.admin.email }}"
                                                 ></div>
                                         </td>
                                         <td>
                                             <div class="mb-3 col-12">{{ store.time_added }}</div>
                                         </td>
                                         <td>
-                                            <button type="submit">Update</button>
+                                            <button type="submit" class="btn btn-warning">Update</button>
                                         </td>
                                     </form>
                                 </tr>
@@ -249,11 +249,11 @@
                             <tbody>
                             {% for store in stores %}
                                 <tr>
-                                    <th scope="row">{{ store.pk }}</th>
+                                    <td scope="row">{{ store.pk }}</td>
                                     <td>{{ store.name }}</td>
                                     <td>{{ store.phone_number }}</td>
                                     <td>{{ store.email }}</td>
-                                    <td>{{ store.admin }}</td>
+                                    <td>{{ store.admin.email }}</td>
 
                                     <td>{{ store.time_added }}</td>
                                 </tr>

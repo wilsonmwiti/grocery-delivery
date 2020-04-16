@@ -9,7 +9,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from accounts.forms import SignUpForm, ForgotPasswordForm, ProfileForm
+from accounts.forms import SignUpForm, ForgotPasswordForm, ProfileForm, ProfileAccountForm
 from accounts.models import User
 from shop.models import Cart
 from .tokens import account_activation_token
@@ -31,7 +31,7 @@ def panel(request):
     elif user.user_type == 'seller':
         return redirect('sellers:panel')
     elif user.user_type == "admin":
-        return HttpResponse("<p> Admin panel</p>")
+        return redirect('/shopeaze-admin/')
 
 
 def signup(request):
@@ -207,27 +207,32 @@ def profile(request):
 @login_required(login_url='customer-accounts:login')
 def create_profile(request):
     user = User.objects.get(pk=request.user.pk)
+    signupform = ProfileAccountForm(
+        initial={'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email})
+
     if profile:
         print("profile ala")
-        form = ProfileForm(
+        profile_form = ProfileForm(
             initial={'address': user.profile.address,
                      'mobile_money_phone_number': user.profile.mobile_money_phone_number,
                      'alternative_phone_number': user.profile.alternative_phone_number,
                      'location': user.profile.location}
         )
     else:
-        form = ProfileForm()
+        profile_form = ProfileForm()
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
         cart_items = 0
     if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=user.profile)
-        if form.is_valid():
-            obj = form.save(commit=False)
+        signupform = ProfileAccountForm(request.POST, instance=user)
+        profile_form = ProfileForm(request.POST, instance=user.profile)
+        if profile_form.is_valid() and signupform.is_valid():
+            signupform.save()
+            obj = profile_form.save(commit=False)
             obj.save()
         else:
-            print(form.errors)
-    context = {'cart_count': cart_items, 'form': form, 'user': user}
+            print(profile_form.errors)
+    context = {'cart_count': cart_items, 'form_profile': profile_form, 'form_signup': signupform, 'user': user}
 
     return render(request, 'shopeaze/customer-accounts/profile.html', context)

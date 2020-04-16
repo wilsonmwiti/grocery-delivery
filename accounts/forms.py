@@ -69,3 +69,11 @@ class ProfileForm(forms.ModelForm):
             'mobile_money_phone_number': forms.TextInput(attrs={'placeholder': 'Safaricom Mpesa Phone Number'}),
             'location': forms.TextInput(attrs={'placeholder': 'Town Of Residence'})
         }
+
+
+class ProfileAccountForm(forms.ModelForm):
+    email = forms.EmailField(max_length=254, disabled=True)
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email',)

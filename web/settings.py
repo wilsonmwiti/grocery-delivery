@@ -43,9 +43,9 @@ INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'staffapp.apps.StaffappConfig',
     'appAPI.apps.AppapiConfig',
-    'sellers',
+    'sellers.apps.SellersConfig',
     'crispy_forms',
-    # fixme 'mpesa_api.apps.MpesaApiConfig',
+    'mpesa_api.apps.MpesaApiConfig',
 
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

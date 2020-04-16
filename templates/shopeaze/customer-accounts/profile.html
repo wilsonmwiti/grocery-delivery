@@ -37,10 +37,17 @@
 
                             <form method="post" action="{% url 'customer-accounts:createprofile' %}">
                                 {% csrf_token %}
-                                {% for field in form %}
+                                {% for field in form_signup %}
                                     <div class="form-group ">
                                         {{ field|as_crispy_field }}
                                     </div>    {% endfor %}
+                                <hr>
+                                <hr>
+                                {% for field in form_profile %}
+                                    <div class="form-group ">
+                                        {{ field|as_crispy_field }}
+                                    </div>    {% endfor %}
+
                                 <button type="submit" class="btn btn-success"> &nbspSubmit changes &nbsp</button>
 
                             </form>

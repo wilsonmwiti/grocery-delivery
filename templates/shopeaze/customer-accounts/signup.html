@@ -2,7 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block title_extension %} Login {% endblock %}
+{% block title_extension %} Registration {% endblock %}
 {% block maincontent %}
     <div class="container">
         <div class="card ">
@@ -13,12 +13,6 @@
                     <div class="limiter">
                         <div class="container-login100">
                             <div class="wrap-login100">
-                                {#                        <div class="login100-form-title"#}
-                                {#                             style="background-image: url('{% static 'images/bg-01.jpg' %}');">#}
-                                {#					<span class="login100-form-title-1">#}
-                                {#						Sign In#}
-                                {#					</span>#}
-                                {#                        </div>#}
 
                                 <form class="login100-form validate-form" method="post"
                                       action="{% url 'customer-accounts:signup' %}">

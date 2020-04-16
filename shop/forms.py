@@ -40,8 +40,17 @@ class SearchForm(forms.Form):
 
 
 class SearchStoresForm(forms.Form):
-    item = forms.CharField(required=True,
-                           widget=forms.TextInput(
-                               attrs={'class': "form-control form-control-sm  w-50 mr-2 rounded mb-0",
-                                      'placeholder': 'Your Location...'}),
-                           label='')
+    store = forms.CharField(required=True,
+                            widget=forms.TextInput(
+                                attrs={'class': "form-control form-control-sm  w-50 mr-2 rounded mb-0",
+                                       'placeholder': 'Your Location...'}),
+                            label='')
+
+
+class PaymentsForm(forms.Form):
+    payment = [
+        ('mpesatill', 'Lipa Na Mpesa'),
+        ('mpesastk', 'Mpesa Express'),
+        ('cash', 'Cash on delivery'),
+    ]
+    payment_choices = forms.ChoiceField(label='', choices=payment, widget=forms.RadioSelect(attrs={'class': "mr-2"}))

@@ -20,14 +20,14 @@ from django.urls import path, include
 from web import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # admin panel
+    path('shopeaze-admin/', admin.site.urls),  # admin panel
     path('accounts/', include('accounts.urls')),  # customer-accounts
     path('', include('shop.urls')),  # shop
     path('staff/', include('staffapp.urls')),  # staff
     path('payments/', include('payments.urls')),  # payments
     path('inventory-manager/', include('inventory.urls')),  # inventory
     path('sellers/', include('sellers.urls')),  # inventory
-    # fixme path('mobile-pesa-api/v1/', include('mpesa_api.urls')),
+    path('mobile-pesa-api/v1/', include('mpesa_api.urls')),
 
 ]
 

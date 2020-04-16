@@ -42,7 +42,7 @@
 
                                     <td class="image-prod">
                                         <div class="img">
-                                            <a href="{% url 'shop:product-single'  product.item.pk %}"><img
+                                            <a href="{% url 'shop:product-single'  product.item.hash %}"><img
                                                     src="{{ product.item.image.url }}"
                                                     alt="{{ product.item.item_name }}" class="img"></a>
                                         </div>

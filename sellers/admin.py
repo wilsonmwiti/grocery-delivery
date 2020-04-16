@@ -16,7 +16,7 @@ class StoresAdmin(admin.ModelAdmin):
 
 class LinesAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'name', 'logo', 'time_added', 'image_tag')
+        'id', 'name', 'admin', 'logo', 'time_added', 'image_tag')
     search_fields = ('name',)
     # fields = []
     readonly_fields = ['image_tag', ]

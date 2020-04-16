@@ -34,7 +34,7 @@ class StoreLine(models.Model):
 class Stores(models.Model):
     line = models.ForeignKey(StoreLine, on_delete=models.CASCADE)
     town = models.CharField(max_length=50)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, blank=True)
     email = models.EmailField(max_length=100, unique=True)
     verified = models.BooleanField(default=False)
     time_added = models.DateTimeField(auto_now_add=True)
@@ -50,7 +50,8 @@ class Stores(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.name = '{} {}'.format(self.line.name, self.town)
+        if self.name.__len__() == 0:
+            self.name = '{} {}'.format(self.line.name, self.town)
         self.hash = encrypt_string('{}{}{}{}'.format(self.pk, self.town, self.time_added, self.email))
         super(Stores, self).save(*args, **kwargs)
 

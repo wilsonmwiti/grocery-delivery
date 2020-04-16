@@ -1,4 +1,5 @@
 # Create your views here.
+from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.http import HttpResponse
@@ -14,6 +15,7 @@ from shop.models import Cart
 from staffapp.models import ContactMessages
 
 
+@login_required(login_url='customer-accounts:login')
 def panel(request):
     user = User.objects.get(pk=request.user.pk)
     line = StoreLine.objects.filter(admin=user)
@@ -32,13 +34,15 @@ def panel(request):
                        'seller': user_is_seller})
 
     else:
-        return HttpResponse('<p>hey</p>')
+        return HttpResponse('<p>Contact Administrator For A Line To Be Created For You</p>')
 
 
+@login_required(login_url='customer-accounts:login')
 def list(request):
     return redirect('shop:searchLocation')
 
 
+@login_required(login_url='customer-accounts:login')
 def add_line(request):
     if request.method == 'POST':
         form = StoresLineCreationForm(request.POST, request.FILES)
@@ -53,45 +57,49 @@ def add_line(request):
     return redirect('sellers:profile')
 
 
+@login_required(login_url='customer-accounts:login')
 def addStore(request):
     if request.method == 'POST':
         form = StoresCreationForm(request.POST, request.FILES)
         if form.is_valid():
-            town = form.cleaned_data['town']
-            phone_number = form.cleaned_data['phone_number']
-            email = form.cleaned_data['email']
             user = User.objects.get(pk=request.user.pk)
             line = StoreLine.objects.get(admin=user)
-            new_store = Stores.objects.create(line=line, town=town,
-                                              phone_number=phone_number, email=email)
+            store = form.save(commit=False)
+            store.line = line
+            store.save()
 
         else:
             print(form.errors)
     return redirect('sellers:panel')
 
 
+@login_required(login_url='customer-accounts:login')
 def sales(request):
     return None
 
 
+@login_required(login_url='customer-accounts:login')
 def reports(request):
     return None
 
 
+@login_required(login_url='customer-accounts:login')
 def messages(request):
     return None
 
 
+@login_required(login_url='customer-accounts:login')
 def orders(request):
     return None
 
 
+@login_required(login_url='customer-accounts:login')
 def store_products(request, hash):
     store = Stores.objects.get(hash=hash)
     subscribe_form = SubscribeForm()
     search_form = SearchForm()
-    user = User.objects.get(pk=request.user.pk)
     if request.user.is_authenticated:
+        user = User.objects.get(pk=request.user.pk)
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
         cart_items = 0

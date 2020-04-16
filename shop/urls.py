@@ -25,6 +25,7 @@ urlpatterns = [
     url('subscribe/', views.subscribe, name='subscribe'),
     url('search/', views.search, name='search'),
     url('searchStores/', views.searchstores, name='searchLocation'),
+    url('payment_actions/', views.payment_actions, name='payment_actions'),
 
     # end of authentication for website
 

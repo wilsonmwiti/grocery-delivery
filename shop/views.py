@@ -8,7 +8,7 @@ from accounts.forms import ContactUsForm
 from accounts.models import User, Profile
 from inventory.models import Inventory, Categories
 from sellers.models import Stores
-from shop.forms import QuantityForm, QuantityFormCuppy, SubscribeForm, SearchForm, SearchStoresForm
+from shop.forms import QuantityForm, QuantityFormCuppy, SubscribeForm, SearchForm, SearchStoresForm, PaymentsForm
 from shop.models import Cart, WishList
 from staffapp.models import ContactMessages, Subscribers
 
@@ -143,20 +143,28 @@ def checkout(request):
     # check if delivery profile is set and redirect to user profile creation or checkout page if it is available
     user = User.objects.get(pk=request.user.pk)
     user_profile = Profile.objects.filter(user=user)
+    cart_items = Cart.objects.filter(user=user)
+
     if user_profile.count() > 0:
         #     exists move to checkout
         subscribe_form = SubscribeForm()
 
         if request.user.is_authenticated:
-            cart_items = Cart.objects.filter(user=request.user.pk).count()
+            cart_items_count = Cart.objects.filter(user=request.user.pk).count()
         else:
-            cart_items = 0
+            cart_items_count = 0
+        payment_method_form = PaymentsForm()
         user_is_seller = User.objects.filter(pk=request.user.pk, user_type='seller').count()
         if user_is_seller > 0:
             return redirect('sellers:panel')
         else:
+            cart_total = 0
+            for x in cart_items:
+                cart_total += x.price
             return render(request, 'shopeaze/checkout.html',
-                          {'cart_count': cart_items, 'subscribe_form': subscribe_form})
+                          {'cart_count': cart_items_count, 'subscribe_form': subscribe_form, 'cart_sum': cart_total,
+                           'paymentsform': payment_method_form,
+                           'user': user, 'user_profile': user_profile})
 
     else:
         #     create profile
@@ -212,6 +220,7 @@ def login(request):
     return redirect('customer-accounts:login')
 
 
+@login_required(login_url='customer-accounts:login')
 def categories(request, storehash, categorypk):
     subscribe_form = SubscribeForm()
 
@@ -291,6 +300,7 @@ def cuppy_add(request, pk):
     return HttpResponseRedirect(next)
 
 
+@login_required(login_url='customer-accounts:login')
 def single_add(request, pk):
     user = User.objects.get(pk=request.user.pk)
     cartobj = Cart.objects.filter(user=user)
@@ -329,6 +339,7 @@ def subscribe(request):
     return HttpResponseRedirect(next)
 
 
+@login_required(login_url='customer-accounts:login')
 def search(request):
     subscribe_form = SubscribeForm()
     search_form = SearchForm()
@@ -367,8 +378,8 @@ def searchstores(request):
         if request.method == 'POST':
             form = SearchStoresForm(request.POST)
             if form.is_valid():
-                name = form.cleaned_data['item']
-                items = Stores.objects.filter(name__icontains=name)
+                name = form.cleaned_data['store']
+                items = Stores.objects.filter(town__icontains=name)
 
                 return render(request, 'shopeaze/shops.html', {'stores': items, 'cart_count': cart_items,
                                                                'subscribe_form': subscribe_form,
@@ -379,3 +390,33 @@ def searchstores(request):
             return render(request, 'shopeaze/shops.html', {'stores': items, 'cart_count': cart_items,
                                                            'subscribe_form': subscribe_form,
                                                            'formSearchShop': search_form})
+
+
+# handles mpesa payments
+@login_required(login_url='customer-accounts:login')
+def payment_actions(request):
+    if request.method == 'POST':
+        form = PaymentsForm(request.POST)
+        if form.is_valid():
+            method = form.cleaned_data['payment_choices']
+            if method == 'mpesastk':
+                return redirect('mpesa-api:lipa_na_mpesa')
+            elif method == 'cash':
+                print('cash on delivery')
+            elif method == 'mpesatill':
+                print('mpesa till payments')
+        else:
+            print(form.errors)
+    else:
+        print('not post')
+    return None
+
+
+@login_required(login_url='customer-accounts:login')
+def create_order(request):
+    pass
+
+
+@login_required(login_url='customer-accounts:login')
+def remove_cart(request):
+    pass

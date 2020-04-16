@@ -48,7 +48,7 @@ class Inventory(models.Model):
 
     def save(self, *args, **kwargs):
         try:
-            self.hash = encrypt_string('{}'.format(self.pk))
+            self.hash = encrypt_string('{}{}'.format(self.item_name, self.pk))
 
             self.discounted_price_per_unit = ceil(
                 float(self.price_per_unit) - float(self.price_per_unit) / self.discount)

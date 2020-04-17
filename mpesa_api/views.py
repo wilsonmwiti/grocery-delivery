@@ -3,6 +3,7 @@ import json
 import requests
 from django.http import HttpResponse, JsonResponse
 # Create your views here.
+from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 from requests.auth import HTTPBasicAuth
 
@@ -42,13 +43,14 @@ def lipa_na_mpesa_online(request):
         "PartyA": phone_number,
         "PartyB": LipanaMpesaPassword.Business_short_code,
         "PhoneNumber": phone_number,
-        "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
+        "CallBackURL": "https://56337b44.ngrok.io/mobile-pesa-api/v1/c2b/confirmation",
         "AccountReference": "Shop Eaze",
         "TransactionDesc": "Testing stk push"
     }
     response = requests.post(api_url, json=request, headers=headers)
     print(response)
-    return HttpResponse('success')
+
+    return redirect('shop:mpesa_loading')
 
 
 @csrf_exempt
@@ -83,18 +85,21 @@ def validation(request):
 def confirmation(request):
     mpesa_body = request.body.decode('utf-8')
     mpesa_payment = json.loads(mpesa_body)
-    payment = MpesaPayment(
-        first_name=mpesa_payment['FirstName'],
-        last_name=mpesa_payment['LastName'],
-        middle_name=mpesa_payment['MiddleName'],
-        description=mpesa_payment['TransID'],
-        phone_number=mpesa_payment['MSISDN'],
-        amount=mpesa_payment['TransAmount'],
-        reference=mpesa_payment['BillRefNumber'],
-        organization_balance=mpesa_payment['OrgAccountBalance'],
-        type=mpesa_payment['TransactionType'],
-    )
-    payment.save()
+    print(mpesa_body)
+    print(mpesa_payment)
+    transaction_dict = mpesa_payment['Body']['stkCallback']
+    item_dicts = mpesa_payment['Body']['stkCallback']['CallbackMetadata']['Item']
+    print(transaction_dict['MerchantRequestID'])
+    payment = MpesaPayment.objects.create(order_id='to be generated',
+                                          amount=next(item for item in item_dicts if item["Name"] == "Amount")['Value'],
+                                          reference=
+                                          next(item for item in item_dicts if item["Name"] == "MpesaReceiptNumber")[
+                                              'Value'],
+                                          merchant_request_id=transaction_dict['MerchantRequestID'],
+                                          CheckoutRequestID=transaction_dict['CheckoutRequestID'],
+                                          ResultDesc=transaction_dict['ResultDesc'], phone_number=
+                                          next(item for item in item_dicts if item["Name"] == "PhoneNumber")['Value'],
+                                          organization_balance='')
     context = {
         "ResultCode": 0,
         "ResultDesc": "Accepted"

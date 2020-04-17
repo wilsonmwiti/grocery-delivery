@@ -131,8 +131,10 @@
                             </div>
                         </li>
                     {% endif %}
-                    <li class="nav-item cta cta-colored"><a href="{% url 'shop:cart' %}" class="nav-link"><span
-                            class="icon-shopping-cart"></span>[{% block cart %}0{% endblock %}]</a></li>
+                    {% block cart_link %}
+                        <li class="nav-item cta cta-colored"><a href="{% url 'shop:cart' %}" class="nav-link"><span
+                                class="icon-shopping-cart"></span>[{% block cart %}0{% endblock %}]</a></li>
+                    {% endblock %}
                 </ul>
             </div>
         </div>

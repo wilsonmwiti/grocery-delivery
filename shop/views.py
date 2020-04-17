@@ -420,3 +420,13 @@ def create_order(request):
 @login_required(login_url='customer-accounts:login')
 def remove_cart(request):
     pass
+
+
+@login_required(login_url='customer-accounts:login')
+def mpesa_loading(request):
+    return render(request, 'shopeaze/mpesa-waiting.html')
+
+
+@login_required(login_url='customer-accounts:login')
+def mobile_pesa_done(request):
+    return render(request, 'shopeaze/mpesa-done.html')

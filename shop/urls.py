@@ -26,7 +26,7 @@ urlpatterns = [
     url('search/', views.search, name='search'),
     url('searchStores/', views.searchstores, name='searchLocation'),
     url('payment_actions/', views.payment_actions, name='payment_actions'),
-
-    # end of authentication for website
+    url('mpesa-confirmation-loading/', views.mpesa_loading, name='mpesa_loading'),
+    url('mpesa-confirmation-done/', views.mobile_pesa_done, name='mpesa_done'),
 
 ]

@@ -37,16 +37,17 @@ def lipa_na_mpesa_online(request):
         "BusinessShortCode": LipanaMpesaPassword.Business_short_code,
         "Password": LipanaMpesaPassword.decode_password,
         "Timestamp": LipanaMpesaPassword.lipa_time,
-        "TransactionType": "CustomerPayBillOnline",
+        "TransactionType": "CustomerPayBillOnline",  # CustomerBuyGoodsOnline for till number
         "Amount": cart_total,
-        "PartyA": phone_number,  # replace with your phone number of client to get stk push
+        "PartyA": phone_number,
         "PartyB": LipanaMpesaPassword.Business_short_code,
-        "PhoneNumber": phone_number,  # replace with your phone number of client to get stk push
+        "PhoneNumber": phone_number,
         "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
         "AccountReference": "Shop Eaze",
         "TransactionDesc": "Testing stk push"
     }
     response = requests.post(api_url, json=request, headers=headers)
+    print(response)
     return HttpResponse('success')
 
 
@@ -58,8 +59,8 @@ def register_urls(request):
     options = {"ShortCode": LipanaMpesaPassword.Test_c2b_shortcode,
                "ResponseType": "Completed",
                # todo remember to fix ngrok link
-               "ConfirmationURL": "https://17a7c52c.ngrok.io/mobile-pesa-api/v1/c2b/confirmation",
-               "ValidationURL": "https://17a7c52c.ngrok.io/mobile-pesa-api/v1/c2b/validation"}
+               "ConfirmationURL": "https://56337b44.ngrok.io/mobile-pesa-api/v1/c2b/confirmation",
+               "ValidationURL": "https://56337b44.ngrok.io/mobile-pesa-api/v1/c2b/validation"}
     response = requests.post(api_url, json=options, headers=headers)
     return HttpResponse(response.text)
 

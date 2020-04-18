@@ -424,6 +424,7 @@ def remove_cart(request):
 
 @login_required(login_url='customer-accounts:login')
 def mpesa_loading(request):
+    print(request.session.get('mpesa_request_id'))
     return render(request, 'shopeaze/mpesa-waiting.html')
 
 

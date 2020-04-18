@@ -1,6 +1,8 @@
 from django.db import models
+from django.utils.crypto import get_random_string
 
 from accounts.models import User
+from payments.models import PaymentsBaseModel
 
 
 class BaseModel(models.Model):
@@ -35,7 +37,7 @@ class MpesaCallBacks(BaseModel):
         verbose_name_plural = 'Mpesa Call Backs'
 
 
-class MpesaPayment(BaseModel):
+class MpesaPayment(BaseModel, PaymentsBaseModel):
     customer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     order_id = models.CharField(null=True, max_length=3000)
     amount = models.CharField(max_length=10, null=True)
@@ -53,3 +55,7 @@ class MpesaPayment(BaseModel):
 
     def __str__(self):
         return self.reference
+
+    def save(self, *args, **kwargs):
+        self.order_id = get_random_string(length=6)
+        super(MpesaPayment, self).save(*args, **kwargs)

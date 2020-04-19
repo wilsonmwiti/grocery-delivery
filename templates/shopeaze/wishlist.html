@@ -37,15 +37,15 @@
                             {% for product in wishes %}
                                 <tr class="text-center">
                                     <td class="product-remove"><a
-                                            href="{% url 'shop:delete-wish' product.item.pk %}"><span
+                                            href="{% url 'shop:delete-wish' product.item.hash %}"><span
                                             class="ion-ios-close"></span></a></td>
                                     <td class="product-remove"><a
-                                            href="{% url 'shop:product-single' product.item.pk %}"><span
+                                            href="{% url 'shop:product-single' product.item.hash %}"><span
                                             class="ion-ios-add"></span></a></td>
 
                                     <td class="image-prod">
                                         <div class="img">
-                                            <a href="{% url 'shop:product-single'  product.item.pk %}"><img
+                                            <a href="{% url 'shop:product-single'  product.item.hash %}"><img
                                                     src="{{ product.item.image.url }}"
                                                     alt="{{ product.item.item_name }}" class="img"></a>
                                         </div>
@@ -56,7 +56,7 @@
                                         <p>{{ product.item.description }}</p>
                                     </td>
 
-                                    <td class="price">{{ product.unit_price }}</td>
+                                    <td class="price">{{ product.item.price_per_unit }}</td>
 
                                 </tr><!-- END TR-->
 

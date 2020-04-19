@@ -1,5 +1,6 @@
 {% extends 'shopeaze/base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block title_extension %}{{ store.name }}Staff {% endblock %}
 {% block extra %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -108,7 +109,7 @@
 {% block maincontent %}
 
 
-    <div class="container">
+    <div class="container min-vh-100">
         <div class="card ">
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs" id="tabs">
@@ -117,10 +118,10 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#view" data-toggle="tab"
-                           style="text-transform: capitalize">View {{ store }} Inventory</a>
+                           style="text-transform: capitalize">View Inventory</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#viewMessages" data-toggle="tab" style="text-transform: capitalize">View {{ store }}
+                        <a class="nav-link" href="#viewMessages" data-toggle="tab" style="text-transform: capitalize">View
                             Orders</a>
                     </li>
                 </ul>
@@ -151,7 +152,7 @@
                     </div>
                     <div class="tab-pane" id="view">
 
-                        <h3 class="text-center">View /update Store Inventory</h3>
+                        <h3 class="text-center">View / update Inventory</h3>
                         <table class="table">
                             <thead class="thead-dark">
                             <tr>
@@ -160,8 +161,6 @@
                                 <th scope="col">Price</th>
                                 <th scope="col">Discount</th>
                                 <th scope="col">Is Discounted</th>
-                                <th scope="col">time added</th>
-                                <th scope="col">Update</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -179,7 +178,8 @@
                                         <div class=" mb-3 col-12">
                                             <a href="#" class="img-prod"><img
                                                     class="img-fluid rounded" src="{{ item.image.url }}"
-                                                    alt="{{ item.item_name }}" style="    height: 230px;
+                                                    alt="{{ item.item_name }}" style="    height: 230px;width: 280px;
+
 ">
                                                 <div class="overlay"></div>
                                             </a></div>
@@ -198,9 +198,6 @@
                                     <td>
                                         <div class="mb-3 col-12">{{ item.discounted }}</div>
                                     </td>
-                                    <td>
-                                        <div class="mb-3 col-12">{{ item.time_added }}</div>
-                                    </td>
 
 
                                 </tr>
@@ -214,58 +211,47 @@
                         <table class="table">
                             <thead class="thead-dark">
                             <tr>
-                                <th scope="col">id</th>
-                                <th scope="col">Customer name</th>
-                                <th scope="col">Customer email</th>
-                                <th scope="col">Customer Location</th>
-                                <th scope="col">Customer contact number</th>
-                                <th scope="col">time ordered</th>
-                                <th scope="col">Confirm</th>
+                                <th scope="col">Order Ref</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col"> Location</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Contact</th>
+                                <th scope="col">Alternative contact</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for item in items %}
+                            {% for order in orders %}
                                 {#                                todo orders after payments#}
                                 <tr>
-                                    <form method="post" action="{% url 'staff:updateitem' item.hash %}">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="store" value="{{ item.pk }}">
 
-                                        <td>
-                                            <div class="mb-3 col-12">{{ item.item_name }}</div>
+                                    {% csrf_token %}
+                                    <td>
+                                        <div class="mb-3 col-12"><a
+                                                href="{% url 'staff:viewOrderItems' order.pk %}">{{ order.order_string }}</a>
+                                        </div>
 
-                                        </td>
-                                        <td>
-                                            <div class=" mb-3 col-12">
-                                                <a href="#" class="img-prod"><img
-                                                        class="img-fluid rounded" src="{{ item.image.url }}"
-                                                        alt="{{ item.item_name }}" style="    height: 230px;
-">
-                                                    <div class="overlay"></div>
-                                                </a></div>
-                                        </td>
-                                        {#                                        <td>#}
-                                        {#                                            <div class=" mb-3 col-12">#}
-                                        {#                                                <input type="text" name="email"#}
-                                        {#                                                       class="quantity form-control input-number"#}
-                                        {#                                                       value="{{ store.email }}"#}
-                                        {#                                                >#}
-                                        {#                                            </div>#}
-                                        {#                                        </td>#}
-                                        {#                                        <td>#}
-                                        {#                                            <div class=" mb-3 col-12">#}
-                                        {#                                                <input type="text" name="admin"#}
-                                        {#                                                       class="quantity form-control input-number"#}
-                                        {#                                                       value="{{ store.admin }}"#}
-                                        {#                                                ></div>#}
-                                        {#                                        </td>#}
-                                        {#                                        <td>#}
-                                        {#                                            <div class="mb-3 col-12">{{ store.time_added }}</div>#}
-                                        {#                                        </td>#}
-                                        <td>
-                                            <button type="submit">Update</button>
-                                        </td>
-                                    </form>
+                                    </td>
+                                    <td>
+                                        <div class="mb-3 col-12">{{ order.user }}</div>
+
+                                    </td>
+
+                                    <td>
+                                        <div class="mb-3 col-12">{{ order.user.profile.location }}</div>
+
+                                    </td>
+                                    <td>
+                                        <div class="mb-3 col-12">{{ order.user.profile.address }}</div>
+
+                                    </td>
+                                    <td>
+                                        <div class="mb-3 col-12">{{ order.user.profile.mobile_money_phone_number }}</div>
+
+                                    </td>
+                                    <td>
+                                        <div class="mb-3 col-12">{{ order.user.profile.alternative_phone_number }}</div>
+
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>

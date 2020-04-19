@@ -7,9 +7,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from accounts.forms import ContactUsForm
 from accounts.models import User, Profile
 from inventory.models import Inventory, Categories
+from mpesa_api.models import MpesaPayment
 from sellers.models import Stores
 from shop.forms import QuantityForm, QuantityFormCuppy, SubscribeForm, SearchForm, SearchStoresForm, PaymentsForm
-from shop.models import Cart, WishList
+from shop.models import Cart, WishList, Orders, OrderItems
 from staffapp.models import ContactMessages, Subscribers
 
 
@@ -75,9 +76,9 @@ def add_wish(request, hash):
 
 
 @login_required(login_url='customer-accounts:login')
-def delete_wish(request, pk):
+def delete_wish(request, hash):
     user = User.objects.get(pk=request.user.pk)
-    item = Inventory.objects.get(pk=pk)
+    item = Inventory.objects.get(hash=hash)
     remove_item = WishList.objects.filter(user=user, item=item)
     remove_item.delete()
 
@@ -412,22 +413,49 @@ def payment_actions(request):
     return None
 
 
-@login_required(login_url='customer-accounts:login')
-def create_order(request):
-    pass
+def create_order(request=None, mode=None):
+    store = None
+    user = User.objects.get(pk=request.user.pk)
+    cart_item_one = Cart.objects.filter(user=user)
+    if cart_item_one.count() > 0:
+        for x in cart_item_one:
+            store = x.store
+    payment = MpesaPayment.objects.get(merchant_request_id=request.session.get('mpesa_request_id'))
+    order_string = payment.order_id
+    new_order = Orders.objects.create(order_string=order_string, payment_mode=mode, store=store, user=user)
+    remove_cart(request, user, order_string)
 
 
-@login_required(login_url='customer-accounts:login')
-def remove_cart(request):
-    pass
+def remove_cart(request, user, order_string):
+    # get order id
+    order = Orders.objects.get(order_string=order_string)
+    # create order items
+
+    cart_items = Cart.objects.filter(user=user)
+    # transfer cart items to order
+    for item in cart_items:
+        new_order_item = OrderItems.objects.create(order=order, quantity=item.qty, item=item.item)
+
+    # delete cart
+    cart_items.delete()
 
 
 @login_required(login_url='customer-accounts:login')
 def mpesa_loading(request):
-    print(request.session.get('mpesa_request_id'))
     return render(request, 'shopeaze/mpesa-waiting.html')
 
 
 @login_required(login_url='customer-accounts:login')
 def mobile_pesa_done(request):
-    return render(request, 'shopeaze/mpesa-done.html')
+    user = User.objects.get(pk=request.user.pk)
+    print('{} is the merchant id'.format(request.session.get('mpesa_request_id')))
+    payment = MpesaPayment.objects.filter(merchant_request_id=request.session.get('mpesa_request_id'))
+    if payment.count() > 0:
+        payment.update(customer=user, confirmation_status=True)
+        orderString = [x.order_id for x in payment][0]
+        # create order
+        create_order(request=request, mode='Mpesa')
+        return render(request, 'shopeaze/mpesa-done.html')
+
+    else:
+        return redirect('shop:mpesa_loading')

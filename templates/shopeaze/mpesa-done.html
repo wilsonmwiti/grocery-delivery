@@ -3,9 +3,19 @@
 {% extends 'shopeaze/base.html' %}
 {% load static %}
 {% block cart_link %}{% endblock %}
-{% block title_extension %}Mpesa loading{% endblock %}
+{% block title_extension %}Mpesa Processing done{% endblock %}
 {% block maincontent %}
     <div class="container">
+        <div class="card ">
+            <div class="card-header" style="text-align: center">
+                <p>Order created Successfully</p>
+            </div>
+            <div class="card-body">
+                <p style="color: #000000;text-align: center"> Your order was created successfully!!!Karibu tena.</p>
+                <p style="color: #000000;text-align: center"> Feel free to <a href="{% url 'shop:index' %}">continue</a>
+                    shopping</p>
+            </div>
+        </div>
 
 
     </div>

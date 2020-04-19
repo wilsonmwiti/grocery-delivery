@@ -65,8 +65,9 @@ class WishList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Inventory, on_delete=models.CASCADE)
     time_added = models.DateTimeField(auto_now_add=True)
-    price = models.IntegerField(default=0)
-    unit_price = models.IntegerField(default=0)
+
+    # price = models.IntegerField(default=0)
+    # unit_price = models.IntegerField(default=0)
 
     class Meta:
         db_table = "wishlist"
@@ -82,3 +83,23 @@ class WishList(models.Model):
         except ZeroDivisionError:
             pass
         super(WishList, self).save(*args, **kwargs)
+
+
+class Orders(models.Model):
+    store = models.ForeignKey(Stores, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    order_string = models.CharField(max_length=20)
+    time_added = models.DateTimeField(auto_now_add=True)
+    payment_mode = models.CharField(max_length=20)
+    fulfilled = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'orders'
+        verbose_name_plural = 'orders'
+
+
+class OrderItems(models.Model):
+    order = models.ForeignKey(Orders, on_delete=models.SET_NULL, null=True)
+    item = models.ForeignKey(Inventory, on_delete=models.PROTECT)
+    quantity = models.CharField(max_length=10)
+    # checklist=models.BooleanField(default=False)

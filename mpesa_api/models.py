@@ -57,5 +57,5 @@ class MpesaPayment(BaseModel, PaymentsBaseModel):
         return self.reference
 
     def save(self, *args, **kwargs):
-        self.order_id = get_random_string(length=6)
+        self.order_id = get_random_string(length=9)
         super(MpesaPayment, self).save(*args, **kwargs)

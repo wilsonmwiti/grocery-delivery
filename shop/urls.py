@@ -7,8 +7,8 @@ app_name = 'shop'
 urlpatterns = [
     path('', views.index, name='index'),
     url('wishlist/', views.wishlist, name='wishlist'),
-    url('remove-from-wishes/(?P<pk>[0-9]+)/$', views.delete_wish, name='delete-wish'),
-    url('add-to-wishes/(?P<pk>[0-9a-zA-Z]+)/$', views.add_wish, name='add-wish'),
+    url('remove-from-wishes/(?P<hash>[0-9a-zA-Z]+)/$', views.delete_wish, name='delete-wish'),
+    url('add-to-wishes/(?P<hash>[0-9a-zA-Z]+)/$', views.add_wish, name='add-wish'),
     url('product/(?P<hash>[0-9a-zA-Z]+)/$', views.product, name='product-single'),
     url('category/(?P<storehash>[0-9a-zA-Z]+)/(?P<categorypk>[0-9]+)$', views.categories, name='category-products'),
     url('cart/', views.cart, name='cart'),
@@ -28,5 +28,6 @@ urlpatterns = [
     url('payment_actions/', views.payment_actions, name='payment_actions'),
     url('mpesa-confirmation-loading/', views.mpesa_loading, name='mpesa_loading'),
     url('mpesa-confirmation-done/', views.mobile_pesa_done, name='mpesa_done'),
+    url('create-order/', views.create_order, name='create_order'),
 
 ]

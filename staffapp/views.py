@@ -4,6 +4,7 @@ from accounts.models import User
 from inventory.models import Inventory
 from sellers.models import StoreLine, Stores
 from shop.forms import SearchForm
+from shop.models import Orders, OrderItems
 from staffapp.forms import InventoryAdditionForm
 
 
@@ -15,12 +16,12 @@ def panel(request):
     # todo start with logo and brand display tomorrow after creating calling service document for amanda
     line = StoreLine.objects.get(pk=stores.line.pk)
     if line:
-        store = Stores.objects.get(admin=user)
-        items = Inventory.objects.filter(owner=store)
+        items = Inventory.objects.filter(owner=stores)
         inventory_form = InventoryAdditionForm()
+        orders = Orders.objects.filter(store=stores, fulfilled=False).order_by('time_added')
         return render(request, 'shopeaze/staff-panel/panel-home.html',
-                      {'line': line, 'store': store, 'InventoryForm': inventory_form, 'search_form': search_form,
-                       'items': items})
+                      {'line': line, 'store': stores, 'InventoryForm': inventory_form, 'search_form': search_form,
+                       'items': items, 'orders': orders})
 
 
 def additems(request):
@@ -78,3 +79,23 @@ def updateitem(request, hash):
     return render(request, 'shopeaze/staff-panel/bounded_form.html',
                   {'line': line, 'form': form, 'search_form': search_form, 'item': item
                    })
+
+
+def orderitems(request, pk):
+    user = User.objects.get(pk=request.user.pk)
+    stores = Stores.objects.get(admin=user)
+    search_form = SearchForm()
+
+    # todo start with logo and brand display tomorrow after creating calling service document for amanda
+    line = StoreLine.objects.get(pk=stores.line.pk)
+    order = Orders.objects.get(pk=pk)
+    order_items = OrderItems.objects.filter(order=order)
+    # if request.method=='POST':
+
+    return render(request, 'shopeaze/staff-panel/view_orders.html',
+                  {'line': line, 'order_items': order_items, 'search_form': search_form,
+                   })
+
+
+def fulfill_order(request, pk):
+    return None

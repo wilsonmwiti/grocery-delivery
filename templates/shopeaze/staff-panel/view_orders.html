@@ -1,7 +1,7 @@
 {% extends 'shopeaze/base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
-{% block title_extension %}{{ store.name }}Staff {% endblock %}
+{% block title_extension %}{{ store.name }} Order{{ order.order_string }} {% endblock %}
 {% block extra %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
@@ -38,19 +38,6 @@
                                 <a class="dropdown-item" href="{% url 'staff:branch_reports' %}">Reports</a>
                             </div>
                         </li>
-
-                        {#                            <li class="nav-item dropdown">#}
-                        {#                                <a class="nav-link dropdown-toggle" href="" id="dropdown04"#}
-                        {#                                   data-toggle="dropdown"#}
-                        {#                                   aria-haspopup="true" aria-expanded="false">My Stores</a>#}
-                        {#                                <div class="dropdown-menu" aria-labelledby="dropdown04">#}
-                        {#                                    <a class="dropdown-item" href="{% url 'sellers:line_orders' %}">Line Orders</a>#}
-                        {#                                    <a class="dropdown-item" href="{% url 'sellers:line_messages' %}">Line Messages</a>#}
-                        {#                                    <a class="dropdown-item" href="{% url 'sellers:line_reports' %}">Reports</a>#}
-                        {#                                </div>#}
-                        {#                            </li>#}
-
-
                     {% endif %}
                 {% endif %}
                 <li class="nav-item"><a href="{% url 'sellers:about-us' %}" class="nav-link">About</a></li>
@@ -88,28 +75,51 @@
     </div>
 {% endblock %}
 {% block maincontent %}
-    <section id="cover" style="background-image: url('{% static 'images/product-10.jpg' %}');">
-        <div id="cover-caption">
-            <div class="container">
-                <div class="row text-black text-left">
-                    <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
-                        <div class="px-2" style="    background-color: rgba(0,0,0,0.3);
-">
-                            <form method="post" action="{% url 'staff:updateitem' item.hash %}"
-                                  enctype="multipart/form-data">
-                                {% csrf_token %}
-                                {% for field in form %}
-                                    <div class="form-group ">
-                                        {{ field|as_crispy_field }}
-                                    </div>    {% endfor %}
-                                <a href="{% url 'staff:panel' %}" class="btn btn-warning">Cancel</a>
-                                <button type="submit" class="btn btn-success">Submit changes</button>
+    <div class="container">
+        <div class="card ">
+            <div class="card-header" style="text-align: center">
+                <p>Order Details</p>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Item Name</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                    </thead>
+                    <tbody style="text-align: center">
+                    {% for item in order_items %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ item.item.item_name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            {% if item.discounted %}
+                                <td>{{ item.item.discounted_price_per_unit }}.00</td>
+                            {% else %}
+                                <td>{{ item.item.price_per_unit }}.00</td>
 
-                            </form>
-                        </div>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+                <form class="form-inline">
+                    <div class="form-group mx-sm-3 mb-2">
+                        {#todo continue from here#}
+                        <button class="btn btn-success">Confirm Order</button>
                     </div>
-                </div>
+                    <div class="form-group mx-sm-3 mb-2">
+
+                        <button class="btn btn-warning">Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </section>
+    </div>
 {% endblock %}
+{% block footer %}{% endblock %}

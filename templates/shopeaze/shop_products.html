@@ -22,14 +22,44 @@
     </form>
 
 {% endblock %}
+{% block extra %}
+    <style>
+        .avatar-circle {
+            width: 100px;
+            height: 100px;
+            background-color: maroon;
+            text-align: center;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+        }
+
+        .initials {
+            position: relative;
+            top: 25px; /* 25% of parent */
+            font-size: 50px; /* 50% of parent */
+            line-height: 50px; /* 50% of parent */
+            color: #fff;
+            font-family: "Courier New", monospace;
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}
 {% block maincontent %}
 
-    <div class="hero-wrap hero-bread" style="background-image: url('{% static 'images/bg_1.jpg' %}');">
+    <div class="hero-wrap hero-bread" style="background-color: #1e7e34">
         <div class="container">
             <div class="row no-gutters slider-text align-items-center justify-content-center">
                 <div class="col-md-9 ftco-animate text-center">
                     <p class="breadcrumbs"><span class="mr-2"><a href="{% url 'shop:index' %}">Home</a></span>
                         <span>{{ store.line.name }}</span></p>
+                    <div class="d-flex justify-content-center" style="text-transform: uppercase">
+                        <div class="avatar-circle ">
+                            <span class="initials">{{ initials }}</span>
+                        </div>
+                    </div>
+
+
                     <h1 class="mb-0 bread " style=" font-family: 'Yellowtail',sans-serif;">{{ store.name }}</h1>
                     <p class="breadcrumbs"><span class="mr-2">
                         {% for category in categories %}

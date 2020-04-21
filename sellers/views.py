@@ -95,6 +95,7 @@ def orders(request):
 
 @login_required(login_url='customer-accounts:login')
 def store_products(request, hash):
+    user = User.objects.get(pk=request.user.pk)
     store = Stores.objects.get(hash=hash)
     subscribe_form = SubscribeForm()
     search_form = SearchForm()
@@ -142,6 +143,7 @@ def store_products(request, hash):
 
     context_items['categories'] = categories
     context_items['store'] = store
+    context_items['initials'] = ''.join([x[0] for x in store.name.split()])
     context_items['cart_count'] = Cart.objects.filter(user=user).count()
     context_items.update(context_forms)
     return render(request, 'shopeaze/shop_products.html',

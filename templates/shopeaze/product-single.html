@@ -52,7 +52,14 @@
                     {#                        </p>#}
                     {#                    </div>#}
 
-                    <p class="price"><span>{{ product.price_per_unit }} per {{ product.category.unit }}</span></p>
+                    {% if product.discounted %}
+                        <p class="price">
+                            <span>{{ product.discounted_price_per_unit }} per {{ product.category.unit }}</span></p>
+
+                    {% else %}
+                        <p class="price"><span>{{ product.price_per_unit }} per {{ product.category.unit }}</span></p>
+
+                    {% endif %}
                     <p>
                         {{ product.description }}
                     </p>

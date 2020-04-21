@@ -49,7 +49,7 @@ class SearchStoresForm(forms.Form):
 
 class PaymentsForm(forms.Form):
     payment = [
-        ('mpesatill', 'Lipa Na Mpesa'),
+        # ('mpesatill', 'Lipa Na Mpesa'),
         ('mpesastk', 'Mpesa Express'),
         ('cash', 'Cash on delivery'),
     ]

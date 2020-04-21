@@ -10,12 +10,12 @@
 
         <div class="card ">
             <div class="card-header" style="text-align: center">
-                <p>MPESA LOADING</p>
+                <p>Cash On Delivery</p>
             </div>
             <div class="card-body">
-                <p style="color: #1c7430;text-align: center"> &nbsp&nbsp&nbsp&nbsp Waiting for mpesa to process your
-                    payment .&nbsp&nbsp . &nbsp&nbsp.&nbsp&nbsp . &nbsp&nbsp.</p>
-                <a href="{% url 'shop:mpesa_done' %}" class="btn btn-success">Completed Payment</a>
+                <p style="color: #1c7430;text-align: center"><b>You must have the amount ofmoney of the items you just
+                    bought at the time of reception of the items</b></p>
+                <a href="{% url 'payments:payments-cash-done' %}" class="btn btn-success">Check Out</a>
             </div>
         </div>
     </div>

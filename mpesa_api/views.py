@@ -43,7 +43,7 @@ def lipa_na_mpesa_online(request):
         "PartyA": phone_number,
         "PartyB": LipanaMpesaPassword.Business_short_code,
         "PhoneNumber": phone_number,
-        "CallBackURL": "https://ab7e4d1a.ngrok.io/mobile-pesa-api/v1/c2b/confirmation",
+        "CallBackURL": "https://ef42fea5.ngrok.io/mobile-pesa-api/v1/c2b/confirmation",
         "AccountReference": "Shop Eaze",
         "TransactionDesc": "Testing stk push"
     }
@@ -62,8 +62,8 @@ def register_urls(request):
     options = {"ShortCode": LipanaMpesaPassword.Test_c2b_shortcode,
                "ResponseType": "Completed",
                # todo remember to fix ngrok link
-               "ConfirmationURL": "https://ab7e4d1a.ngrok.io/mobile-pesa-api/v1/c2b/confirmation",
-               "ValidationURL": "https://ab7e4d1a.ngrok.io/mobile-pesa-api/v1/c2b/validation"}
+               "ConfirmationURL": "https://ef42fea5.ngrok.io/mobile-pesa-api/v1/c2b/confirmation",
+               "ValidationURL": "https://ef42fea5.ngrok.io/mobile-pesa-api/v1/c2b/validation"}
     response = requests.post(api_url, json=options, headers=headers)
     return HttpResponse(response.text)
 

@@ -1,0 +1,23 @@
+
+
+{% extends 'shopeaze/base.html' %}
+{% load static %}
+{% block cart_link %}{% endblock %}
+{% block title_extension %}Mpesa loading{% endblock %}
+{% block maincontent %}
+    <div class="container">
+
+
+        <div class="card ">
+            <div class="card-header" style="text-align: center">
+                <p>CHECK YOUR DEVICE FOR AN MPESA POP UP</p>
+            </div>
+            <div class="card-body">
+                <p style="color: #1c7430;text-align: center"> &nbsp&nbsp&nbsp&nbsp Waiting for mpesa to process your
+                    payment .&nbsp&nbsp . &nbsp&nbsp.&nbsp&nbsp . &nbsp&nbsp.</p>
+                <a href="{% url 'shop:mpesa_done' %}" class="btn btn-success">Completed Payment</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block footer %}{% endblock %}

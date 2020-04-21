@@ -51,7 +51,7 @@
         <div class="container">
             <div class="row no-gutters slider-text align-items-center justify-content-center">
                 <div class="col-md-9 ftco-animate text-center">
-                    <p class="breadcrumbs"><span class="mr-2"><a href="{% url 'shop:index' %}">Home</a></span>
+                    <p class="breadcrumbs">
                         <span>{{ store.line.name }}</span></p>
                     <div class="d-flex justify-content-center" style="text-transform: uppercase">
                         <div class="avatar-circle ">
@@ -60,7 +60,7 @@
                     </div>
 
 
-                    <h1 class="mb-0 bread " style=" font-family: 'Yellowtail',sans-serif;">{{ store.name }}</h1>
+                    <p class="mb-0 breadcrumbs ">{{ store.name }}</p>
                     <p class="breadcrumbs"><span class="mr-2">
                         {% for category in categories %}
                             <a href="{% url 'shop:category-products' store.hash category.pk %}">{{ category.name }}</a>

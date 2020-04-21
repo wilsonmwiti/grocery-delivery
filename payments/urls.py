@@ -4,7 +4,8 @@ from . import views
 
 app_name = 'payments'
 urlpatterns = [
-    url(r'^payments/$', views.payments_home, name='payments_home'),
+    url(r'^Cash_Order_created/$', views.cash_payments_done, name='payments-cash-done'),
+    url(r'^cash-payments-checkout/$', views.cash_payments, name='payments-cash'),
 
     # end of authentication for website
 

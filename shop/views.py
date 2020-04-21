@@ -2,8 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-
 # Create your views here.
+from django_cryptography.utils.crypto import get_random_string
+
 from accounts.forms import ContactUsForm
 from accounts.models import User, Profile
 from inventory.models import Inventory, Categories
@@ -403,7 +404,7 @@ def payment_actions(request):
             if method == 'mpesastk':
                 return redirect('mpesa-api:lipa_na_mpesa')
             elif method == 'cash':
-                print('cash on delivery')
+                return redirect('payments:payments-cash')
             elif method == 'mpesatill':
                 print('mpesa till payments')
         else:
@@ -420,9 +421,16 @@ def create_order(request=None, mode=None):
     if cart_item_one.count() > 0:
         for x in cart_item_one:
             store = x.store
-    payment = MpesaPayment.objects.get(merchant_request_id=request.session.get('mpesa_request_id'))
-    order_string = payment.order_id
+
+    if mode == 'MPESA':
+        payment = MpesaPayment.objects.get(merchant_request_id=request.session.get('mpesa_request_id'))
+        order_string = payment.order_id
+    elif mode == 'CASH':
+        order_string = get_random_string(length=10)
     new_order = Orders.objects.create(order_string=order_string, payment_mode=mode, store=store, user=user)
+    send_mail("New Order", message='New Order:' + order_string, from_email=user.email,
+              recipient_list=[store.email, store.admin.email, 'info@shopeaze.co.ke'])
+    # fixme email template with this message
     remove_cart(request, user, order_string)
 
 
@@ -442,7 +450,7 @@ def remove_cart(request, user, order_string):
 
 @login_required(login_url='customer-accounts:login')
 def mpesa_loading(request):
-    return render(request, 'shopeaze/mpesa-waiting.html')
+    return render(request, 'shopeaze/payments/mpesa-waiting.html')
 
 
 @login_required(login_url='customer-accounts:login')
@@ -455,7 +463,7 @@ def mobile_pesa_done(request):
         orderString = [x.order_id for x in payment][0]
         # create order
         create_order(request=request, mode='Mpesa')
-        return render(request, 'shopeaze/mpesa-done.html')
+        return render(request, 'shopeaze/payments/order-done.html')
 
     else:
         return redirect('shop:mpesa_loading')

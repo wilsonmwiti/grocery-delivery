@@ -38,18 +38,24 @@ class SearchForm(forms.Form):
                                       'placeholder': 'item name'}),
                            label='')
 
+class SearchOrderForm(forms.Form):
+    order_id = forms.CharField(required=True,
+                               widget=forms.TextInput(
+                                   attrs={'class': "form-control form-control-sm  w-50 mr-2 rounded mb-0",
+                                          'placeholder': 'Input Order Id'}),
+                               label='')
+
 
 class SearchStoresForm(forms.Form):
     store = forms.CharField(required=True,
                             widget=forms.TextInput(
                                 attrs={'class': "form-control form-control-sm  w-50 mr-2 rounded mb-0",
-                                       'placeholder': 'Your Location...'}),
+                                       'placeholder': 'Town/City...'}),
                             label='')
 
 
 class PaymentsForm(forms.Form):
     payment = [
-        # ('mpesatill', 'Lipa Na Mpesa'),
         ('mpesastk', 'Mpesa Express'),
         ('cash', 'Cash on delivery'),
     ]

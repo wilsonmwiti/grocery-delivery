@@ -5,7 +5,16 @@ from accounts.models import User, Profile
 
 
 class SignUpForm(UserCreationForm):
-    email = forms.EmailField(max_length=254)
+    email = forms.EmailField(max_length=254, widget=forms.EmailInput(
+        attrs={'placeholder': 'example@domain.com', 'style': 'text-align:center'}))
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'eg($h0pEa5e)', 'style': 'text-align:center'}),
+        label='Password')
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'eg($h0pEa5e)', 'style': 'text-align:center'}),
+        label='Password')
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Jane', 'style': 'text-align:center'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Doe', 'style': 'text-align:center'}))
 
     class Meta:
         model = User
@@ -49,12 +58,12 @@ class UserLoginForm(AuthenticationForm):
         super(UserLoginForm, self).__init__(*args, **kwargs)
 
     username = forms.EmailField(widget=forms.TextInput(
-        attrs={'class': 'input100', 'placeholder': '', 'id': 'hello'}))
+        attrs={'style': 'text-align:center',
+               'placeholder': 'example@domain.com', 'id': 'hello'}))
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={
-            'class': 'input100',
-            'placeholder': '',
-            'id': 'hi',
+            'style': 'text-align:center',
+            'placeholder': 'PASSWORD',
         }
     ))
 

@@ -150,12 +150,12 @@
 {% endblock %}
 
 {% block footer %}
-    <footer class="ftco-footer ftco-section" style="background-color: grey">
+    <footer class="ftco-footer ftco-section" style="background-color:  rgba(0,122,0,0.99) ">
         <div class="container">
             <div class="row">
                 <div class="mouse">
                     <a href="#" class="mouse-icon">
-                        <div class="mouse-wheel"><span class="ion-ios-arrow-up"></span></div>
+                        <div class="mouse-wheel"><span class="icon-mouse"></span></div>
                     </a>
                 </div>
             </div>
@@ -163,22 +163,7 @@
                 <div class="col-md">
                     <div class="ftco-footer-widget mb-4">
                         <h2 class="ftco-heading-2">ShopEaze</h2>
-                        <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                            <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                            <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                            <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <div class="ftco-footer-widget mb-4 ml-md-5">
-                        <h2 class="ftco-heading-2">Menu</h2>
-                        <ul class="list-unstyled">
-                            <li><a href="{% url 'shop:index' %}" class="py-2 d-block">Shop</a></li>
-                            <li><a href="{% url 'shop:about-us' %}" class="py-2 d-block">About</a></li>
-                            {#                <li><a href="#" class="py-2 d-block">Journal</a></li>#}
-                            <li><a href="{% url 'shop:contact-us' %}" class="py-2 d-block">Contact Us</a></li>
-                        </ul>
+
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -190,10 +175,8 @@
                                 <li><a href="#" class="py-2 d-block">Returns &amp; Exchange</a></li>
                                 <li><a href="#" class="py-2 d-block">Terms &amp; Conditions</a></li>
                                 <li><a href="#" class="py-2 d-block">Privacy Policy</a></li>
-                            </ul>
-                            <ul class="list-unstyled">
                                 <li><a href="#" class="py-2 d-block">FAQs</a></li>
-                                <li><a href="{% url 'shop:contact-us' %}" class="py-2 d-block">Contact</a></li>
+
                             </ul>
                         </div>
                     </div>

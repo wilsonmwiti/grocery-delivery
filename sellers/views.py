@@ -10,8 +10,8 @@ from accounts.forms import ContactUsForm
 from inventory.models import Inventory, Categories
 from sellers.forms import *
 from sellers.models import *
-from shop.forms import SubscribeForm, SearchForm
-from shop.models import Cart
+from shop.forms import SubscribeForm, SearchForm, SearchOrderForm
+from shop.models import Cart, Orders
 from staffapp.models import ContactMessages
 
 
@@ -75,7 +75,20 @@ def addStore(request):
 
 @login_required(login_url='customer-accounts:login')
 def sales(request):
-    return None
+    # user = User.objects.get(pk=request.user.pk)
+    # stores = Stores.objects.get(admin=user)
+    # search_form = SearchForm()
+    #
+    # # todo start with logo and brand display tomorrow after creating calling service document for amanda
+    # line = StoreLine.objects.get(pk=stores.line.pk)
+    # order = Orders.objects.get(pk=pk)
+    # order_items = OrderItems.objects.filter(order=order)
+    # # if request.method=='POST':
+    #
+    # return render(request, 'shopeaze/staff-panel/view_orders.html',
+    #               {'line': line, 'order_items': order_items, 'search_form': search_form, 'order': order
+    #                })
+    pass
 
 
 @login_required(login_url='customer-accounts:login')
@@ -90,8 +103,20 @@ def messages(request):
 
 @login_required(login_url='customer-accounts:login')
 def orders(request):
-    return None
+    user = User.objects.get(pk=request.user.pk)
+    search_form = SearchOrderForm()
 
+    # todo start with logo and brand display tomorrow after creating calling service document for amanda
+    line = StoreLine.objects.get(admin=user)
+    orders = Orders.objects.filter(store__line=line)
+    if request.method == 'POST':
+        search_form = SearchOrderForm(request.POST)
+        if search_form.is_valid():
+            order_id = search_form.cleaned_data['order_id']
+            orders = Orders.objects.filter(store__line=line, order_string__exact=order_id)
+    return render(request, 'shopeaze/seller-panel/line/view_orders.html',
+                  {'line': line, 'search_form': search_form, 'orders': orders, 'user': user
+                   })
 
 @login_required(login_url='customer-accounts:login')
 def store_products(request, hash):
@@ -244,3 +269,7 @@ def activation_successful(request):
     form = ContactUsForm()
     return render(request, 'shopeaze/success.html',
                   {'cart_count': cart_items, 'form': form, 'subscribe_form': subscribe_form})
+
+
+def cancel_order(request, pk):
+    return None

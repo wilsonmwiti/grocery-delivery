@@ -1,3 +1,4 @@
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 
 from accounts.models import User
@@ -83,19 +84,31 @@ def updateitem(request, hash):
 
 def orderitems(request, pk):
     user = User.objects.get(pk=request.user.pk)
-    stores = Stores.objects.get(admin=user)
+    if user.user_type == 'seller':
+        line = StoreLine.objects.get(admin=user)
+    else:
+        stores = Stores.objects.get(admin=user)
+        line = StoreLine.objects.get(pk=stores.line.pk)
+
     search_form = SearchForm()
 
     # todo start with logo and brand display tomorrow after creating calling service document for amanda
-    line = StoreLine.objects.get(pk=stores.line.pk)
     order = Orders.objects.get(pk=pk)
     order_items = OrderItems.objects.filter(order=order)
     # if request.method=='POST':
 
     return render(request, 'shopeaze/staff-panel/view_orders.html',
-                  {'line': line, 'order_items': order_items, 'search_form': search_form,
+                  {'line': line, 'order_items': order_items, 'search_form': search_form, 'order': order, 'user': user
                    })
 
 
 def fulfill_order(request, pk):
-    return None
+    order = Orders.objects.filter(pk=pk)
+    order.update(fulfilled=True)
+    order = Orders.objects.get(pk=pk)
+    customer = order.user.email
+    store = order.store.name
+    store_email = order.store.email
+    send_mail("{} order fulfilled".format(store), "Your order from {} has been fulfilled".format(store), store_email,
+              [customer, order.store.admin.email])
+    return redirect('staff:panel')

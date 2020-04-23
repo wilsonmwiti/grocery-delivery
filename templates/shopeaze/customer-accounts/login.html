@@ -1,50 +1,35 @@
 {% extends 'shopeaze/base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
+{% block extra %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css" rel="stylesheet"/>
+
+{% endblock %}
 {% block title_extension %} Login {% endblock %}
 {% block maincontent %}
-    <section style="height: 100%">
+    <section style="background-image: url('{% static 'images/125432_preview.png' %}');min-height: 100vh;color: black;">
+        <div id="cover-caption">
+            <div class="container">
+                <div class="row text-black text-left">
+                    <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
+                        <div class="px-2" style="    background-color: rgba(0,122,0,0.99);border-radius: 6px;
+">
+                            <form method="post"
+                                  enctype="multipart/form-data">
+                                <img src="https://img.icons8.com/material-sharp/96/000000/user-male-circle.png"/><br>
 
-        <div style="color: red">
-            {% if form.errors %}
-                <p class="warning">Your username or password didn't match with an existing one. Please try again.</p>
-            {% endif %}
-            <div class="limiter">
-                <div>
-                    <div>
-                        {#                        <div class="login100-form-title"#}
-                        {#                             style="background-image: url('{% static 'images/bg-01.jpg' %}');">#}
-                        {#					<span class="login100-form-title-1">#}
-                        {#						Sign In#}
-                        {#					</span>#}
-                        {#                        </div>#}
-
-                        <form method="post">
-                            {#					<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">#}
-                            {#						<span class="label-input100">Username</span>#}
-                            {#						<input class="input100" type="text" name="username" placeholder="Enter username">#}
-                            {#						<span class="focus-input100"></span>#}
-                            {#					</div>#}
-                            {% csrf_token %}
-                            <input type="hidden" name="next" value="{{ next }}"/>
-                            {% for field in form %}
-                                <p>
-                                    {{ field.label_tag }}<br>
-                                <div data-validate="Field is required">
-                                    {{ field }}
-                                    <span></span>
-                                </div>
-                                {% for error in field.errors %}
-                                    <p style="color: red">{{ error }}</p>
-                                {% endfor %}
-                                {% if field.help_text %}
-                                    <p><small style="color: grey">{{ field.help_text }}</small></p>
-                                {% endif %}
-                                </p>
-                            {% endfor %}
-                            <button type="submit" class="btn btn-primary ">Log in</button>
-                            <a href="{% url 'customer-accounts:signup' %}">New to My Site? Sign up</a>
-                            <a href="{% url 'customer-accounts:forgot' %}">Forgot password?</a>
-                        </form>
+                                {% csrf_token %}
+                                {% for field in form %}
+                                    <div class="form-group ">
+                                        {{ field|as_crispy_field }}
+                                    </div>    {% endfor %}
+                                <button type="submit" class="btn btn-success ">Log in</button>
+                                <a href="{% url 'customer-accounts:signup' %}" class="btn btn-warning">Sign up</a>
+                                <a href="{% url 'customer-accounts:forgot' %}" style="color: white">Forgot password?</a>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

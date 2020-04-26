@@ -9,16 +9,17 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from accounts.forms import SignUpForm, ForgotPasswordForm, ProfileForm, ProfileAccountForm
+from accounts.forms import SignUpForm, ForgotPasswordForm, ProfileForm, ProfileAccountForm, NewPasswordForm
 from accounts.models import User
+from sellers.extras import split_domain_ports
 from shop.models import Cart
 from .tokens import account_activation_token
 
 
-@login_required(login_url='customer-accounts:login')
+@login_required(login_url='shopeaze/customer-accounts:login')
 def panel(request):
     # if not request.user.is_authenticated:
-    #     return redirect('%s?next=%s' % ('customer-accounts:login', request.path))
+    #     return redirect('%s?next=%s' % ('shopeaze/customer-accounts:login', request.path))
     user = User.objects.get(pk=request.user.pk)
     if user.user_type == "customer":
         if user.email_confirmed:
@@ -31,7 +32,7 @@ def panel(request):
     elif user.user_type == 'seller':
         return redirect('sellers:panel')
     elif user.user_type == "admin":
-        return redirect('/shopeaze-admin/')
+        return redirect('/michpastries-admin/')
 
 
 def signup(request):
@@ -53,12 +54,12 @@ def signup(request):
             send_mail(
                 subject,
                 message,
-                'info@nanotechsoftwares.co.ke',
-                [user.__str__()],
+                'info@' + split_domain_ports(request.get_host()),
+                [user.email],
                 fail_silently=False,
             )
 
-            return redirect('customer-accounts:account_activation_sent')
+            return redirect('shopeaze/customer-accounts:account_activation_sent')
     else:
         form = SignUpForm()
     return render(request, 'shopeaze/customer-accounts/signup.html', {'form': form})
@@ -81,7 +82,7 @@ def activate(request, uidb64, token):
         user.email_confirmed = True
         user.save()
         login(request, user)
-        return redirect('customer-accounts:panel')
+        return redirect('shopeaze/customer-accounts:panel')
     else:
         return render(request, 'shopeaze/customer-accounts/account_activation_invalid.html')
 
@@ -99,12 +100,12 @@ def resettoken(request, uidb64, token):
         user.email_confirmed = True
         user.save()
         login(request, user)
-        return redirect('customer-accounts:panel')
+        return redirect('shopeaze/customer-accounts:panel')
     else:
         return render(request, 'shopeaze/customer-accounts/account_activation_invalid.html')
 
 
-@login_required(login_url='customer-accounts:login')
+@login_required(login_url='shopeaze/customer-accounts:login')
 def logout_view(request):
     logout(request)
     return redirect('shop:index')
@@ -121,23 +122,20 @@ def forgot_password(request):
         if form.is_valid():
             try:
                 user = User.objects.get(email=form.cleaned_data.get("email"))
-                password = User.objects.make_random_password(length=8)
-                user.set_password(password)
-                user.save()
+
                 current_site = get_current_site(request)
-                subject = 'This is your new password'
+                subject = 'Password Request Link'
                 message = render_to_string('shopeaze/customer-accounts/password_reset.html', {
                     'user': user,
-                    # 'domain': current_site.domain,
-                    # 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    # 'token': account_activation_token.make_token(user),
-                    'password': password,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': account_activation_token.make_token(user),
                 })
                 send_mail(
                     subject,
                     message,
-                    'info@nanotechsoftwares.co.ke',
-                    [user.__str__()],
+                    'info@' + split_domain_ports(request.get_host()),
+                    [user.email],
                     fail_silently=False,
                 )
                 print("sent email")
@@ -145,7 +143,7 @@ def forgot_password(request):
             except:
                 print("user does not exist")
                 messages.error(request, 'such an account does not exist')
-                return redirect("customer-accounts:forgot")
+                return redirect("shopeaze/customer-accounts:forgot")
 
 
         else:
@@ -159,52 +157,11 @@ def forgot_password(request):
         return render(request, 'shopeaze/customer-accounts/forgot.html', {'form': form})
 
 
-# def reset_password(request):
-#     return None
-# def reset_password(request, uidb64, token):
-#     try:
-#         print("resetting password")
-#         uid = force_text(urlsafe_base64_decode(uidb64))
-#         request.session['userid'] = uidb64
-#         user = User.objects.get(pk=uid)
-#     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-#         user = None
-#
-#     if user is not None and user.is_active and user.email_confirmed:
-#         user.save()
-#         print("redirect to db update stage")
-#         return redirect('customer-accounts:enter_new_password')
-#     else:
-#         print('could not redirect to db update page')
-#         form = ForgotPasswordForm()
-#         return render(request, 'shopeaze/customer-accounts/forgot.html', {'form': form})
-
-
-# def enter_new_password(request):
-#     if request.method == 'POST':
-#         form = EnterNewPassword(request.POST)
-#         print("form error is{}".format(form.errors))
-#         if form.is_valid():
-#             password = form.cleaned_data.get('password1')
-#             user = User.objects.get(pk=force_text(urlsafe_base64_decode(request.session.get("userid"))))
-#             print(user.email)
-#             user.password = password
-#             user.save()
-#             print("user password updated")
-#             return redirect('customer-accounts:login')
-#         else:
-#             print("invalid form during password reset final phase")
-#             return redirect('customer-accounts:enter_new_password')
-#     else:
-#         print("not post...just loaded up the file")
-#         form = EnterNewPassword()
-#
-#         return render(request, 'shopeaze/customer-accounts/enter_new_password.html', {'form': form})
 def profile(request):
-    return redirect('customer-accounts:panel')
+    return redirect('shopeaze/customer-accounts:panel')
 
 
-@login_required(login_url='customer-accounts:login')
+@login_required(login_url='shopeaze/customer-accounts:login')
 def create_profile(request):
     user = User.objects.get(pk=request.user.pk)
     signupform = ProfileAccountForm(
@@ -236,3 +193,45 @@ def create_profile(request):
     context = {'cart_count': cart_items, 'form_profile': profile_form, 'form_signup': signupform, 'user': user}
 
     return render(request, 'shopeaze/customer-accounts/profile.html', context)
+
+
+def password_reset(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and account_activation_token.check_token(user, token):
+        form = NewPasswordForm()
+        return render(request, 'shopeaze/customer-accounts/password_reset_form.html', {'user': user, 'form': form})
+    else:
+        return render(request, 'shopeaze/customer-accounts/account_activation_invalid.html')
+
+
+def password_update(request):
+    if request.method == "POST":
+        form = NewPasswordForm(request.POST)
+        print(form.errors)
+        if form.is_valid():
+            try:
+                user = User.objects.get(hash=request.POST.get('user'))
+                password = form.cleaned_data['password2']
+                user.set_password(password)
+                user.save()
+                return redirect('shop:login')
+            except:
+                print("user does not exist")
+                messages.error(request, 'such an account does not exist')
+                return redirect("shopeaze/customer-accounts:forgot")
+
+
+        else:
+            print("did not send email due to invalid form")
+            form = NewPasswordForm()
+            return render(request, 'shopeaze/customer-accounts/forgot.html', {'form': form})
+
+    else:
+        print("did not send email..just loaded the page")
+        form = NewPasswordForm()
+        return render(request, 'shopeaze/customer-accounts/forgot.html', {'form': form})

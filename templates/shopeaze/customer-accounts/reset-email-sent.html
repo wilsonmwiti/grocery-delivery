@@ -1,5 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'shopeaze/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title_extension %} Home {% endblock %}
+{% block cart_link %}
+{% endblock %}
 
-{% block content %}
+{% block maincontent %}
     <p>Please confirm your email address to complete the reset process. </p>
 {% endblock %}

@@ -8,10 +8,10 @@ class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254, widget=forms.EmailInput(
         attrs={'placeholder': 'example@domain.com', 'style': 'text-align:center'}))
     password1 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': 'eg($h0pEa5e)', 'style': 'text-align:center'}),
+        widget=forms.PasswordInput(attrs={'placeholder': 'eg(Michp@57r13$)', 'style': 'text-align:center'}),
         label='Password')
     password2 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': 'eg($h0pEa5e)', 'style': 'text-align:center'}),
+        widget=forms.PasswordInput(attrs={'placeholder': 'eg(Michp@57r13$)', 'style': 'text-align:center'}),
         label='Password')
     first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Jane', 'style': 'text-align:center'}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Doe', 'style': 'text-align:center'}))
@@ -31,9 +31,11 @@ class ForgotPasswordForm(forms.Form):
         }
 
 
-class NewPassword(forms.Form):
-    password1 = forms.CharField(widget=forms.PasswordInput, max_length=20)
-    password2 = forms.CharField(widget=forms.PasswordInput, max_length=20)
+class NewPasswordForm(forms.Form):
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'PASSWORD'}), max_length=20,
+                                label='PASSWORD')
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'PASSWORD CONFIRMATION'}),
+                                max_length=20, label='PASSWORD CONFIRMATION')
 
     class Meta:
         fields = ('password1', 'password2')

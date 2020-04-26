@@ -9,6 +9,7 @@ from accounts.forms import ContactUsForm
 from accounts.models import User, Profile
 from inventory.models import Inventory, Categories
 from mpesa_api.models import MpesaPayment
+from sellers.extras import split_domain_ports
 from sellers.models import Stores
 from shop.forms import QuantityForm, QuantityFormCuppy, SubscribeForm, SearchForm, SearchStoresForm, PaymentsForm
 from shop.models import Cart, WishList, Orders, OrderItems
@@ -204,7 +205,8 @@ def contact(request):
             subject = form.cleaned_data['mail_subject']
             # EmailMessage()
             # todo change domain
-            send_mail(from_email=sender_mail, recipient_list=['info@shopeaze.com'], subject=subject,
+            send_mail(from_email=sender_mail, recipient_list=['info@' + split_domain_ports(request.get_host()),
+                                                              ], subject=subject,
                       message=message)
             new_msg = ContactMessages.objects.create(sender_mail=sender_mail, sender_name=sender_name,
                                                      mail_message=message, mail_subject=subject)
@@ -429,7 +431,8 @@ def create_order(request=None, mode=None):
         order_string = get_random_string(length=10)
     new_order = Orders.objects.create(order_string=order_string, payment_mode=mode, store=store, user=user)
     send_mail("New Order", message='New Order:' + order_string, from_email=user.email,
-              recipient_list=[store.email, store.admin.email, 'info@shopeaze.co.ke'])
+              recipient_list=[store.email, store.admin.email, 'info@' + split_domain_ports(request.get_host()),
+                              ])
     # fixme email template with this message
     remove_cart(request, user, order_string)
 

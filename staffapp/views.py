@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 
 from accounts.models import User
 from inventory.models import Inventory
+from sellers.extras import split_domain_ports
 from sellers.models import StoreLine, Stores
 from shop.forms import SearchForm
 from shop.models import Orders, OrderItems
@@ -110,5 +111,18 @@ def fulfill_order(request, pk):
     store = order.store.name
     store_email = order.store.email
     send_mail("{} order fulfilled".format(store), "Your order from {} has been fulfilled".format(store), store_email,
-              [customer, order.store.admin.email])
+              [customer, order.store.admin.email, 'info@' + split_domain_ports(request.get_host()),
+               ])
+    return redirect('staff:panel')
+
+
+def cancel_order(request, pk):
+    order = Orders.objects.get(pk=pk)
+    customer = order.user.email
+    store = order.store.name
+    store_email = order.store.email
+    send_mail("{} order cancelled".format(store), "Your order from {} has been cancelled".format(store), store_email,
+              [customer, order.store.admin.email, 'info@' + split_domain_ports(request.get_host()),
+               ])
+    order = Orders.objects.filter(pk=pk).delete()
     return redirect('staff:panel')

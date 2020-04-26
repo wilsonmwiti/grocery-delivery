@@ -8,6 +8,7 @@ from django.template.loader import render_to_string
 
 from accounts.forms import ContactUsForm
 from inventory.models import Inventory, Categories
+from sellers.extras import split_domain_ports
 from sellers.forms import *
 from sellers.models import *
 from shop.forms import SubscribeForm, SearchForm, SearchOrderForm
@@ -118,6 +119,7 @@ def orders(request):
                   {'line': line, 'search_form': search_form, 'orders': orders, 'user': user
                    })
 
+
 @login_required(login_url='customer-accounts:login')
 def store_products(request, hash):
     user = User.objects.get(pk=request.user.pk)
@@ -207,7 +209,8 @@ def contact(request):
             subject = form.cleaned_data['mail_subject']
             # EmailMessage()
             # todo change domain
-            send_mail(from_email=sender_mail, recipient_list=['info@shopeaze.com'], subject=subject,
+            send_mail(from_email=sender_mail, recipient_list=['info@' + split_domain_ports(request.get_host()),
+                                                              ], subject=subject,
                       message=message)
             new_msg = ContactMessages.objects.create(sender_mail=sender_mail, sender_name=sender_name,
                                                      mail_message=message, mail_subject=subject)
@@ -234,7 +237,7 @@ def update_store(request):
         send_mail(
             subject,
             message,
-            'info@nanotechsoftwares.co.ke',
+            'info@' + split_domain_ports(request.get_host()),
             [adminobj.__str__()],
             fail_silently=False,
         )
@@ -272,4 +275,12 @@ def activation_successful(request):
 
 
 def cancel_order(request, pk):
-    return None
+    order = Orders.objects.get(pk=pk)
+    customer = order.user.email
+    store = order.store.name
+    store_email = order.store.email
+    send_mail("{} order cancelled".format(store), "Your order from {} has been cancelled".format(store), store_email,
+              [customer, order.store.admin.email, 'info@' + split_domain_ports(request.get_host()),
+               ])
+    order = Orders.objects.filter(pk=pk).delete()
+    return redirect('sellers:line_orders')

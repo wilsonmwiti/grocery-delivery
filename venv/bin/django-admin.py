@@ -1,4 +1,4 @@
-#!/home/padron/PycharmProjects/shopease/website/venv/bin/python
+#!/home/steve/PycharmProjects/shopeaze-site/venv/bin/python
 from django.core import management
 
 if __name__ == "__main__":

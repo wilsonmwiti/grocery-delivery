@@ -103,3 +103,14 @@ class OrderItems(models.Model):
     item = models.ForeignKey(Inventory, on_delete=models.PROTECT)
     quantity = models.CharField(max_length=10)
     # checklist=models.BooleanField(default=False)
+
+
+class CustomerData(models.Model):
+    # for trying to come up with a prediction of customer
+    customer = models.ForeignKey(User, on_delete=models.SET_NULL,null=True)
+    item_name = models.CharField(max_length=200)
+    action = models.CharField(max_length=20)
+    time_of_action = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'prediction'

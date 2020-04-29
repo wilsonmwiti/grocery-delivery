@@ -80,7 +80,6 @@ def sales(request):
     # stores = Stores.objects.get(admin=user)
     # search_form = SearchForm()
     #
-    # # todo start with logo and brand display tomorrow after creating calling service document for amanda
     # line = StoreLine.objects.get(pk=stores.line.pk)
     # order = Orders.objects.get(pk=pk)
     # order_items = OrderItems.objects.filter(order=order)
@@ -107,7 +106,6 @@ def orders(request):
     user = User.objects.get(pk=request.user.pk)
     search_form = SearchOrderForm()
 
-    # todo start with logo and brand display tomorrow after creating calling service document for amanda
     line = StoreLine.objects.get(admin=user)
     orders = Orders.objects.filter(store__line=line)
     if request.method == 'POST':
@@ -207,8 +205,7 @@ def contact(request):
             sender_name = form.cleaned_data['sender_name']
             message = "From:" + sender_name + form.cleaned_data['mail_message']
             subject = form.cleaned_data['mail_subject']
-            # EmailMessage()
-            # todo change domain
+
             send_mail(from_email=sender_mail, recipient_list=['info@' + split_domain_ports(request.get_host()),
                                                               ], subject=subject,
                       message=message)

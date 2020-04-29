@@ -12,7 +12,7 @@ from mpesa_api.models import MpesaPayment
 from sellers.extras import split_domain_ports
 from sellers.models import Stores
 from shop.forms import QuantityForm, QuantityFormCuppy, SubscribeForm, SearchForm, SearchStoresForm, PaymentsForm
-from shop.models import Cart, WishList, Orders, OrderItems
+from shop.models import Cart, WishList, Orders, OrderItems, CustomerData
 from staffapp.models import ContactMessages, Subscribers
 
 
@@ -105,6 +105,7 @@ def wishlist(request):
 
 
 def product(request, hash):
+    user = User.objects.get(pk=request.user.pk)
     subscribe_form = SubscribeForm()
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
@@ -116,6 +117,7 @@ def product(request, hash):
     if user_is_seller > 0:
         return redirect('sellers:panel')
     else:
+        cust_data_add = CustomerData.objects.create(customer=user, item_name=product_details.item_name, action='Viewed')
         return render(request, 'shopeaze/product-single.html',
                       {'product': product_details, 'form': form, 'cart_count': cart_items,
                        'subscribe_form': subscribe_form})
@@ -204,7 +206,6 @@ def contact(request):
             message = "From:" + sender_name + form.cleaned_data['mail_message']
             subject = form.cleaned_data['mail_subject']
             # EmailMessage()
-            # todo change domain
             send_mail(from_email=sender_mail, recipient_list=['info@' + split_domain_ports(request.get_host()),
                                                               ], subject=subject,
                       message=message)
@@ -255,6 +256,8 @@ def remove_from_cart(request, pk):
     user = User.objects.get(pk=request.user.pk)
     item = Inventory.objects.get(pk=pk)
     remove_item = Cart.objects.filter(user=user, item=item)
+    cust_data_add = CustomerData.objects.create(customer=user, item_name=item.item_name, action='Removed from cart')
+
     remove_item.delete()
     return redirect('shop:cart')
 
@@ -278,6 +281,8 @@ def cuppy_add(request, pk):
                 user = User.objects.get(pk=request.user.pk)
                 cartobj = Cart.objects.filter(user=user)
                 item = Inventory.objects.get(pk=pk)
+                cust_data_add = CustomerData.objects.create(customer=user, item_name=item.item_name,
+                                                            action='Added to cart')
 
                 if cartobj:
                     # if users cart exists

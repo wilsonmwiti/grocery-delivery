@@ -106,6 +106,7 @@ class OrderItems(models.Model):
 
 
 class CustomerData(models.Model):
+    # todo come up with an analysis model of the items in this table
     # for trying to come up with a prediction of customer
     customer = models.ForeignKey(User, on_delete=models.SET_NULL,null=True)
     item_name = models.CharField(max_length=200)

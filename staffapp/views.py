@@ -15,7 +15,6 @@ def panel(request):
     stores = Stores.objects.get(admin=user)
     search_form = SearchForm()
 
-    # todo start with logo and brand display tomorrow after creating calling service document for amanda
     line = StoreLine.objects.get(pk=stores.line.pk)
     if line:
         items = Inventory.objects.filter(owner=stores)
@@ -62,7 +61,6 @@ def updateitem(request, hash):
     stores = Stores.objects.get(admin=user)
     search_form = SearchForm()
 
-    # todo start with logo and brand display tomorrow after creating calling service document for amanda
     line = StoreLine.objects.get(pk=stores.line.pk)
     item = Inventory.objects.get(hash=hash)
     form = InventoryAdditionForm(initial={'item_name': item.item_name, 'image': item.image, 'category': item.category,
@@ -93,7 +91,6 @@ def orderitems(request, pk):
 
     search_form = SearchForm()
 
-    # todo start with logo and brand display tomorrow after creating calling service document for amanda
     order = Orders.objects.get(pk=pk)
     order_items = OrderItems.objects.filter(order=order)
     # if request.method=='POST':

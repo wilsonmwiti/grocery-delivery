@@ -7,7 +7,7 @@ from sellers.extras import split_domain_ports
 from sellers.models import StoreLine, Stores
 from shop.forms import SearchForm
 from shop.models import Orders, OrderItems
-from staffapp.forms import InventoryAdditionForm
+from staffapp.forms import InventoryAdditionForm, CashAcceptanceForm
 
 
 def panel(request):
@@ -20,9 +20,10 @@ def panel(request):
         items = Inventory.objects.filter(owner=stores)
         inventory_form = InventoryAdditionForm()
         orders = Orders.objects.filter(store=stores, fulfilled=False).order_by('time_added')
+        cash_orders = Orders.objects.filter(store=stores, fulfilled=True, paid=False).order_by('time_added')
         return render(request, 'shopeaze/staff-panel/panel-home.html',
                       {'line': line, 'store': stores, 'InventoryForm': inventory_form, 'search_form': search_form,
-                       'items': items, 'orders': orders})
+                       'items': items, 'orders': orders, 'cash_orders': cash_orders})
 
 
 def additems(request):
@@ -76,7 +77,7 @@ def updateitem(request, hash):
             obj.save()
         else:
             print(form.errors)
-    return render(request, 'shopeaze/staff-panel/bounded_form.html',
+    return render(request, 'shopeaze/staff-panel/product_bounded_form.html',
                   {'line': line, 'form': form, 'search_form': search_form, 'item': item
                    })
 
@@ -123,3 +124,32 @@ def cancel_order(request, pk):
                ])
     order = Orders.objects.filter(pk=pk).delete()
     return redirect('staff:panel')
+
+
+def confirmation(request, pk):
+    user = User.objects.get(pk=request.user.pk)
+    stores = Stores.objects.get(admin=user)
+    search_form = SearchForm()
+
+    line = StoreLine.objects.get(pk=stores.line.pk)
+    order = Orders.objects.get(pk=pk)
+    form = CashAcceptanceForm(
+        initial={'store': order.store, 'user': '{} {}'.format(order.user.first_name, order.user.last_name),
+                 'amount': order.amount,
+                 'paid': order.paid,
+                 'order_string': order.order_string, 'payment_mode': order.payment_mode})
+    if request.method == 'POST':
+        # update database
+        form = CashAcceptanceForm(request.POST, instance=order)
+
+        if form.is_valid():
+            form.save()
+        else:
+            print(form.errors)
+        print('cash paid')
+        return redirect('staff:panel')
+    else:
+        # display bounded form
+        return render(request, 'shopeaze/staff-panel/cash_order_bounded_form.html',
+                      {'line': line, 'form': form, 'search_form': search_form, 'order': order
+                       })

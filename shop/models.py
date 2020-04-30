@@ -92,6 +92,8 @@ class Orders(models.Model):
     time_added = models.DateTimeField(auto_now_add=True)
     payment_mode = models.CharField(max_length=20)
     fulfilled = models.BooleanField(default=False)
+    paid = models.BooleanField(default=False)
+    amount = models.IntegerField(default=0)
 
     class Meta:
         db_table = 'orders'

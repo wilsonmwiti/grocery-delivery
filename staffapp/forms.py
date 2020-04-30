@@ -3,6 +3,7 @@ from crispy_forms.layout import Layout, HTML
 from django import forms
 
 from inventory.models import Inventory
+from shop.models import Orders
 
 
 class InventoryAdditionForm(forms.ModelForm):
@@ -23,3 +24,17 @@ class InventoryAdditionForm(forms.ModelForm):
                 {{ form.imagefile.value }}">{% endif %}""", ),
 
         )
+
+
+class CashAcceptanceForm(forms.ModelForm):
+    paid = forms.BooleanField(label="Confirm cash reception")
+
+    class Meta:
+        model = Orders
+        fields = ['store', 'order_string', 'payment_mode', 'amount', 'paid']
+        widgets = {'store': forms.HiddenInput(),
+                   'order_string': forms.TextInput(attrs={'readonly': 'readonly'}),
+                   'payment_mode': forms.TextInput(attrs={'readonly': 'readonly'}),
+                   'amount': forms.TextInput(attrs={'readonly': 'readonly'}),
+
+                   }

@@ -432,9 +432,12 @@ def create_order(request=None, mode=None):
     if mode == 'MPESA':
         payment = MpesaPayment.objects.get(merchant_request_id=request.session.get('mpesa_request_id'))
         order_string = payment.order_id
+        new_order = Orders.objects.create(order_string=order_string, paid=True, payment_mode=mode, store=store,
+                                          user=user)
+
     elif mode == 'CASH':
         order_string = get_random_string(length=10)
-    new_order = Orders.objects.create(order_string=order_string, payment_mode=mode, store=store, user=user)
+        new_order = Orders.objects.create(order_string=order_string, payment_mode=mode, store=store, user=user)
     send_mail("New Order", message='New Order:' + order_string, from_email=user.email,
               recipient_list=[store.email, store.admin.email, 'info@' + split_domain_ports(request.get_host()),
                               ])

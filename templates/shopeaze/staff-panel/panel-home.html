@@ -124,6 +124,10 @@
                         <a class="nav-link" href="#viewMessages" data-toggle="tab" style="text-transform: capitalize">View
                             Orders</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#viewCash" data-toggle="tab" style="text-transform: capitalize">Cash
+                            Payment Confirmation</a>
+                    </li>
                 </ul>
             </div>
             <div class="card-body">
@@ -250,6 +254,49 @@
                                     </td>
                                     <td>
                                         <div class="mb-3 col-12">{{ order.user.profile.alternative_phone_number }}</div>
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="viewCash">
+
+                        <h3 class="text-center">Confirm Cash Reception</h3>
+                        <table class="table">
+                            <thead style="background-color: rgba(0,122,0,0.99)">
+                            <tr>
+                                <th scope="col">Order Ref</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col"> Location</th>
+                                <th scope="col">Expected Amount</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for order in cash_orders %}
+                                {#                                todo orders after payments#}
+                                <tr>
+
+                                    {% csrf_token %}
+                                    <td>
+                                        <div class="mb-3 col-12"><a
+                                                href="{% url 'staff:confirm_cash_reception' order.pk %}">{{ order.order_string }}</a>
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div class="mb-3 col-12">{{ order.user }}</div>
+
+                                    </td>
+
+                                    <td>
+                                        <div class="mb-3 col-12">{{ order.user.profile.location }}</div>
+
+                                    </td>
+                                    <td>
+                                        <div class="mb-3 col-12">{{ order.amount }}</div>
 
                                     </td>
                                 </tr>

@@ -29,5 +29,7 @@ urlpatterns = [
     url('mpesa-confirmation-loading/', views.mpesa_loading, name='mpesa_loading'),
     url('mpesa-confirmation-done/', views.mobile_pesa_done, name='mpesa_done'),
     url('create-order/', views.create_order, name='create_order'),
+    url('error-404/', views.handler404, name='create_order'),
+    url('error-500/', views.handler500, name='create_order'),
 
 ]

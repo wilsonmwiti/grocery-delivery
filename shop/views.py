@@ -478,3 +478,12 @@ def mobile_pesa_done(request):
 
     else:
         return redirect('shop:mpesa_loading')
+
+
+# error handlers
+def handler404(request, exception):
+    return render(request, 'shopeaze/errors/404.html', status=404)
+
+
+def handler500(request):
+    return render(request, 'shopeaze/errors/500.html', status=500)

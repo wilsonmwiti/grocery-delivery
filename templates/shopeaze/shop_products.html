@@ -5,23 +5,23 @@
     {{ cart_count }}
 {% endblock %}
 
-{% block formSearch %}
-    <form class="form-inline ml-0 col-md  " method="post" action="{% url 'shop:search' %}">
-        {% csrf_token %}
-        <input type="hidden" value="{{ store }}" name="store">
-        <div class="form-group ">
-            <input type="text" class="col-6"
-                   name="{{ search_form.item.name }}"
-                   id="{{ search_form.item.id_for_label }}"
-                   placeholder="search in {{ store.name }}"
-                   maxlength="{{ form.name.field.max_length }}"
-                   required
-            >
-            <button type="submit" class="btn btn-success"><i class="icon-search"></i></button>
-        </div>
-    </form>
-
-{% endblock %}
+{#{% block formSearch %}#}
+{#    <form class="form-inline ml-0 col-md  " method="post" action="{% url 'shop:search' %}">#}
+{#        {% csrf_token %}#}
+{#        <input type="hidden" value="{{ store }}" name="store">#}
+{#        <div class="form-group ">#}
+{#            <input type="text" class="col-6"#}
+{#                   name="{{ search_form.item.name }}"#}
+{#                   id="{{ search_form.item.id_for_label }}"#}
+{#                   placeholder="search in {{ store.name }}"#}
+{#                   maxlength="{{ form.name.field.max_length }}"#}
+{#                   required#}
+{#            >#}
+{#            <button type="submit" class="btn btn-success"><i class="icon-search"></i></button>#}
+{#        </div>#}
+{#    </form>#}
+{##}
+{#{% endblock %}#}
 {% block extra %}
     <style>
         .avatar-circle {
@@ -54,6 +54,7 @@
                     <p class="breadcrumbs">
                         <span>{{ store.line.name }}</span></p>
                     <div class="d-flex justify-content-center" style="text-transform: uppercase">
+
                         <div class="avatar-circle ">
                             <span class="initials">{{ initials }}</span>
                         </div>
@@ -61,6 +62,24 @@
 
 
                     <p class="mb-0 breadcrumbs ">{{ store.name }}</p>
+                    <div class="d-flex justify-content-center">
+                        <form class="form-inline ml-0   " method="post" action="{% url 'shop:search' %}">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{ store }}" name="store">
+                            <div class="form-group ">
+                                <input type="text" class="col-8 text-center"
+                                       name="{{ search_form.item.name }}"
+                                       id="{{ search_form.item.id_for_label }}"
+                                       placeholder="search in {{ store.name }}"
+                                       maxlength="{{ form.name.field.max_length }}"
+                                       required
+                                >
+                                <button type="submit" class="btn btn-warning ml-3" style="border-radius: 5px">Search
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
                     <p class="breadcrumbs"><span class="mr-2">
                         {% for category in categories %}
                             <a href="{% url 'shop:category-products' store.hash category.pk %}">{{ category.name }}</a>

@@ -23,13 +23,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECRET_KEY = 'gmt=m_6x$j2nkw4mjt47&!(fkcu49=n)#alfuw7^@ein(@uazb'
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '!r6tnh3ch_js78wx@7lgahovh-qe-hoytrw%lsg)2s#wiexa45')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 # fixme change these during production
 ALLOWED_HOSTS = ['http://a6d8098a.ngrok.io', 'https://a6d8098a.ngrok.io', 'localhost', '127.0.0.1']
 
-CSRF_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
 
-SESSION_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 # Application definition
 
 INSTALLED_APPS = [

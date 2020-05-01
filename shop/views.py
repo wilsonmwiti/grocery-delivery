@@ -228,7 +228,7 @@ def login(request):
 @login_required(login_url='customer-accounts:login')
 def categories(request, storehash, categorypk):
     subscribe_form = SubscribeForm()
-
+    search_form = SearchForm()
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
@@ -243,7 +243,7 @@ def categories(request, storehash, categorypk):
         cart_items = Cart.objects.filter(user=request.user.pk).count()
         return render(request, 'shopeaze/categories.html',
                       {'products': products, 'cart_count': cart_items, 'category': cat,
-                       'subscribe_form': subscribe_form})
+                       'subscribe_form': subscribe_form, 'search_form': search_form})
 
 
 @login_required(login_url='customer-accounts:login')
@@ -370,7 +370,9 @@ def search(request):
                 return render(request, 'shopeaze/products_searched.html',
                               {'store': store_details, 'products': items, 'cart_count': cart_items,
                                'subscribe_form': subscribe_form,
-                               'search_form': search_form})
+                               'search_form': search_form,
+                               'initials': ''.join([x[0] for x in store_details.name.split()]),
+                               'categories': Categories.objects.all().order_by('name')})
 
 
 def searchstores(request):
@@ -483,6 +485,10 @@ def mobile_pesa_done(request):
 # error handlers
 def handler404(request, exception):
     return render(request, 'shopeaze/errors/404.html', status=404)
+
+
+def handler403(request, exception):
+    return render(request, 'shopeaze/errors/403.html', status=403)
 
 
 def handler500(request):

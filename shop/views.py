@@ -229,6 +229,7 @@ def login(request):
 def categories(request, storehash, categorypk):
     subscribe_form = SubscribeForm()
     search_form = SearchForm()
+    store = Stores.objects.get(hash=storehash)
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user.pk).count()
     else:
@@ -243,7 +244,8 @@ def categories(request, storehash, categorypk):
         cart_items = Cart.objects.filter(user=request.user.pk).count()
         return render(request, 'shopeaze/categories.html',
                       {'products': products, 'cart_count': cart_items, 'category': cat,
-                       'subscribe_form': subscribe_form, 'search_form': search_form})
+                       'subscribe_form': subscribe_form, 'search_form': search_form, 'store': store,
+                       'initials': ''.join([x[0] for x in store.name.split()])})
 
 
 @login_required(login_url='customer-accounts:login')

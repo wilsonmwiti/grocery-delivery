@@ -4,6 +4,29 @@
 {% block cart %}
     {{ cart_count }}
 {% endblock %}
+{% block extra %}
+    <style>
+        .avatar-circle {
+            width: 100px;
+            height: 100px;
+            background-color: maroon;
+            text-align: center;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+        }
+
+        .initials {
+            position: relative;
+            top: 25px; /* 25% of parent */
+            font-size: 50px; /* 50% of parent */
+            line-height: 50px; /* 50% of parent */
+            color: #fff;
+            font-family: "Courier New", monospace;
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}
 
 
 {% block maincontent %}
@@ -21,7 +44,7 @@
                     </div>
 
 
-                    <p class="mb-0 breadcrumbs ">{{ store.name }}</p>
+                    <p class="mb-0 breadcrumbs ">{{ store.name }} {{ category.name }}</p>
                     <div class="d-flex justify-content-center">
                         <form class="form-inline ml-0   " method="post" action="{% url 'shop:search' %}">
                             {% csrf_token %}

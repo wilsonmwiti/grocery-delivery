@@ -1,9 +1,24 @@
 {% extends 'shopeaze/base.html' %}
 {% load static %}
 {% block title_extension %}404 error{% endblock %}
-{% block cart %}
-    {{ cart_count }}
+{% block nav %}
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'shop:index' %}">Shop<span style="    font-family: 'Yellowtail';
+"><b>Eaze</b></span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active"><a href="{% url 'shop:index' %}" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="{% url 'shop:contact-us' %}" class="nav-link">Contact</a></li>
+
+            </ul>
+        </div>
+    </div>
 {% endblock %}
+
 {% block styling %}{% endblock %}
 {% block extra %}
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet">
@@ -25,8 +40,9 @@
         <div class="notfound">
             <div class="notfound-404"></div>
             <h1>404</h1>
-            <h2>UH-OH.The page you are looking for does not exist</h2>
+            <h2>UH-OH.The resource you are looking for does not exist</h2>
             <a href="{% url 'shop:index' %}">Back to homepage</a>
         </div>
     </div>
 {% endblock %}
+{% block footer %}{% endblock %}

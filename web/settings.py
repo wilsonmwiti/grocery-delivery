@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '!r6tnh3ch_js78wx@7lgahovh-qe-h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 # fixme change these during production
-ALLOWED_HOSTS = ['http://a6d8098a.ngrok.io', 'https://a6d8098a.ngrok.io', 'localhost']
+ALLOWED_HOSTS = ['http://a6d8098a.ngrok.io', 'https://a6d8098a.ngrok.io', 'localhost', '127.0.0.1']
 
 CSRF_COOKIE_SECURE = True
 

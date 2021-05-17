@@ -5,15 +5,15 @@
     {{ cart_count }}
 {% endblock %}
 
-{% block formSearch %}
-    <form class="form-inline ml-0 col-md  " method="post" action="{% url 'shop:searchLocation' %}">
+{% block formSearch %}<li class="nav-item">
+    <form class="form-inline" method="post" action="{% url 'shop:searchLocation' %}">
         {% csrf_token %}
         <div class="form-group ">
             {{ formSearchShop }}
-            <button type="submit" class="btn btn-success"><i class="icon-search"></i></button>
+            <button type="submit" class="btn btn-success">Search</i></button>
         </div>
     </form>
-
+</li>
 {% endblock %}
 {% block maincontent %}
 

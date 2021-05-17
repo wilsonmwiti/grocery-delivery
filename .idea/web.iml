@@ -18,7 +18,7 @@
       <excludeFolder url="file://$MODULE_DIR$/venv1" />
       <excludeFolder url="file://$MODULE_DIR$/virtualenv" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.7 (shopeaze-python)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.7 (shop-eaze)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="bootstrap" level="application" />

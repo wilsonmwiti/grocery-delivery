@@ -1,5 +1,8 @@
+import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
@@ -14,7 +17,7 @@ from sellers.models import Stores
 from shop.forms import QuantityForm, QuantityFormCuppy, SubscribeForm, SearchForm, SearchStoresForm, PaymentsForm
 from shop.models import Cart, WishList, Orders, OrderItems, CustomerData
 from staffapp.models import ContactMessages, Subscribers
-
+import json
 
 def index(request):
     subscribe_form = SubscribeForm()
@@ -45,10 +48,12 @@ def index(request):
         return redirect('staff:panel')
     else:
         stores = Stores.objects.all()
+
         return render(request, 'shopeaze/index.html',
                       {'products': products, 'fruits': fruits, 'vegetables': vegies, 'spices': spices,
                        'household_items': household, 'cereals': cereals, 'sanitizers': sanitisers,
-                       'cart_count': cart_items,
+                       'cart_count': cart_items,'qs_stores':json.dumps(list(Stores.objects.values('name')),
+                                                                       sort_keys=True,indent=1),
                        'subscribe_form': subscribe_form, 'formSearchShop': search_form, 'stores': stores})
 
 

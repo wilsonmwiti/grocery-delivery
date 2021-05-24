@@ -56,7 +56,7 @@
     {#    </div>#}
 
 {% endblock %}
-<nav class="navbar navbar-expand-md navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+<nav class="navbar navbar-expand-sm navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 
     {% block nav %}
         <div class="container">
@@ -222,7 +222,7 @@
     </div>
 
 {% endblock %}
-
+{% block search_scripts %}{% endblock %}
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
 <script src="{% static 'js/popper.min.js' %}"></script>
@@ -236,8 +236,8 @@
 <script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
 <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
 <script src="{% static 'js/scrollax.min.js' %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-<script src="{% static 'js/google-map.js' %}"></script>
+{#<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>#}
+{#<script src="{% static 'js/google-map.js' %}"></script>#}
 <script src="{% static 'js/main.js' %}"></script>
 
 </body>

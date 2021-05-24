@@ -5,18 +5,23 @@
     {{ cart_count }}
 {% endblock %}
 
-{% block formSearch %}<li class="nav-item">
-    <form class="form-inline" method="post" action="{% url 'shop:searchLocation' %}">
-        {% csrf_token %}
-        <div class="form-group ">
-            {{ formSearchShop }}
-            <button type="submit" class="btn btn-success">Search</button>
-        </div>
-    </form>
-</li>
+{% block formSearch %}
+    <li class="nav-item">
+        <form class="form-inline" method="post" action="{% url 'shop:searchLocation' %}">
+            {% csrf_token %}
+            <div class="form-group ">
+                {{ formSearchShop }}
+                <button type="submit" class="btn btn-success">Search</button>
+            </div>
+        </form>
+    </li>
 {% endblock %}
 {% block maincontent %}
-
+    <div id="box">
+        {% for obj in objects %}
+            {{ obj }}
+        {% endfor %}
+    </div>
     {% if not user.is_authenticated %}
         <section id="home-section" class="hero">
             <div class="home-slider owl-carousel">
@@ -31,51 +36,56 @@
                                     stores </h1>
                                 <h2 class="subheading mb-4">We deliver products to your door step</h2>
                                 {% if user.is_authenticated %}
-                            {% else %}
-                                <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">Log in</a></p>
-                            {% endif %}
-                        </div>
+                                {% else %}
+                                    <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">Log in</a>
+                                    </p>
+                                {% endif %}
+                            </div>
 
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="slider-item" style="background-image: url({% static 'images/bg_2.jpg' %});">
-                <div class="overlay"></div>
-                <div class="container">
-                    <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+                <div class="slider-item" style="background-image: url({% static 'images/bg_2.jpg' %});">
+                    <div class="overlay"></div>
+                    <div class="container">
+                        <div class="row slider-text justify-content-center align-items-center"
+                             data-scrollax-parent="true">
 
-                        <div class="col-sm-12 ftco-animate text-center">
-                            <h1 class="mb-2">Stay at home and let us deliver products from the stores to you</h1>
-                            {#                            <h2 class="subheading mb-4">Pay 60% of the price before and pay the rest during#}
-                            {#                                delivery</h2>#}
-                            {% if user.is_authenticated %}
-                            {% else %}
-                                <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">Log in</a></p>
-                            {% endif %}
+                            <div class="col-sm-12 ftco-animate text-center">
+                                <h1 class="mb-2">Stay at home and let us deliver products from the stores to you</h1>
+                                {#                            <h2 class="subheading mb-4">Pay 60% of the price before and pay the rest during#}
+                                {#                                delivery</h2>#}
+                                {% if user.is_authenticated %}
+                                {% else %}
+                                    <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">Log in</a>
+                                    </p>
+                                {% endif %}
+                            </div>
+
                         </div>
-
                     </div>
                 </div>
-            </div>
-            <div class="slider-item" style="background-image: url({% static 'images/bg_3.jpg' %});">
-                <div class="overlay"></div>
-                <div class="container">
-                    <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+                <div class="slider-item" style="background-image: url({% static 'images/bg_3.jpg' %});">
+                    <div class="overlay"></div>
+                    <div class="container">
+                        <div class="row slider-text justify-content-center align-items-center"
+                             data-scrollax-parent="true">
 
-                        <div class="col-sm-12 ftco-animate text-center">
-                            <h1 class="mb-2">Are you a seller?</h1>
-                            <h2 class="subheading mb-4">Host your store with us and let us do your
-                                deliveries</h2>
-                            {% if user.is_authenticated %}
-                            {% else %}
-                                <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">Log in </a></p>
-                            {% endif %}
+                            <div class="col-sm-12 ftco-animate text-center">
+                                <h1 class="mb-2">Are you a seller?</h1>
+                                <h2 class="subheading mb-4">Host your store with us and let us do your
+                                    deliveries</h2>
+                                {% if user.is_authenticated %}
+                                {% else %}
+                                    <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">Log in </a>
+                                    </p>
+                                {% endif %}
+                            </div>
+
                         </div>
-
                     </div>
                 </div>
-            </div>
 
             </div>
         </section>
@@ -91,115 +101,116 @@
                             <div class="media-body">
                                 <h3 class="heading">Delivery to your door step</h3>
                                 <span>On order all orders within our region of supply</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
-                    <div class="media block-6 services mb-md-0 mb-4">
-                        <div class="icon bg-color-2 d-flex justify-content-center align-items-center mb-2">
-                            <span class="flaticon-diet"></span>
-                        </div>
-                        <div class="media-body">
-                            <h3 class="heading">Always Fresh</h3>
-                            <span>Products well packaged</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
-                    <div class="media block-6 services mb-md-0 mb-4">
-                        <div class="icon bg-color-3 d-flex justify-content-center align-items-center mb-2">
-                            <span class="flaticon-award"></span>
-                        </div>
-                        <div class="media-body">
-                            <h3 class="heading">Superior Quality</h3>
-                            <span>Quality Products</span>
+                    <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+                        <div class="media block-6 services mb-md-0 mb-4">
+                            <div class="icon bg-color-2 d-flex justify-content-center align-items-center mb-2">
+                                <span class="flaticon-diet"></span>
+                            </div>
+                            <div class="media-body">
+                                <h3 class="heading">Always Fresh</h3>
+                                <span>Products well packaged</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
-                    <div class="media block-6 services mb-md-0 mb-4">
-                        <div class="icon bg-color-4 d-flex justify-content-center align-items-center mb-2">
-                            <span class="flaticon-customer-service"></span>
+                    <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+                        <div class="media block-6 services mb-md-0 mb-4">
+                            <div class="icon bg-color-3 d-flex justify-content-center align-items-center mb-2">
+                                <span class="flaticon-award"></span>
+                            </div>
+                            <div class="media-body">
+                                <h3 class="heading">Superior Quality</h3>
+                                <span>Quality Products</span>
+                            </div>
                         </div>
-                        <div class="media-body">
-                            <h3 class="heading">Customer service</h3>
-                            <span>Online customer support</span>
+                    </div>
+                    <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+                        <div class="media block-6 services mb-md-0 mb-4">
+                            <div class="icon bg-color-4 d-flex justify-content-center align-items-center mb-2">
+                                <span class="flaticon-customer-service"></span>
+                            </div>
+                            <div class="media-body">
+                                <h3 class="heading">Customer service</h3>
+                                <span>Online customer support</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="ftco-section ftco-category ftco-no-pt">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-6 order-md-last align-items-stretch d-flex">
-                            <div class="category-wrap-2 ftco-animate img align-self-stretch d-flex"
-                                 style="background-image: url({% static 'images/category.jpg' %});">
-                                <div class="text text-center">
-                                    <h2>ShopEaze</h2>
-                                    <p><a href="{% url 'shop:searchLocation' %}" class="btn btn-primary">Shop now</a>
-                                    </p>
+        <section class="ftco-section ftco-category ftco-no-pt">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6 order-md-last align-items-stretch d-flex">
+                                <div class="category-wrap-2 ftco-animate img align-self-stretch d-flex"
+                                     style="background-image: url({% static 'images/category.jpg' %});">
+                                    <div class="text text-center">
+                                        <h2>ShopEaze</h2>
+                                        <p><a href="{% url 'shop:searchLocation' %}" class="btn btn-primary">Shop
+                                            now</a>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
-                                 style="background-image: url({% static 'images/fruits.jpg' %});">
-                                <div class="text px-3 py-1">
-                                    {#                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 1 %}">Fruits</a></h2>#}
-                                    <h2 class="mb-0"><a href="#">Fruits</a></h2>
+                            <div class="col-md-6">
+                                <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
+                                     style="background-image: url({% static 'images/fruits.jpg' %});">
+                                    <div class="text px-3 py-1">
+                                        {#                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 1 %}">Fruits</a></h2>#}
+                                        <h2 class="mb-0"><a href="#">Fruits</a></h2>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
-                                 style="background-image: url({% static 'images/vegetables.jpg' %});">
-                                <div class="text px-3 py-1">
-                                    {#                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 2 %}">Vegetables</a>#}
-                                    <h2 class="mb-0"><a href="#">Vegetables</a>
-                                    </h2>
+                                <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
+                                     style="background-image: url({% static 'images/vegetables.jpg' %});">
+                                    <div class="text px-3 py-1">
+                                        {#                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 2 %}">Vegetables</a>#}
+                                        <h2 class="mb-0"><a href="#">Vegetables</a>
+                                        </h2>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="category-wrap ftco-animate img d-flex align-items-end"
-                                 style="background-image: url({% static 'images/sani.jpg' %});">
-                                <div class="text px-3 py-1">
-                                    {#                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 2 %}">Vegetables</a>#}
-                                    <h2 class="mb-0"><a href="#">Sanitisers & disinfectants</a>
-                                    </h2>
+                                <div class="category-wrap ftco-animate img d-flex align-items-end"
+                                     style="background-image: url({% static 'images/sani.jpg' %});">
+                                    <div class="text px-3 py-1">
+                                        {#                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 2 %}">Vegetables</a>#}
+                                        <h2 class="mb-0"><a href="#">Sanitisers & disinfectants</a>
+                                        </h2>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-md-4">
-                    <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
-                         style="background-image: url({% static 'images/dryfoods.jpg' %});">
-                        <div class="text px-3 py-1">
-                            {#                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 3 %}">Dried cereals</a></h2>#}
-                            <h2 class="mb-0"><a href="#">Dried cereals</a></h2>
+                    <div class="col-md-4">
+                        <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
+                             style="background-image: url({% static 'images/dryfoods.jpg' %});">
+                            <div class="text px-3 py-1">
+                                {#                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 3 %}">Dried cereals</a></h2>#}
+                                <h2 class="mb-0"><a href="#">Dried cereals</a></h2>
+                            </div>
                         </div>
-                    </div>
-                    <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
-                         style="background-image: url({% static 'images/cooking.jpg' %});">
-                        <div class="text px-3 py-1">
-                            {#                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 4 %}">Cooking spices</a></h2>#}
-                            <h2 class="mb-0"><a href="#">Cooking spices</a></h2>
+                        <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
+                             style="background-image: url({% static 'images/cooking.jpg' %});">
+                            <div class="text px-3 py-1">
+                                {#                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 4 %}">Cooking spices</a></h2>#}
+                                <h2 class="mb-0"><a href="#">Cooking spices</a></h2>
+                            </div>
                         </div>
-                    </div>
-                    <div class="category-wrap ftco-animate img d-flex align-items-end"
-                         style="background-image: url({% static 'images/household.jpg' %});">
-                        <div class="text px-3 py-1">
-                            {#                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 4 %}">Cooking spices</a></h2>#}
-                            <h2 class="mb-0"><a href="#">House hold items</a></h2>
+                        <div class="category-wrap ftco-animate img d-flex align-items-end"
+                             style="background-image: url({% static 'images/household.jpg' %});">
+                            <div class="text px-3 py-1">
+                                {#                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 4 %}">Cooking spices</a></h2>#}
+                                <h2 class="mb-0"><a href="#">House hold items</a></h2>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
     {% endif %}
     <section class="ftco-section">
         <div class="container">
@@ -255,30 +266,30 @@
                     <div class="col-md-6 col-lg-3 ">
                         <div class="product">
                             {% if product.image %}
-                                    <a href="#" class="img-prod"><img
-                                            class="img-fluid" src="{{ product.image.url }}"
-                                            alt="{{ product.item_name }}" style="height: 100%">
-                                        <div class="overlay"></div>
-                                    </a>{% endif %}
-                                <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="#">{{ product.item_name }}</a>
-                                    </h3>
+                                <a href="#" class="img-prod"><img
+                                        class="img-fluid" src="{{ product.image.url }}"
+                                        alt="{{ product.item_name }}" style="height: 100%">
+                                    <div class="overlay"></div>
+                                </a>{% endif %}
+                            <div class="text py-3 pb-4 px-3 text-center">
+                                <h3><a href="#">{{ product.item_name }}</a>
+                                </h3>
 
-                                    {#                                    <div class="bottom-area d-flex px-3">#}
-                                    {#                                        <div class="m-auto d-flex">#}
-                                    {#                                            <a href="#"#}
-                                    {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
-                                    {#                                                <span><i class="ion-ios-cart"></i></span>#}
-                                    {#                                            </a>#}
-                                    {#                                            <a href="#"#}
-                                    {#                                               class="heart d-flex justify-content-center align-items-center ">#}
-                                    {#                                                <span><i class="ion-ios-heart"></i></span>#}
-                                    {#                                            </a>#}
-                                    {#                                        </div>#}
-                                    {#                                    </div>#}
-                                </div>
+                                {#                                    <div class="bottom-area d-flex px-3">#}
+                                {#                                        <div class="m-auto d-flex">#}
+                                {#                                            <a href="#"#}
+                                {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
+                                {#                                                <span><i class="ion-ios-cart"></i></span>#}
+                                {#                                            </a>#}
+                                {#                                            <a href="#"#}
+                                {#                                               class="heart d-flex justify-content-center align-items-center ">#}
+                                {#                                                <span><i class="ion-ios-heart"></i></span>#}
+                                {#                                            </a>#}
+                                {#                                        </div>#}
+                                {#                                    </div>#}
                             </div>
                         </div>
+                    </div>
 
                 {% endfor %}
 
@@ -301,30 +312,30 @@
                     <div class="col-md-6 col-lg-3 ">
                         <div class="product">
                             {% if product.image %}
-                                    <a href="#" class="img-prod"><img
-                                            class="img-fluid" src="{{ product.image.url }}"
-                                            alt="{{ product.item_name }}" style="height: 100%">
-                                        <div class="overlay"></div>
-                                    </a>{% endif %}
-                                <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="#">{{ product.item_name }}</a>
-                                    </h3>
+                                <a href="#" class="img-prod"><img
+                                        class="img-fluid" src="{{ product.image.url }}"
+                                        alt="{{ product.item_name }}" style="height: 100%">
+                                    <div class="overlay"></div>
+                                </a>{% endif %}
+                            <div class="text py-3 pb-4 px-3 text-center">
+                                <h3><a href="#">{{ product.item_name }}</a>
+                                </h3>
 
-                                    {#                                    <div class="bottom-area d-flex px-3">#}
-                                    {#                                        <div class="m-auto d-flex">#}
-                                    {#                                            <a href="#"#}
-                                    {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
-                                    {#                                                <span><i class="ion-ios-cart"></i></span>#}
-                                    {#                                            </a>#}
-                                    {#                                            <a href="#"#}
-                                    {#                                               class="heart d-flex justify-content-center align-items-center ">#}
-                                    {#                                                <span><i class="ion-ios-heart"></i></span>#}
-                                    {#                                            </a>#}
-                                    {#                                        </div>#}
-                                    {#                                    </div>#}
-                                </div>
+                                {#                                    <div class="bottom-area d-flex px-3">#}
+                                {#                                        <div class="m-auto d-flex">#}
+                                {#                                            <a href="#"#}
+                                {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
+                                {#                                                <span><i class="ion-ios-cart"></i></span>#}
+                                {#                                            </a>#}
+                                {#                                            <a href="#"#}
+                                {#                                               class="heart d-flex justify-content-center align-items-center ">#}
+                                {#                                                <span><i class="ion-ios-heart"></i></span>#}
+                                {#                                            </a>#}
+                                {#                                        </div>#}
+                                {#                                    </div>#}
                             </div>
                         </div>
+                    </div>
                 {% endfor %}
 
             </div>
@@ -346,30 +357,30 @@
                     <div class="col-md-6 col-lg-3 ">
                         <div class="product">
                             {% if product.image %}
-                                    <a href="#" class="img-prod"><img
-                                            class="img-fluid" src="{{ product.image.url }}"
-                                            alt="{{ product.item_name }}" style="height: 100%">
-                                        <div class="overlay"></div>
-                                    </a>{% endif %}
-                                <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="#">{{ product.item_name }}</a>
-                                    </h3>
+                                <a href="#" class="img-prod"><img
+                                        class="img-fluid" src="{{ product.image.url }}"
+                                        alt="{{ product.item_name }}" style="height: 100%">
+                                    <div class="overlay"></div>
+                                </a>{% endif %}
+                            <div class="text py-3 pb-4 px-3 text-center">
+                                <h3><a href="#">{{ product.item_name }}</a>
+                                </h3>
 
-                                    {#                                    <div class="bottom-area d-flex px-3">#}
-                                    {#                                        <div class="m-auto d-flex">#}
-                                    {#                                            <a href="#"#}
-                                    {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
-                                    {#                                                <span><i class="ion-ios-cart"></i></span>#}
-                                    {#                                            </a>#}
-                                    {#                                            <a href="#"#}
-                                    {#                                               class="heart d-flex justify-content-center align-items-center ">#}
-                                    {#                                                <span><i class="ion-ios-heart"></i></span>#}
-                                    {#                                            </a>#}
-                                    {#                                        </div>#}
-                                    {#                                    </div>#}
-                                </div>
+                                {#                                    <div class="bottom-area d-flex px-3">#}
+                                {#                                        <div class="m-auto d-flex">#}
+                                {#                                            <a href="#"#}
+                                {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
+                                {#                                                <span><i class="ion-ios-cart"></i></span>#}
+                                {#                                            </a>#}
+                                {#                                            <a href="#"#}
+                                {#                                               class="heart d-flex justify-content-center align-items-center ">#}
+                                {#                                                <span><i class="ion-ios-heart"></i></span>#}
+                                {#                                            </a>#}
+                                {#                                        </div>#}
+                                {#                                    </div>#}
                             </div>
                         </div>
+                    </div>
                 {% endfor %}
 
             </div>
@@ -391,30 +402,30 @@
                     <div class="col-md-6 col-lg-3 ">
                         <div class="product">
                             {% if product.image %}
-                                    <a href="#" class="img-prod"><img
-                                            class="img-fluid" src="{{ product.image.url }}"
-                                            alt="{{ product.item_name }}" style="height: 100%">
-                                        <div class="overlay"></div>
-                                    </a>{% endif %}
-                                <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="#">{{ product.item_name }}</a>
-                                    </h3>
+                                <a href="#" class="img-prod"><img
+                                        class="img-fluid" src="{{ product.image.url }}"
+                                        alt="{{ product.item_name }}" style="height: 100%">
+                                    <div class="overlay"></div>
+                                </a>{% endif %}
+                            <div class="text py-3 pb-4 px-3 text-center">
+                                <h3><a href="#">{{ product.item_name }}</a>
+                                </h3>
 
-                                    {#                                    <div class="bottom-area d-flex px-3">#}
-                                    {#                                        <div class="m-auto d-flex">#}
-                                    {#                                            <a href="#"#}
-                                    {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
-                                    {#                                                <span><i class="ion-ios-cart"></i></span>#}
-                                    {#                                            </a>#}
-                                    {#                                            <a href="#"#}
-                                    {#                                               class="heart d-flex justify-content-center align-items-center ">#}
-                                    {#                                                <span><i class="ion-ios-heart"></i></span>#}
-                                    {#                                            </a>#}
-                                    {#                                        </div>#}
-                                    {#                                    </div>#}
-                                </div>
+                                {#                                    <div class="bottom-area d-flex px-3">#}
+                                {#                                        <div class="m-auto d-flex">#}
+                                {#                                            <a href="#"#}
+                                {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
+                                {#                                                <span><i class="ion-ios-cart"></i></span>#}
+                                {#                                            </a>#}
+                                {#                                            <a href="#"#}
+                                {#                                               class="heart d-flex justify-content-center align-items-center ">#}
+                                {#                                                <span><i class="ion-ios-heart"></i></span>#}
+                                {#                                            </a>#}
+                                {#                                        </div>#}
+                                {#                                    </div>#}
                             </div>
                         </div>
+                    </div>
                 {% endfor %}
 
             </div>
@@ -436,30 +447,30 @@
                     <div class="col-md-6 col-lg-3 ">
                         <div class="product">
                             {% if product.image %}
-                                    <a href="#" class="img-prod"><img
-                                            class="img-fluid" src="{{ product.image.url }}"
-                                            alt="{{ product.item_name }}" style="height: 100%">
-                                        <div class="overlay"></div>
-                                    </a>{% endif %}
-                                <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="#">{{ product.item_name }}</a>
-                                    </h3>
+                                <a href="#" class="img-prod"><img
+                                        class="img-fluid" src="{{ product.image.url }}"
+                                        alt="{{ product.item_name }}" style="height: 100%">
+                                    <div class="overlay"></div>
+                                </a>{% endif %}
+                            <div class="text py-3 pb-4 px-3 text-center">
+                                <h3><a href="#">{{ product.item_name }}</a>
+                                </h3>
 
-                                    {#                                    <div class="bottom-area d-flex px-3">#}
-                                    {#                                        <div class="m-auto d-flex">#}
-                                    {#                                            <a href="#"#}
-                                    {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
-                                    {#                                                <span><i class="ion-ios-cart"></i></span>#}
-                                    {#                                            </a>#}
-                                    {#                                            <a href="#"#}
-                                    {#                                               class="heart d-flex justify-content-center align-items-center ">#}
-                                    {#                                                <span><i class="ion-ios-heart"></i></span>#}
-                                    {#                                            </a>#}
-                                    {#                                        </div>#}
-                                    {#                                    </div>#}
-                                </div>
+                                {#                                    <div class="bottom-area d-flex px-3">#}
+                                {#                                        <div class="m-auto d-flex">#}
+                                {#                                            <a href="#"#}
+                                {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
+                                {#                                                <span><i class="ion-ios-cart"></i></span>#}
+                                {#                                            </a>#}
+                                {#                                            <a href="#"#}
+                                {#                                               class="heart d-flex justify-content-center align-items-center ">#}
+                                {#                                                <span><i class="ion-ios-heart"></i></span>#}
+                                {#                                            </a>#}
+                                {#                                        </div>#}
+                                {#                                    </div>#}
                             </div>
                         </div>
+                    </div>
                 {% endfor %}
 
             </div>
@@ -481,30 +492,30 @@
                     <div class="col-md-6 col-lg-3 ">
                         <div class="product">
                             {% if product.image %}
-                                    <a href="#" class="img-prod"><img
-                                            class="img-fluid" src="{{ product.image.url }}"
-                                            alt="{{ product.item_name }}" style="height: 100%">
-                                        <div class="overlay"></div>
-                                    </a>{% endif %}
-                                <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="#">{{ product.item_name }}</a>
-                                    </h3>
+                                <a href="#" class="img-prod"><img
+                                        class="img-fluid" src="{{ product.image.url }}"
+                                        alt="{{ product.item_name }}" style="height: 100%">
+                                    <div class="overlay"></div>
+                                </a>{% endif %}
+                            <div class="text py-3 pb-4 px-3 text-center">
+                                <h3><a href="#">{{ product.item_name }}</a>
+                                </h3>
 
-                                    {#                                    <div class="bottom-area d-flex px-3">#}
-                                    {#                                        <div class="m-auto d-flex">#}
-                                    {#                                            <a href="#"#}
-                                    {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
-                                    {#                                                <span><i class="ion-ios-cart"></i></span>#}
-                                    {#                                            </a>#}
-                                    {#                                            <a href="#"#}
-                                    {#                                               class="heart d-flex justify-content-center align-items-center ">#}
-                                    {#                                                <span><i class="ion-ios-heart"></i></span>#}
-                                    {#                                            </a>#}
-                                    {#                                        </div>#}
-                                    {#                                    </div>#}
-                                </div>
+                                {#                                    <div class="bottom-area d-flex px-3">#}
+                                {#                                        <div class="m-auto d-flex">#}
+                                {#                                            <a href="#"#}
+                                {#                                               class="buy-now d-flex justify-content-center align-items-center mx-1">#}
+                                {#                                                <span><i class="ion-ios-cart"></i></span>#}
+                                {#                                            </a>#}
+                                {#                                            <a href="#"#}
+                                {#                                               class="heart d-flex justify-content-center align-items-center ">#}
+                                {#                                                <span><i class="ion-ios-heart"></i></span>#}
+                                {#                                            </a>#}
+                                {#                                        </div>#}
+                                {#                                    </div>#}
                             </div>
                         </div>
+                    </div>
                 {% endfor %}
 
             </div>
@@ -538,4 +549,33 @@
         </div>
     </section>
 
+{% endblock %}
+{% block search_scripts %}
+    <script>
+        const stores = `{{ qs_stores }}`
+        const rstores = JSON.parse(stores.replace(/&quot;/g, '"'))
+        console.log(rstores)
+        const storeSearch = document.getElementById('id_store')
+        let filteredArr = []
+        let search_term = "";
+        storeSearch.addEventListener("input", (e) => {
+            search_term = e.target.value.toLowerCase()
+            showList()
+        })
+        const showList = () => {
+            box.innerHTML = "";
+            rstores.filter((item) => {
+                return (
+                    item.name.toLowerCase().includes(search_term) ||
+                    item.line__name.toLowerCase().includes(search_term)
+                );
+            }).forEach((e) => {
+                const li = document.createElement("store_item");
+                li.innerHTML = `<p>${e.name}</p>`;
+                box.appendChild(li);
+            });
+        };
+        {#showList();#}
+
+    </script>
 {% endblock %}

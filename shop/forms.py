@@ -34,14 +34,14 @@ class SubscribeForm(forms.Form):
 class SearchForm(forms.Form):
     item = forms.CharField(required=True,
                            widget=forms.TextInput(
-                               attrs={'class': "form-control form-control-sm  w-50 mr-2 rounded mb-0",
+                               attrs={'class': "form-control form-control-sm  w-50 mr-2 rounded mb-2 p-2",
                                       'placeholder': 'item name'}),
                            label='')
 
 class SearchOrderForm(forms.Form):
     order_id = forms.CharField(required=True,
                                widget=forms.TextInput(
-                                   attrs={'class': "form-control form-control-sm  w-50 mr-2 rounded mb-0",
+                                   attrs={'class': "form-control form-control-sm  w-50 mr-2 rounded mb-2 p-2",
                                           'placeholder': 'Input Order Id'}),
                                label='')
 
@@ -49,7 +49,7 @@ class SearchOrderForm(forms.Form):
 class SearchStoresForm(forms.Form):
     store = forms.CharField(required=True,
                             widget=forms.TextInput(
-                                attrs={'class': "form-control form-control-sm  w-50 mr-2 rounded mb-0",
+                                attrs={'class': "form-control form-control-sm  w-50 mr-2 rounded mb-2 p-2",
                                        'placeholder': 'Town/City...'}),
                             label='')
 

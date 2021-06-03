@@ -3,7 +3,7 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.core.serializers.json import DjangoJSONEncoder
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
 from django_cryptography.utils.crypto import get_random_string
@@ -52,10 +52,23 @@ def index(request):
         return render(request, 'shopeaze/index.html',
                       {'products': products, 'fruits': fruits, 'vegetables': vegies, 'spices': spices,
                        'household_items': household, 'cereals': cereals, 'sanitizers': sanitisers,
-                       'cart_count': cart_items,'qs_stores':json.dumps(list(Stores.objects.values('name')),
-                                                                       sort_keys=True,indent=1),
+                       'cart_count': cart_items,
+                       # 'qs_stores':json.dumps(list(Stores.objects.values('name')),
+                       #                                                 sort_keys=True,indent=1),
                        'subscribe_form': subscribe_form, 'formSearchShop': search_form, 'stores': stores})
 
+def store_autocomplete(request):
+    if request.is_ajax():
+        query = request.GET.get("term", "")
+        companies = Stores.objects.filter(name__icontains=query)
+        results = []
+        for company in companies:
+            place_json = company.name
+            results.append(place_json)
+        data = json.dumps(results)
+    mimetype = "application/json"
+    print(data)
+    return HttpResponse(data, mimetype)
 
 @login_required(login_url='customer-accounts:login')
 def add_wish(request, hash):

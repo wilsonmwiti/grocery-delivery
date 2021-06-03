@@ -11950,16 +11950,16 @@ rgba
     background: #dcd691;
 }
 
-.btn {
-    cursor: pointer;
-    -webkit-border-radius: 30px;
-    -moz-border-radius: 30px;
-    -ms-border-radius: 30px;
-    border-radius: 30px;
-    -webkit-box-shadow: 0px 24px 36px -11px rgba(0, 0, 0, 0.09);
-    -moz-box-shadow: 0px 24px 36px -11px rgba(0, 0, 0, 0.09);
-    box-shadow: 0px 24px 36px -11px rgba(0, 0, 0, 0.09);
-}
+/*.btn {*/
+/*    cursor: pointer;*/
+/*    !*-webkit-border-radius: 30px;*!*/
+/*    !*-moz-border-radius: 30px;*!*/
+/*    !*-ms-border-radius: 30px;*!*/
+/*    !*border-radius: rem;*!*/
+/*    -webkit-box-shadow: 0px 24px 36px -11px rgba(0, 0, 0, 0.09);*/
+/*    -moz-box-shadow: 0px 24px 36px -11px rgba(0, 0, 0, 0.09);*/
+/*    box-shadow: 0px 24px 36px -11px rgba(0, 0, 0, 0.09);*/
+/*}*/
 
 .btn:hover, .btn:active, .btn:focus {
     outline: none;

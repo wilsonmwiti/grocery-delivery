@@ -4,7 +4,21 @@
 {% block cart %}
     {{ cart_count }}
 {% endblock %}
+{% block extra %}
+{#    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>#}
+{#<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>#}
 
+    <script>
+
+  $(function() {
+
+    $("#id_store").autocomplete({
+      source: "{% url 'shop:store-autocomplete' %}",
+      minLength: 1,
+    });
+  });
+</script>
+{% endblock %}
 {% block formSearch %}
     <li class="nav-item">
         <form class="form-inline" method="post" action="{% url 'shop:searchLocation' %}">
@@ -551,31 +565,5 @@
 
 {% endblock %}
 {% block search_scripts %}
-    <script>
-        const stores = `{{ qs_stores }}`
-        const rstores = JSON.parse(stores.replace(/&quot;/g, '"'))
-        console.log(rstores)
-        const storeSearch = document.getElementById('id_store')
-        let filteredArr = []
-        let search_term = "";
-        storeSearch.addEventListener("input", (e) => {
-            search_term = e.target.value.toLowerCase()
-            showList()
-        })
-        const showList = () => {
-            box.innerHTML = "";
-            rstores.filter((item) => {
-                return (
-                    item.name.toLowerCase().includes(search_term) ||
-                    item.line__name.toLowerCase().includes(search_term)
-                );
-            }).forEach((e) => {
-                const li = document.createElement("store_item");
-                li.innerHTML = `<p>${e.name}</p>`;
-                box.appendChild(li);
-            });
-        };
-        {#showList();#}
 
-    </script>
 {% endblock %}

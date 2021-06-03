@@ -62,27 +62,27 @@
 
 
                     <p class="mb-0 breadcrumbs ">{{ store.name }}</p>
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center my-4">
                         <form class="form-inline ml-0   " method="post" action="{% url 'shop:search' %}">
                             {% csrf_token %}
                             <input type="hidden" value="{{ store }}" name="store">
                             <div class="form-group ">
-                                <input type="text" class="col-8 text-center"
+                                <input type="text" class=" p-2 mr-2 rounded text-center form-control"
                                        name="{{ search_form.item.name }}"
                                        id="{{ search_form.item.id_for_label }}"
                                        placeholder="search in {{ store.name }}"
                                        maxlength="{{ form.name.field.max_length }}"
                                        required
                                 >
-                                <button type="submit" class="btn btn-warning ml-3" style="border-radius: 5px">Search
+                                <button type="submit" class="btn btn-warning" style="border-radius: 5px">Search
                                 </button>
                             </div>
                         </form>
 
                     </div>
-                    <p class="breadcrumbs"><span class="mr-2">
+                    <p class="breadcrumbs my-4"><span >
                         {% for category in categories %}
-                            <a href="{% url 'shop:category-products' store.hash category.pk %}">{{ category.name }}</a>
+                            <a href="{% url 'shop:category-products' store.hash category.pk %}" class="mx-1 my-2">{{ category.name }}</a>
                         {% endfor %}
                     </span>
                     </p>

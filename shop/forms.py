@@ -49,7 +49,7 @@ class SearchOrderForm(forms.Form):
 class SearchStoresForm(forms.Form):
     store = forms.CharField(required=True,
                             widget=forms.TextInput(
-                                attrs={'class': "form-control form-control-sm  w-50 mr-2 rounded mb-2 p-2",
+                                attrs={'class': "form-control  mr-4 p-4 rounded m-2",
                                        'placeholder': 'Town/City...'}),
                             label='')
 

@@ -9,6 +9,7 @@ urlpatterns = [
     url('wishlist/', views.wishlist, name='wishlist'),
     url('remove-from-wishes/(?P<hash>[0-9a-zA-Z]+)/$', views.delete_wish, name='delete-wish'),
     url('add-to-wishes/(?P<hash>[0-9a-zA-Z]+)/$', views.add_wish, name='add-wish'),
+
     url('product/(?P<hash>[0-9a-zA-Z]+)/$', views.product, name='product-single'),
     url('category/(?P<storehash>[0-9a-zA-Z]+)/(?P<categorypk>[0-9]+)$', views.categories, name='category-products'),
     url('cart/', views.cart, name='cart'),
@@ -32,5 +33,6 @@ urlpatterns = [
     url('error-403/', views.handler403, name='403-error'),
     url('error-404/', views.handler404, name='404-error'),
     url('error-500/', views.handler500, name='500-error'),
-
+# search algos
+url(r'^store-autocomplete/', views.store_autocomplete, name='store-autocomplete'),
 ]

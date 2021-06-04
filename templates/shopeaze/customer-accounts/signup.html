@@ -14,11 +14,11 @@
             <div class="container">
                 <div class="row text-black text-left">
                     <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
-                        <div class="px-2" style="   background-color: rgba(0,122,0,0.99);border-radius: 6px;
+                        <div class="px-2 pb-4" style="   background-color: rgba(0,122,0,0.99);border-radius: 6px;
 ">
                             <form method="post"
                                   action="{% url 'customer-accounts:signup' %}">
-                                <img src="https://img.icons8.com/material-sharp/96/000000/user-male-circle.png"/><br>
+{#                                <img src="https://img.icons8.com/material-sharp/96/000000/user-male-circle.png"/><br>#}
 
                                 {% csrf_token %}
                                 <input type="hidden" name="next" value="{{ next }}"/>

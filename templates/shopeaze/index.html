@@ -46,9 +46,8 @@
                              data-scrollax-parent="true">
 
                             <div class="col-md-12 ftco-animate text-center">
-                                <h1 class="mb-2">We deliver fresh groceries and household items from trusted
-                                    stores </h1>
-                                <h2 class="subheading mb-4">We deliver products to your door step</h2>
+                                <h1 class="mb-2">Fresh Produce </h1>
+                                <h2 class="subheading mb-4">We deliver products to your store</h2>
                                 {% if user.is_authenticated %}
                                 {% else %}
                                     <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">Log in</a>
@@ -67,9 +66,8 @@
                              data-scrollax-parent="true">
 
                             <div class="col-sm-12 ftco-animate text-center">
-                                <h1 class="mb-2">Stay at home and let us deliver products from the stores to you</h1>
-                                {#                            <h2 class="subheading mb-4">Pay 60% of the price before and pay the rest during#}
-                                {#                                delivery</h2>#}
+                                <h1 class="mb-2">Market for smart farmers</h1>
+                                <h2 class="subheading mb-4">Our platform connects farmers with global suppliers</h2>
                                 {% if user.is_authenticated %}
                                 {% else %}
                                     <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">Log in</a>
@@ -87,9 +85,8 @@
                              data-scrollax-parent="true">
 
                             <div class="col-sm-12 ftco-animate text-center">
-                                <h1 class="mb-2">Are you a seller?</h1>
-                                <h2 class="subheading mb-4">Host your store with us and let us do your
-                                    deliveries</h2>
+                                <h1 class="mb-2">Farm management tools</h1>
+                                <h2 class="subheading mb-4">Our platform offers wonderful farm management tools to increase farm productivity</h2>
                                 {% if user.is_authenticated %}
                                 {% else %}
                                     <p><a href="{% url 'customer-accounts:login' %}" class="btn btn-primary">Log in </a>
@@ -176,14 +173,14 @@
                                      style="background-image: url({% static 'images/fruits.jpg' %});">
                                     <div class="text px-3 py-1">
                                         {#                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 1 %}">Fruits</a></h2>#}
-                                        <h2 class="mb-0"><a href="#">Fruits</a></h2>
+                                        <h2 class="mb-0"><a href="#">Fruits & Vegetables</a></h2>
                                     </div>
                                 </div>
                                 <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
                                      style="background-image: url({% static 'images/vegetables.jpg' %});">
                                     <div class="text px-3 py-1">
                                         {#                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 2 %}">Vegetables</a>#}
-                                        <h2 class="mb-0"><a href="#">Vegetables</a>
+                                        <h2 class="mb-0"><a href="#">Butchery</a>
                                         </h2>
                                     </div>
                                 </div>
@@ -191,7 +188,7 @@
                                      style="background-image: url({% static 'images/sani.jpg' %});">
                                     <div class="text px-3 py-1">
                                         {#                                    <h2 class="mb-0"><a href="{% url 'shop:category-products' 2 %}">Vegetables</a>#}
-                                        <h2 class="mb-0"><a href="#">Sanitisers & disinfectants</a>
+                                        <h2 class="mb-0"><a href="#">Dairy</a>
                                         </h2>
                                     </div>
                                 </div>
@@ -204,21 +201,21 @@
                              style="background-image: url({% static 'images/dryfoods.jpg' %});">
                             <div class="text px-3 py-1">
                                 {#                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 3 %}">Dried cereals</a></h2>#}
-                                <h2 class="mb-0"><a href="#">Dried cereals</a></h2>
+                                <h2 class="mb-0"><a href="#">Farm Supplies</a></h2>
                             </div>
                         </div>
                         <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end"
                              style="background-image: url({% static 'images/cooking.jpg' %});">
                             <div class="text px-3 py-1">
                                 {#                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 4 %}">Cooking spices</a></h2>#}
-                                <h2 class="mb-0"><a href="#">Cooking spices</a></h2>
+                                <h2 class="mb-0"><a href="#">Apiary</a></h2>
                             </div>
                         </div>
                         <div class="category-wrap ftco-animate img d-flex align-items-end"
                              style="background-image: url({% static 'images/household.jpg' %});">
                             <div class="text px-3 py-1">
                                 {#                            <h2 class="mb-0"><a href="{% url 'shop:category-products' 4 %}">Cooking spices</a></h2>#}
-                                <h2 class="mb-0"><a href="#">House hold items</a></h2>
+                                <h2 class="mb-0"><a href="#">Breeders</a></h2>
                             </div>
                         </div>
                     </div>
